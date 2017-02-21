@@ -22,62 +22,183 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Server extends AsyncTask<Void,Void,Void> {
+public class Server extends AsyncTask<String,Void,String> {
+
+        /* To use: 
+        Create an instance of server and then call the function execute 
+        parameters: 
+            first is either "login", "register" or "profile" 
+            if login: second is username, third is password 
+            if register: second is name, third is email, fourth is password 
+            if profile: second is username, third is password, fourth is token 
+        */
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected String doInBackground(String... params) {
 
-        try {
+        if (params[0] == "register") {
 
-            URL url = new URL("http://10.0.2.2:8080/register");
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            try {
 
-            JSONObject jsonParam = new JSONObject();
-            jsonParam.put("name", "nameis");
-            jsonParam.put("email", "emailis");
-            jsonParam.put("password", "passwordis");
+                URL url = new URL("http://10.0.2.2:8080/register");
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
-            urlConnection.setDoOutput(true);
-            urlConnection.setRequestProperty("Content-Type", "application/json");
-            urlConnection.setRequestMethod("POST");
-            urlConnection.connect();
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("name", params[1]);
+                jsonParam.put("email", params[2]);
+                jsonParam.put("password", params[3]);
 
-            DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
-            wr.writeBytes(jsonParam.toString());
-            wr.flush();
-            wr.close();
-            
-            int response_code = urlConnection.getResponseCode();
+                urlConnection.setDoOutput(true);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestMethod("POST");
+                urlConnection.connect();
 
-            // Check if successful connection made
-            if (response_code == HttpURLConnection.HTTP_OK) {
+                DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
+                wr.writeBytes(jsonParam.toString());
+                wr.flush();
+                wr.close();
 
-                // Read data sent from server
-                InputStream input = urlConnection.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-                StringBuilder result = new StringBuilder();
-                String line;
+                int response_code = urlConnection.getResponseCode();
 
-                while ((line = reader.readLine()) != null) {
-                    result.append(line);
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = urlConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    // Pass data to onPostExecute method
+                    return (result.toString());
+
+                } else {
+
+                    return ("unsuccessful");
                 }
 
-                // Pass data to onPostExecute method
-                //return(result.toString());
-
-            }else{
-
-                //return("unsuccessful");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
 
+        if (params[0] == "login") {
+
+            try {
+
+                URL url = new URL("http://10.0.2.2:8080/login");
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("email", params[1]);
+                jsonParam.put("password", params[2]);
+
+                urlConnection.setDoOutput(true);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestMethod("POST");
+                urlConnection.connect();
+
+                DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
+                wr.writeBytes(jsonParam.toString());
+                wr.flush();
+                wr.close();
+
+                int response_code = urlConnection.getResponseCode();
+
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = urlConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    // Pass data to onPostExecute method
+                    return (result.toString());
+
+                } else {
+
+                    return ("unsuccessful");
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        if (params[0] == "profile") {
+
+            try {
+
+                URL url = new URL("http://10.0.2.2:8080/profile");
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("username", params[1]);
+                jsonParam.put("password", params[2]);
+                jsonParam.put("token", params[3]);
+
+                urlConnection.setDoOutput(true);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestMethod("POST");
+                urlConnection.connect();
+
+                DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
+                wr.writeBytes(jsonParam.toString());
+                wr.flush();
+                wr.close();
+
+                int response_code = urlConnection.getResponseCode();
+
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = urlConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    // Pass data to onPostExecute method
+                    return (result.toString());
+
+                } else {
+
+                    return ("unsuccessful");
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
         return null;
     }
 
