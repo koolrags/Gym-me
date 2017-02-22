@@ -17,8 +17,6 @@ module.exports.login = function(req, res, connection) {
 		var email = connection.escape(req.body.email);
 		var password = connection.escape(req.body.password);
 
-		console.log("password:" + password);
-
 		var selectQuery = "SELECT Count(Id) AS 'count' FROM Users u WHERE u.email="+email + "AND u.password=" + password;
 		connection.query(selectQuery, function(err, rows, fields) {
 		    console.log("ROWS:");

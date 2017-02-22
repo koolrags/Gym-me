@@ -15,8 +15,10 @@ CREATE TABLE `' + details.database + '`.`' + details.users_table + '` ( \
     `password` CHAR(60) NOT NULL, \
     `name` VARCHAR(50) NOT NULL, \
     `email` VARCHAR(50) NOT NULL, \
-    `phone` VARCHAR(10) NOT NULL, \
-    `address` VARCHAR(50) NOT NULL, \
+    `phone` VARCHAR(10), \
+    `address` VARCHAR(50), \
+    `tags` VARCHAR(50), \
+    `description` VARCHAR(50), \
         PRIMARY KEY (`id`), \
     UNIQUE INDEX `id_UNIQUE` (`id` ASC), \
     UNIQUE INDEX `username_UNIQUE` (`username` ASC) \
