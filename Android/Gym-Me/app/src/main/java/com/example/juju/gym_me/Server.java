@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.JsonReader;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,19 +26,19 @@ import java.net.URL;
 
 import static java.lang.System.in;
 
-public class Server extends AsyncTask<String,Void,String> {
+public class Server extends AsyncTask<String,String,String> {
 
         /* To use: 
             Create an instance of server and then call the function execute 
             parameters: 
                 first is either "login", "register" or "profile" 
-                login: second is username, third is password 
+                login: second is username (email), third is password 
                 register: second is name, third is email, fourth is password 
-                profile: second is username (email), third is password, fourth is token  (unnecessary)
+                profile: second is username (email), third is password, fourth is token  (optional)
             return values:
                 register: "success", "unsuccessful" if response was not OK, or an error message from backend
                 login: "success", "unsuccessful" if response was not OK, or an error message from backend
-                profile: TODO
+                profile: comma separated list of info, "unsuccessful" if response was not OK, or an error message from backend
 
         */
 
@@ -176,7 +177,7 @@ public class Server extends AsyncTask<String,Void,String> {
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("email", params[1]);
                 jsonParam.put("password", params[2]);
-                //jsonParam.put("token", params[3]); //TODO: needed?
+                jsonParam.put("token", params[3]); //TODO: keep optional?
 
                 urlConnection.setDoOutput(true);
                 urlConnection.setRequestProperty("Content-Type", "application/json");
@@ -209,8 +210,13 @@ public class Server extends AsyncTask<String,Void,String> {
                         return (obj.getString("errormsg").toString());
                     }
                     else {
-                        //TODO: Get profile info
-                        return ("success");
+                        JSONArray arr = obj.getJSONArray("profile");
+                        String response = arr.getJSONObject(0).getString("username");
+                        response += "," + arr.getJSONObject(0).getString("name");
+                        response += "," + arr.getJSONObject(0).getString("email");
+                        response += "," + arr.getJSONObject(0).getString("phone");
+                        response += "," + arr.getJSONObject(0).getString("address");
+                        return (response);
                     }
 
                 } else {
