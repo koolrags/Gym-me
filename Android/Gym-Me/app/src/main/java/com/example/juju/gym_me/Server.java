@@ -3,6 +3,7 @@ package com.example.juju.gym_me;
 
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.JsonReader;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -22,15 +23,22 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static java.lang.System.in;
+
 public class Server extends AsyncTask<String,Void,String> {
 
         /* To use: 
-        Create an instance of server and then call the function execute 
-        parameters: 
-            first is either "login", "register" or "profile" 
-            if login: second is username, third is password 
-            if register: second is name, third is email, fourth is password 
-            if profile: second is username, third is password, fourth is token 
+            Create an instance of server and then call the function execute 
+            parameters: 
+                first is either "login", "register" or "profile" 
+                login: second is username, third is password 
+                register: second is name, third is email, fourth is password 
+                profile: second is username (email), third is password, fourth is token  (unnecessary)
+            return values:
+                register: "success", "unsuccessful" if response was not OK, or an error message from backend
+                login: "success", "unsuccessful" if response was not OK, or an error message from backend
+                profile: TODO
+
         */
 
     @Override
@@ -39,20 +47,23 @@ public class Server extends AsyncTask<String,Void,String> {
         if (params[0] == "register") {
 
             try {
-
+                // Set the URL
                 URL url = new URL("http://10.0.2.2:8080/register");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
+                // Create a JSON object with the appropriate parameters
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("name", params[1]);
                 jsonParam.put("email", params[2]);
                 jsonParam.put("password", params[3]);
 
+                // Set up connection
                 urlConnection.setDoOutput(true);
                 urlConnection.setRequestProperty("Content-Type", "application/json");
                 urlConnection.setRequestMethod("POST");
                 urlConnection.connect();
 
+                // POST
                 DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
                 wr.writeBytes(jsonParam.toString());
                 wr.flush();
@@ -73,9 +84,14 @@ public class Server extends AsyncTask<String,Void,String> {
                         result.append(line);
                     }
 
-                    // Pass data to onPostExecute method
-                    return (result.toString());
-
+                    // Parse JSON object and return it
+                    JSONObject obj = new JSONObject(result.toString());
+                    if(obj.getString("success").equals("False")){
+                        return (obj.getString("errormsg").toString());
+                    }
+                    else {
+                        return ("success");
+                    }
                 } else {
 
                     return ("unsuccessful");
@@ -127,9 +143,14 @@ public class Server extends AsyncTask<String,Void,String> {
                         result.append(line);
                     }
 
-                    // Pass data to onPostExecute method
-                    return (result.toString());
-
+                    // Parse JSON object and return it
+                    JSONObject obj = new JSONObject(result.toString());
+                    if(obj.getString("success").equals("False")){
+                        return (obj.getString("errormsg").toString());
+                    }
+                    else {
+                        return ("success");
+                    }
                 } else {
 
                     return ("unsuccessful");
@@ -153,9 +174,9 @@ public class Server extends AsyncTask<String,Void,String> {
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 JSONObject jsonParam = new JSONObject();
-                jsonParam.put("username", params[1]);
+                jsonParam.put("email", params[1]);
                 jsonParam.put("password", params[2]);
-                jsonParam.put("token", params[3]);
+                //jsonParam.put("token", params[3]); //TODO: needed?
 
                 urlConnection.setDoOutput(true);
                 urlConnection.setRequestProperty("Content-Type", "application/json");
@@ -182,8 +203,15 @@ public class Server extends AsyncTask<String,Void,String> {
                         result.append(line);
                     }
 
-                    // Pass data to onPostExecute method
-                    return (result.toString());
+                    // Parse JSON object and return it
+                    JSONObject obj = new JSONObject(result.toString());
+                    if(obj.getString("success").equals("False")){
+                        return (obj.getString("errormsg").toString());
+                    }
+                    else {
+                        //TODO: Get profile info
+                        return ("success");
+                    }
 
                 } else {
 
