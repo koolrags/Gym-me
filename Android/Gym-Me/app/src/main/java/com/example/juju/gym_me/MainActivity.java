@@ -76,8 +76,13 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.nav_fifth_fragment:
                 //logout
+                fragmentClass = SettingsFragment.class;
+                Intent intent = new Intent(this,LoginActivity.class);
+                startActivity(intent);
+                finish();
+                break;
             default:
-                fragmentClass = EditProfileActivity.class;
+                fragmentClass = ViewPeopleFragment.class;
         }
 
         try {
