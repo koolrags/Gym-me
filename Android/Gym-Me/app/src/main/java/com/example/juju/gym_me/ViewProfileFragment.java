@@ -22,6 +22,8 @@ public class ViewProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //TODO: receive ProfileInfo
+        //TODO: populate fields with profile information
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_view_profile, container, false);
     }

@@ -34,6 +34,7 @@ public class EditProfileActivity extends Activity {
     }
 
     public void done(View view) {
+        //TODO:edit profile through backend
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
     }

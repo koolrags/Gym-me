@@ -56,7 +56,7 @@ public class Server extends AsyncTask<String,String,String> {
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("name", params[1]);
                 jsonParam.put("email", params[2]);
-                jsonParam.put("password", params[3]);
+                jsonParam.put("password", params[3]); //TODO: hash
 
                 // Set up connection
                 urlConnection.setDoOutput(true);
