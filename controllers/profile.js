@@ -41,7 +41,7 @@ module.exports.getProfile = function(req, res, connection) {
 	var email = connection.escape(req.body.email);
 	var password = connection.escape(req.body.password);
 
-	var query = "SELECT u.username, u.name, u.email, u.phone, u.address, u.tags, u.description FROM Users u WHERE u.email=" + email + " AND u.password="+password;
+	var query = "SELECT u.username, u.name, u.email, u.phone, u.address, u.tags, u.description, CONVERT(u.image USING utf8) as 'image' FROM Users u WHERE u.email=" + email + " AND u.password="+password;
 	connection.query(query, function(err, rows, fields) {
 	    if (err) {
 	        resp.success = false;
@@ -105,6 +105,25 @@ module.exports.updateProfile = function(req, res, connection) {
 	var description = connection.escape(req.body.description);
 
 	var updateQuery = "UPDATE Users u SET u.name =" + name + ", u.phone =" + phone + ", u.address =" + address + ", u.tags =" + tags +  ", u.description =" + description + " WHERE u.email=" + email + " AND u.password="+password;
+	connection.query(updateQuery, function(err, rows, fields) {
+		resp.success = true;
+		if (err) {
+			resp.success = false;
+			resp.errormsg = "db entry failed";
+		}
+		res.end(JSON.stringify(resp));
+	});
+}
+
+module.exports.updateProfilePicture = function(req, res, connection) {
+	var resp = {};
+	resp.success = false;
+
+	var email = connection.escape(req.body.email);
+	var password = connection.escape(req.body.password);
+	var image = connection.escape(req.body.image);
+
+	var updateQuery = "UPDATE Users u SET u.image =" + image + " WHERE u.email=" + email + " AND u.password="+password;
 	connection.query(updateQuery, function(err, rows, fields) {
 		resp.success = true;
 		if (err) {

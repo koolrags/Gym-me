@@ -5,15 +5,20 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class EditProfileActivity extends Activity {
     private static int RESULT_LOAD_IMAGE = 1;
@@ -69,6 +74,19 @@ public class EditProfileActivity extends Activity {
 
             ImageView imageView = (ImageView) findViewById(R.id.imageee);
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+
+            // TODO: Image to send
+            try {
+                Bitmap bmp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+                String encodedphoto = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+            }
+            catch (IOException e){
+
+            }
 
         }
     }
