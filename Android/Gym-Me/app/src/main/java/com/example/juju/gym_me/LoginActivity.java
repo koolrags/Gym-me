@@ -113,8 +113,34 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        Button mRegisterButton = (Button) findViewById(R.id.register);
+        mRegisterButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptRegistration();
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    public void attemptRegistration(){
+        String resp = null;
+        EditText mNameView = (EditText) findViewById(R.id.name);
+        if(mNameView.getText().toString().equals("")){
+            Toast.makeText(this, "Enter a name", Toast.LENGTH_LONG).show();
+        }
+        else {
+            try {
+                resp = server.execute("register", mNameView.getText().toString(), mEmailView.getText().toString(), mPasswordView.getText().toString()).get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            Toast.makeText(this, resp, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void populateAutoComplete() {
@@ -208,11 +234,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             String resp = server.execute("login", email, password).get();
-            Toast.makeText(this, resp,
-                    Toast.LENGTH_LONG).show();
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            Toast.makeText(this, resp, Toast.LENGTH_LONG).show();
+            if(resp.toString().equals("success")) {
+                showProgress(true);
+                mAuthTask = new UserLoginTask(email, password);
+                mAuthTask.execute((Void) null);
+            }
         }
     }
 
