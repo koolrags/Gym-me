@@ -35,13 +35,16 @@ public class ProfileInfo {
                 //TODO: toast
             }
             //info contains: username, name, email, phone, address, tags, description
-//            String[] info_arr = info.split(",");
-//            this.username = info_arr[0];
-//            this.name = info_arr[1];
-//            this.phone = info_arr[3];
-//            this.address = info_arr[4];
-//            this.description =info_arr[5];
-//            this.tags = info_arr[6];
+            Log.d("manasi profile", info);
+            String[] info_arr = info.split(",",-1);
+            Log.d("manasi profile", info_arr[5]);
+            Log.d("manasi profile", Integer.toString(info_arr.length));
+            this.username = info_arr[0];
+            this.name = info_arr[1];
+            this.phone = info_arr[3];
+            this.address = info_arr[4];
+            this.description =info_arr[5];
+            this.tags = info_arr[6];
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

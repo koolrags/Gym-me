@@ -54,11 +54,8 @@ public class ViewProfileFragment extends Fragment {
         }
         name = (TextView) v.findViewById(R.id.view_profile_name);
         phone = (TextView) v.findViewById(R.id.view_profile_phone);
-        //Log.d("manasi phone number", user.phone);
         address = (TextView) v.findViewById(R.id.view_profile_address);
-        //Log.d("manasi address", user.address);
         description = (TextView) v.findViewById(R.id.view_profile_bio);
-        //Log.d("manasi description", user.description);
         tags = (TextView) v.findViewById(R.id.view_profile_tags);
         //TODO: receive ProfileInfo
         //TODO: populate fields with profile information
@@ -69,22 +66,36 @@ public class ViewProfileFragment extends Fragment {
     public void onStart(){
         super.onStart();
         name.setText(user.email);
-        phone.setText(user.password);
-//        address.setText(user.address);
-//        description.setText(user.description);
-//        tags.setText(user.tags);
-
-
+        if(!user.phone.equals("")) {
+            phone.setText(user.phone);
+        }
+        if(!user.address.equals("")) {
+            address.setText(user.address);
+        }
+        if(!user.description.equals("")) {
+            description.setText(user.description);
+        }
+        if(!user.tags.equals("")) {
+            tags.setText(user.tags);
+        }
     }
+
     @Override
     public void onResume(){
         super.onResume();
         name.setText(user.email);
-        phone.setText(user.password);
-//        address.setText(user.address);
-//        description.setText(user.description);
-//        tags.setText(user.tags);
-
+        if(!user.phone.equals("")) {
+            phone.setText(user.phone);
+        }
+        if(!user.address.equals("")) {
+            address.setText(user.address);
+        }
+        if(!user.description.equals("")) {
+            description.setText(user.description);
+        }
+        if(!user.tags.equals("")) {
+            tags.setText(user.tags);
+        }
     }
 
 }
