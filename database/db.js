@@ -19,6 +19,7 @@ CREATE TABLE `' + details.database + '`.`' + details.users_table + '` ( \
     `address` VARCHAR(50), \
     `tags` VARCHAR(50), \
     `description` VARCHAR(50), \
+    `image` MEDIUMBLOB, \
         PRIMARY KEY (`id`), \
     UNIQUE INDEX `id_UNIQUE` (`id` ASC), \
     UNIQUE INDEX `username_UNIQUE` (`username` ASC) \
