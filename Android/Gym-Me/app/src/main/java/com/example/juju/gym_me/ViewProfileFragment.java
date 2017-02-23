@@ -65,7 +65,7 @@ public class ViewProfileFragment extends Fragment {
     @Override
     public void onStart(){
         super.onStart();
-        name.setText(user.email);
+        name.setText(user.name);
         if(!user.phone.equals("")) {
             phone.setText(user.phone);
         }
@@ -83,7 +83,7 @@ public class ViewProfileFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-        name.setText(user.email);
+        name.setText(user.name);
         if(!user.phone.equals("")) {
             phone.setText(user.phone);
         }

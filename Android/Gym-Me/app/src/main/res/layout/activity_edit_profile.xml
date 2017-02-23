@@ -17,9 +17,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="1dp"
-            android:id="@+id/imageee"
+            android:id="@+id/edit_profile_imageee"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,6 +37,34 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp" />
 
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:textSize="18sp"
+            android:id="@+id/edit_profile_name"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignEnd="@+id/choose_image" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter your phone number"
+            android:textSize="18sp"
+            android:id="@+id/edit_profile_phone"
+            android:layout_below="@+id/edit_profile_name"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter your address here"
+            android:textSize="18sp"
+            android:id="@+id/edit_profile_address"
+            android:layout_below="@+id/edit_profile_phone"
+            android:layout_alignParentStart="true" />
+
     </RelativeLayout>
 
 
@@ -51,20 +80,32 @@
             android:hint="Tell us a little about yourself..."
             android:textSize="18sp"
             android:gravity="top"
-            android:id="@+id/bio"
+            android:id="@+id/edit_profile_bio"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_above="@+id/multiAutoCompleteTextView" />
+            android:layout_above="@+id/edit_profile_tags" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Add Tags..."
             android:textSize="18sp"
-            android:id="@+id/multiAutoCompleteTextView"
+            android:id="@+id/edit_profile_tags"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Add Tags..."
+            android:textSize="18sp"
+            android:id="@+id/editText"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"

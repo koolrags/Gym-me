@@ -14,20 +14,59 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 public class EditProfileActivity extends Activity {
     private static int RESULT_LOAD_IMAGE = 1;
     String imgDecodableString;
+    String email;
+    String password;
+    ProfileInfo user;
+    EditText name;
+    EditText phone;
+    EditText address;
+    EditText description;
+    EditText tags;
+    Server s = new Server();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+        email = getIntent().getStringExtra("email");
+        password = getIntent().getStringExtra("password");
+        name = (EditText) findViewById(R.id.edit_profile_name);
+        phone = (EditText) findViewById(R.id.edit_profile_phone);
+        address = (EditText) findViewById(R.id.edit_profile_address);
+        description = (EditText) findViewById(R.id.edit_profile_bio);
+        tags = (EditText) findViewById(R.id.edit_profile_tags);
+        try {
+            user = new ProfileInfo(email, password);
+            name.setText(user.name);
+            if(!user.phone.equals("")) {
+                phone.setText(user.phone);
+            }
+            if(!user.address.equals("")) {
+                address.setText(user.address);
+            }
+            if(!user.description.equals("")) {
+                description.setText(user.description);
+            }
+            if(!user.tags.equals("")) {
+                tags.setText(user.tags);
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void camera(View view) {
@@ -40,7 +79,14 @@ public class EditProfileActivity extends Activity {
 
     public void done(View view) {
         //TODO:edit profile through backend
+
+        //updateprofile: 2-name, 3-email, 4-password, 5-phone, 6-address, 7-description, 8-tags
+        s.execute("updateprofile",name.getText().toString(), email, password, phone.getText().toString(),
+                address.getText().toString(), description.getText().toString(), tags.getText().toString());
+
         Intent intent = new Intent(this,MainActivity.class);
+        intent.putExtra("email", email);
+        intent.putExtra("password", password);
         startActivity(intent);
     }
 
