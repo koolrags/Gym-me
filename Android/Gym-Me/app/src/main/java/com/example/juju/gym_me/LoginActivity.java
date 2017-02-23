@@ -140,6 +140,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 e.printStackTrace();
             }
             Toast.makeText(this, resp, Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(LoginActivity.this,LoginActivity.class);
+            startActivity(intent);
         }
     }
 
