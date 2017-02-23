@@ -63,7 +63,8 @@ module.exports.register = function(req, res, connection) {
 		resp.errormsg = errormsg;
 	}
 
-	var selectQuery = "SELECT Count(Id) AS 'count' FROM Users u WHERE u.email=" + connection.escape(req.body.email);;
+	var selectQuery = "SELECT Count(Id) AS 'count' FROM Users u WHERE u.email=" + connection.escape(req.body.email);
+	console.log(selectQuery);
 	connection.query(selectQuery, function(err, rows, fields) {
 		console.log("ROWS:");
 		console.log(rows);
