@@ -12,9 +12,13 @@
             android:title="Matches" />
         <item
             android:id="@+id/nav_fourth_fragment"
-            android:title="Settings" />
+            android:title="Reminders" />
+
+
         <item
             android:id="@+id/nav_fifth_fragment"
             android:title="Logout" />
+
+
     </group>
 </menu>
