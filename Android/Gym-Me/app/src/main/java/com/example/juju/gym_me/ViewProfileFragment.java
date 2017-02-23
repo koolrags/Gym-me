@@ -2,15 +2,19 @@ package com.example.juju.gym_me;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -34,6 +38,7 @@ public class ViewProfileFragment extends Fragment {
     TextView address;
     TextView description;
     TextView tags;
+    ImageView image;
 //    @Override
 //    public void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
@@ -60,6 +65,7 @@ public class ViewProfileFragment extends Fragment {
         address = (TextView) v.findViewById(R.id.view_profile_address);
         description = (TextView) v.findViewById(R.id.view_profile_bio);
         tags = (TextView) v.findViewById(R.id.view_profile_tags);
+        image = (ImageView) v.findViewById(R.id.imageee);
         // Inflate the layout for this fragment
         return v;
     }
@@ -79,6 +85,13 @@ public class ViewProfileFragment extends Fragment {
         if(!user.tags.equals("")) {
             tags.setText(user.tags);
         }
+        /*
+        if(!user.image.equals("")) {
+            byte[] decodedString = Base64.decode(user.image, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            image.setImageBitmap(decodedByte);
+        }*/
+
     }
 
     @Override
@@ -97,6 +110,12 @@ public class ViewProfileFragment extends Fragment {
         if(!user.tags.equals("")) {
             tags.setText(user.tags);
         }
+        /*
+        if(!user.image.equals("")) {
+            byte[] decodedString = Base64.decode(user.image, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            image.setImageBitmap(decodedByte);
+        }*/
     }
 
 }
