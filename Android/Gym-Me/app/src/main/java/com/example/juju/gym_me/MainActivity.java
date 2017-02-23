@@ -1,8 +1,13 @@
 package com.example.juju.gym_me;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.FragmentManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.icu.util.Calendar;
+import android.icu.util.GregorianCalendar;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -17,7 +22,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.util.Date;
 
 
 /**
@@ -37,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        fragmentClass = ViewPeopleFragment.class;
         // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -76,11 +84,12 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.nav_fifth_fragment:
                 //logout
-                fragmentClass = SettingsFragment.class;
+                fragmentClass = ViewPeopleFragment.class;
                 Intent intent = new Intent(this,LoginActivity.class);
                 startActivity(intent);
                 finish();
                 break;
+
             default:
                 fragmentClass = ViewPeopleFragment.class;
         }
@@ -97,18 +106,14 @@ public class MainActivity extends AppCompatActivity {
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
-        // Highlight the selected item has been done by NavigationView
         menuItem.setChecked(true);
-        // Set action bar title
         setTitle(menuItem.getTitle());
-        // Close the navigation drawer
         mDrawer.closeDrawers();
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // The action bar home/up action should open or close the drawer.
         switch (item.getItemId()) {
             case android.R.id.home:
                 mDrawer.openDrawer(GravityCompat.START);
@@ -120,5 +125,27 @@ public class MainActivity extends AppCompatActivity {
     public void edit(View V){
         Intent intent = new Intent(this,EditProfileActivity.class);
         startActivity(intent);
+    }
+    public void reminder(View V)
+    {
+        TimePicker tp = (TimePicker) findViewById(R.id.timePicker);
+        int hour = tp.getHour();
+        int min = tp.getMinute();
+        Date date  = new Date();
+        Calendar reminder = Calendar.getInstance();
+        Calendar currentTime = Calendar.getInstance();
+        currentTime.setTime(date);
+        reminder.setTime(date);
+        reminder.set(Calendar.HOUR_OF_DAY,hour);
+        reminder.set(Calendar.MINUTE, min);
+        reminder.set(Calendar.SECOND,0);
+        if(reminder.before(currentTime)){
+            reminder.add(Calendar.DATE,1);
+        }
+        Intent intentAlarm = new Intent(this, AlarmReceiver.class);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP,reminder.getTimeInMillis(), PendingIntent.getBroadcast(this,1,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
+        Toast.makeText(this, "Reminder Set for"+hour+min, Toast.LENGTH_LONG).show();
+
     }
 }
