@@ -36,10 +36,7 @@ public class ProfileInfo {
                 //TODO: error
             }
             //info contains: username, name, email, phone, address, tags, description
-            Log.d("manasi profile", info);
             String[] info_arr = info.split(",",-1);
-            Log.d("manasi profile", info_arr[5]);
-            Log.d("manasi profile", Integer.toString(info_arr.length));
             this.username = info_arr[0];
             this.name = info_arr[1];
             this.phone = info_arr[3];

@@ -36,7 +36,6 @@ public class EditProfileActivity extends Activity {
     EditText description;
     EditText tags;
     String encodedphoto;
-    Server s = new Server();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,12 +81,16 @@ public class EditProfileActivity extends Activity {
 
     public void done(View view) {
 
-        //updateprofile: 2-name, 3-email, 4-password, 5-phone, 6-address, 7-description, 8-tags, 9-image
-        s.execute("updateprofile",name.getText().toString(), email, password, phone.getText().toString(),
+        Server s1 = new Server();
+        //updateprofile: 2-name, 3-email, 4-password, 5-phone, 6-address, 7-description, 8-tags
+        s1.execute("updateprofile",name.getText().toString(), email, password, phone.getText().toString(),
                 address.getText().toString(), description.getText().toString(), tags.getText().toString());
 
         //This line below doesnt work
-        //s.execute("updateprofilepicture", email, password, encodedphoto);
+        Log.d("manasi photo email", email);
+        Log.d("manasi photo password", password);
+        Server s2 = new Server();
+        s2.execute("updateprofilepicture", email, password, encodedphoto);
 
 
         Intent intent = new Intent(this,MainActivity.class);
@@ -135,7 +138,6 @@ public class EditProfileActivity extends Activity {
                 bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
                 encodedphoto = Base64.encodeToString(byteArray, Base64.DEFAULT);
-
             }
             catch (IOException e){
 

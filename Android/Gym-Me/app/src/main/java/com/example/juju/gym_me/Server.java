@@ -317,12 +317,18 @@ public class Server extends AsyncTask<String,String,String> {
 
         if (params[0] == "updateprofilepicture") {
 
+            Log.d("manasi", "inside the execute of updateprofilepicture");
+
             try {
 
                 URL url = new URL("http://10.0.2.2:8080/updateprofilepicture");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
+                Log.d("manasi", "url setup done");
+
+
                 JSONObject jsonParam = new JSONObject();
+                Log.d("manasi post", params.toString());
                 jsonParam.put("email", params[1]);
                 jsonParam.put("password", params[2]);
                 jsonParam.put("image", params[3]);
