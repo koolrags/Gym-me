@@ -27,4 +27,22 @@ CREATE TABLE `' + details.database + '`.`' + details.users_table + '` ( \
 
 console.log("User Table Created");
 
+connection.query('\
+CREATE TABLE `' + details.database + '`.`' + details.tags_table + '` ( \
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT, \
+    `description` VARCHAR(40) NOT NULL, \
+        PRIMARY KEY (`id`), \
+    UNIQUE INDEX `id_UNIQUE` (`id` ASC) \
+)');
+
+console.log("Tags Table Created");
+
+connection.query('\
+CREATE TABLE `' + details.database + '`.`' + details.tags_join_table + '` ( \
+    `user_email` VARCHAR(50) NOT NULL, \
+    `tag_description` VARCHAR(50) NOT NULL \
+)');
+
+console.log("User-Tag-Join Table Created");
+
 connection.end();

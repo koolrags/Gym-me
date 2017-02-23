@@ -84,6 +84,12 @@ var MasterApp = function() {
             });
         });
 
+        self.mainRouter.get('/getTags', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                tags.getTags(req, res, connection);       
+            });
+        });
+
         self.app.use(function(req, res) {
             res.status(400);
             res.render('error', {error: '404: File Not Found'});
