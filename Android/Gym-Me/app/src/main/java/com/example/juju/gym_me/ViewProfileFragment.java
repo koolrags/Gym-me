@@ -39,6 +39,9 @@ public class ViewProfileFragment extends Fragment {
 //        super.onCreate(savedInstanceState);
 //        context = getActivity();
 //    }
+
+    //TODO: Display image stored in user.image
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,8 +60,6 @@ public class ViewProfileFragment extends Fragment {
         address = (TextView) v.findViewById(R.id.view_profile_address);
         description = (TextView) v.findViewById(R.id.view_profile_bio);
         tags = (TextView) v.findViewById(R.id.view_profile_tags);
-        //TODO: receive ProfileInfo
-        //TODO: populate fields with profile information
         // Inflate the layout for this fragment
         return v;
     }

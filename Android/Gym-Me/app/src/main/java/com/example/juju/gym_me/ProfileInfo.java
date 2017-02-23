@@ -20,6 +20,7 @@ public class ProfileInfo {
     String address;
     String description;
     String tags;
+    String image;
 
     Server s = new Server();
 
@@ -29,10 +30,10 @@ public class ProfileInfo {
         try {
             String info = s.execute("profile", email, password).get(); // is getting a null??
             if(info.equals("unsuccessful")){
-                //TODO: toast
+                //TODO: error
             }
             if(info.equals("Incorrect email or password")){
-                //TODO: toast
+                //TODO: error
             }
             //info contains: username, name, email, phone, address, tags, description
             Log.d("manasi profile", info);
@@ -45,6 +46,7 @@ public class ProfileInfo {
             this.address = info_arr[4];
             this.description =info_arr[5];
             this.tags = info_arr[6];
+            this.image = info_arr[7];
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

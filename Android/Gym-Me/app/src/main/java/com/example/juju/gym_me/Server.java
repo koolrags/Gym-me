@@ -36,6 +36,7 @@ public class Server extends AsyncTask<String,String,String> {
                 register: second is name, third is email, fourth is password 
                 profile: second is username (email), third is password, fourth is token  (optional)
                 updateprofile: 2-name, 3-email, 4-password, 5-phone, 6-address, 7-description, 8-tags
+                updateprofilepicture: second is email, third is password, fourth is picture
             return values:
                 register: "success", "unsuccessful" if response was not OK, or an error message from backend
                 login: "success", "unsuccessful" if response was not OK, or an error message from backend
@@ -224,6 +225,12 @@ public class Server extends AsyncTask<String,String,String> {
                         response += "," + arr.getJSONObject(0).getString("address");
                         response += "," + arr.getJSONObject(0).getString("description");
                         response += "," + arr.getJSONObject(0).getString("tags");
+                        if(arr.getJSONObject(0).getString("image")==null){
+                            response += ",";
+                        }
+                        else {
+                            response += "," + arr.getJSONObject(0).getString("image");
+                        }
                         return (response);
                     }
 
@@ -242,7 +249,7 @@ public class Server extends AsyncTask<String,String,String> {
 
         }
 
-        if (params[0] == "updateprofile") { //TODO
+        if (params[0] == "updateprofile") {
 
             try {
 
@@ -288,6 +295,67 @@ public class Server extends AsyncTask<String,String,String> {
                     // Parse JSON object and return it
                     JSONObject obj = new JSONObject(result.toString());
                     if(obj.getString("success").equals("false")){
+                        return (obj.getString("errormsg").toString());
+                    }
+                    else {
+                        return ("success");
+                    }
+                } else {
+
+                    return ("unsuccessful");
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        if (params[0] == "updateprofilepicture") {
+
+            try {
+
+                URL url = new URL("http://10.0.2.2:8080/updateprofilepicture");
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("email", params[1]);
+                jsonParam.put("password", params[2]);
+                jsonParam.put("image", params[3]);
+
+                urlConnection.setDoOutput(true);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestMethod("POST");
+                urlConnection.connect();
+
+                DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
+                wr.writeBytes(jsonParam.toString());
+                wr.flush();
+                wr.close();
+
+                int response_code = urlConnection.getResponseCode();
+
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = urlConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    // Parse JSON object and return it
+                    JSONObject obj = new JSONObject(result.toString());
+                    Log.d("manasi", obj.getString("success").toString());
+                    if(obj.getString("success").toString().equals("false")){
                         return (obj.getString("errormsg").toString());
                     }
                     else {

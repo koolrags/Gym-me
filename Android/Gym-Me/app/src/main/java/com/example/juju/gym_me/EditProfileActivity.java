@@ -34,6 +34,7 @@ public class EditProfileActivity extends Activity {
     EditText address;
     EditText description;
     EditText tags;
+    String encodedphoto;
     Server s = new Server();
 
     @Override
@@ -78,12 +79,11 @@ public class EditProfileActivity extends Activity {
     }
 
     public void done(View view) {
-        //TODO:edit profile through backend
 
-        //updateprofile: 2-name, 3-email, 4-password, 5-phone, 6-address, 7-description, 8-tags
+        //updateprofile: 2-name, 3-email, 4-password, 5-phone, 6-address, 7-description, 8-tags, 9-image
         s.execute("updateprofile",name.getText().toString(), email, password, phone.getText().toString(),
                 address.getText().toString(), description.getText().toString(), tags.getText().toString());
-
+        s.execute("updateprofilepicture", email, password, encodedphoto);
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("email", email);
         intent.putExtra("password", password);
@@ -127,7 +127,7 @@ public class EditProfileActivity extends Activity {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
-                String encodedphoto = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                encodedphoto = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
             }
             catch (IOException e){
