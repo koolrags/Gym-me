@@ -36,7 +36,18 @@ var bcrypt = require('bcrypt-nodejs');
 */
 module.exports.getProfile = function(req, res, connection) {
 	var resp = {};
+
 	resp.success = false;
+	errormsg = "";
+	if (req.body.email===undefined) {
+		errormsg += "email undefined :";
+	}
+	if (req.body.password===undefined) {
+		errormsg += "password undefined :";
+	}
+	if (errormsg != "") {
+		resp.errormsg = errormsg;
+	}
 
 	var email = connection.escape(req.body.email);
 	var password = connection.escape(req.body.password);
@@ -94,7 +105,33 @@ module.exports.getProfile = function(req, res, connection) {
 
 module.exports.updateProfile = function(req, res, connection) {
 	var resp = {};
+	
 	resp.success = false;
+	errormsg = "";
+	if (req.body.name===undefined) {
+		errormsg += "name undefined :";
+	}
+	if (req.body.email===undefined) {
+		errormsg += "email undefined :";
+	}
+	if (req.body.password===undefined) {
+		errormsg += "password undefined :";
+	}
+	if (req.body.phone===undefined) {
+		errormsg += "Phone undefined :";
+	}
+	if (req.body.address===undefined) {
+		errormsg += "Address undefined :";
+	}
+	if (req.body.tags===undefined) {
+		errormsg += "Tags undefined :";
+	}
+	if (req.body.description===undefined) {
+		errormsg += "Description undefined :";
+	}
+	if (errormsg != "") {
+		resp.errormsg = errormsg;
+	}
 
 	var name = connection.escape(req.body.name);
 	var email = connection.escape(req.body.email);
@@ -118,6 +155,20 @@ module.exports.updateProfile = function(req, res, connection) {
 module.exports.updateProfilePicture = function(req, res, connection) {
 	var resp = {};
 	resp.success = false;
+
+	errormsg = "";
+	if (req.body.email===undefined) {
+		errormsg += "email undefined :";
+	}
+	if (req.body.password===undefined) {
+		errormsg += "password undefined :";
+	}
+	if (req.body.image===undefined) {
+		errormsg += "Image undefined :";
+	}
+	if (errormsg != "") {
+		resp.errormsg = errormsg;
+	}
 
 	var email = connection.escape(req.body.email);
 	var password = connection.escape(req.body.password);
