@@ -85,12 +85,11 @@ public class ViewProfileFragment extends Fragment {
         if(!user.tags.equals("")) {
             tags.setText(user.tags);
         }
-        /*
         if(!user.image.equals("")) {
             byte[] decodedString = Base64.decode(user.image, Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             image.setImageBitmap(decodedByte);
-        }*/
+        }
 
     }
 
@@ -110,12 +109,11 @@ public class ViewProfileFragment extends Fragment {
         if(!user.tags.equals("")) {
             tags.setText(user.tags);
         }
-        /*
         if(!user.image.equals("")) {
             byte[] decodedString = Base64.decode(user.image, Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             image.setImageBitmap(decodedByte);
-        }*/
+        }
     }
 
 }
