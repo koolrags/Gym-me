@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -74,7 +75,8 @@ public class EditProfileActivity extends Activity {
         Intent i = new Intent(
                 Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
+        if(i == null)
+            Log.d("Tag1","null");
         startActivityForResult(i, RESULT_LOAD_IMAGE);
     }
 
@@ -83,7 +85,11 @@ public class EditProfileActivity extends Activity {
         //updateprofile: 2-name, 3-email, 4-password, 5-phone, 6-address, 7-description, 8-tags, 9-image
         s.execute("updateprofile",name.getText().toString(), email, password, phone.getText().toString(),
                 address.getText().toString(), description.getText().toString(), tags.getText().toString());
-        s.execute("updateprofilepicture", email, password, encodedphoto);
+
+        //This line below doesnt work
+        //s.execute("updateprofilepicture", email, password, encodedphoto);
+
+
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("email", email);
         intent.putExtra("password", password);
@@ -93,7 +99,8 @@ public class EditProfileActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        if(data == null)
+            Log.d("Tag","null");
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -118,7 +125,7 @@ public class EditProfileActivity extends Activity {
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            ImageView imageView = (ImageView) findViewById(R.id.imageee);
+            ImageView imageView = (ImageView) findViewById(R.id.edit_profile_imageee);
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
             // TODO: Image to send
