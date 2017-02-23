@@ -1,5 +1,7 @@
 package com.example.juju.gym_me;
 
+import android.util.Log;
+
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
@@ -12,8 +14,11 @@ public class ProfileInfo {
     String email;
     String password;
     String username;
+    String name;
     String phone;
     String address;
+    String description;
+    String tags;
 
     Server s = new Server();
 
@@ -21,18 +26,21 @@ public class ProfileInfo {
         this.email = email;
         this.password = password;
         try {
-            String info = s.execute("profile", email, password, "token").get();
+            String info = s.execute("profile", email, password).get();
             if(info.equals("unsuccessful")){
                 //TODO: toast
             }
             if(info.equals("Incorrect email or password")){
                 //TODO: toast
             }
-            //info contains: username, name, email, phone, address
+            //info contains: username, name, email, phone, address, tags, description
             String[] info_arr = info.split(",");
             this.username = info_arr[0];
+            this.name = info_arr[1];
             this.phone = info_arr[3];
             this.address = info_arr[4];
+            this.description = info_arr[5];
+            this.tags = info_arr[6];
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

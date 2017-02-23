@@ -16,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,6 +27,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -37,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView nvDrawer;
     Class fragmentClass;
     Fragment fragment;
+    String email;
+    String password;
     // Make sure to be using android.support.v7.app.ActionBarDrawerToggle version.
     // The android.support.v4.app.ActionBarDrawerToggle has been deprecated.
     private ActionBarDrawerToggle drawerToggle;
@@ -45,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        email = getIntent().getStringExtra("email");
+        password = getIntent().getStringExtra("password");
+        Log.d("manasi_main_activity", email+","+password);
         fragmentClass = ViewPeopleFragment.class;
         // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -86,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
                 //logout
                 fragmentClass = ViewPeopleFragment.class;
                 Intent intent = new Intent(this,LoginActivity.class);
+                intent.putExtra("email", email);
+                intent.putExtra("password", password);
                 startActivity(intent);
                 finish();
                 break;
@@ -103,6 +112,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
          //Insert the fragment by replacing any existing fragment
+        //TODO: send profile information to fragment
+        Bundle bundle=new Bundle();
+        bundle.putString("email", email);
+        bundle.putString("password", password);
+        fragment.setArguments(bundle);
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
@@ -124,6 +138,8 @@ public class MainActivity extends AppCompatActivity {
     }
     public void edit(View V){
         Intent intent = new Intent(this,EditProfileActivity.class);
+        intent.putExtra("email", email);
+        intent.putExtra("password", password);
         startActivity(intent);
     }
     public void reminder(View V)
@@ -143,6 +159,8 @@ public class MainActivity extends AppCompatActivity {
             reminder.add(Calendar.DATE,1);
         }
         Intent intentAlarm = new Intent(this, AlarmReceiver.class);
+        intentAlarm.putExtra("email", email);
+        intentAlarm.putExtra("password", password);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP,reminder.getTimeInMillis(), PendingIntent.getBroadcast(this,1,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
         Toast.makeText(this, "Reminder Set for"+hour+min, Toast.LENGTH_LONG).show();

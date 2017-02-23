@@ -386,7 +386,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                //TODO: pass profile info to new intent
                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                intent.putExtra("email", mEmail.toString());
+                intent.putExtra("password", mPassword.toString());
                 startActivity(intent);
 
                 finish();
