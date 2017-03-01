@@ -35,6 +35,7 @@ public class EditProfileActivity extends Activity {
     EditText address;
     EditText description;
     EditText tags;
+    ImageView PImage;
     String encodedphoto;
 
     @Override
@@ -48,6 +49,7 @@ public class EditProfileActivity extends Activity {
         address = (EditText) findViewById(R.id.edit_profile_address);
         description = (EditText) findViewById(R.id.edit_profile_bio);
         tags = (EditText) findViewById(R.id.edit_profile_tags);
+        PImage = (ImageView) findViewById(R.id.edit_profile_imageee);
         try {
             user = new ProfileInfo(email, password);
             name.setText(user.name);
@@ -62,6 +64,11 @@ public class EditProfileActivity extends Activity {
             }
             if(!user.tags.equals("")) {
                 tags.setText(user.tags);
+            }
+            if(!user.image.equals("")) {
+                byte[] decodedString = Base64.decode(user.image, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                PImage.setImageBitmap(decodedByte);
             }
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -89,9 +96,10 @@ public class EditProfileActivity extends Activity {
         //This line below doesnt work
         Log.d("manasi photo email", email);
         Log.d("manasi photo password", password);
-        Server s2 = new Server();
-        s2.execute("updateprofilepicture", email, password, encodedphoto);
-
+        if(encodedphoto != null) {
+            Server s2 = new Server();
+            s2.execute("updateprofilepicture", email, password, encodedphoto);
+        }
 
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("email", email);
