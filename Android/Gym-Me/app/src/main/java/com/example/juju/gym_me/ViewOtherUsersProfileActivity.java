@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +27,8 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
     TextView description;
     TextView tags;
     ImageView image;
+    Button yes;
+    Button no;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +39,15 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
         description = (TextView) findViewById(R.id.view_profile_bio);
         tags = (TextView) findViewById(R.id.view_profile_tags);
         image = (ImageView) findViewById(R.id.imageUserO);
+        yes = (Button) findViewById(R.id.yes);
+        no = (Button) findViewById(R.id.no);
 
+    if(getIntent().getStringExtra("swiped")!=null) {
+        if (getIntent().getStringExtra("swiped").equals("YES")) {
+            yes.setVisibility(View.GONE);
+            no.setVisibility(View.GONE);
+        }
+    }
     }
     public void yesClicked(View V){
         Intent intent = new Intent(this, MainActivity.class);
