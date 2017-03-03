@@ -44,7 +44,7 @@ public class ViewMatchFragment extends Fragment {
 
 
         final ArrayAdapter adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list);
-        sv = (SearchView) v.findViewById(R.id.searchview);
+        sv = (SearchView) v.findViewById(R.id.searchview1);
 
         String SearchedTag = sv.getQuery().toString();
 
