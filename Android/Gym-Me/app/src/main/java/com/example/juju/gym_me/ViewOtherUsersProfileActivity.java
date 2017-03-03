@@ -29,6 +29,8 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
     ImageView image;
     Button yes;
     Button no;
+    Button unmatch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,11 +43,14 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
         image = (ImageView) findViewById(R.id.imageUserO);
         yes = (Button) findViewById(R.id.yes);
         no = (Button) findViewById(R.id.no);
+        unmatch = (Button) findViewById(R.id.unmatch);
+        unmatch.setVisibility(View.INVISIBLE);
 
     if(getIntent().getStringExtra("swiped")!=null) {
         if (getIntent().getStringExtra("swiped").equals("YES")) {
             yes.setVisibility(View.GONE);
             no.setVisibility(View.GONE);
+            unmatch.setVisibility(View.VISIBLE);
         }
     }
     }
@@ -55,6 +60,11 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void noClicked(View V){
+        Intent intent = new Intent(this, MainActivity.class);
+        //intent.putExtra("name", sendname);
+        startActivity(intent);
+    }
+    public void unmatchUser(View V){
         Intent intent = new Intent(this, MainActivity.class);
         //intent.putExtra("name", sendname);
         startActivity(intent);
