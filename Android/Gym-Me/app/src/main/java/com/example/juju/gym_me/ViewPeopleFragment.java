@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import static com.example.juju.gym_me.R.id.toolbar;
  */
 
 public class ViewPeopleFragment extends Fragment {
+    SearchView sv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +46,11 @@ public class ViewPeopleFragment extends Fragment {
 
 
         final ArrayAdapter adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list);
+        sv = (SearchView) v.findViewById(R.id.searchview);
+        String SearchedTag = sv.getQuery().toString();
+
+        //send tag, get new list.
+
         listview.setAdapter(adapter);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

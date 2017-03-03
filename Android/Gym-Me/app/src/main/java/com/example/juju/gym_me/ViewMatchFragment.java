@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,14 +24,15 @@ import static com.example.juju.gym_me.R.id.toolbar;
  */
 
 public class ViewMatchFragment extends Fragment {
-
+    SearchView sv;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_view_matches, container, false);
         final ListView listview = (ListView) v.findViewById(R.id.listview);
+
         final ArrayList<String> list = new ArrayList<String>();
-        // Get people and add to list, remove hardcoded names
+        // Get matches and add to list, remove hardcoded names
 
         list.add("Raaghav");
         list.add("Dinesh");
@@ -42,6 +44,12 @@ public class ViewMatchFragment extends Fragment {
 
 
         final ArrayAdapter adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list);
+        sv = (SearchView) v.findViewById(R.id.searchview);
+
+        String SearchedTag = sv.getQuery().toString();
+
+        //send tag, get new list.
+
         listview.setAdapter(adapter);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
