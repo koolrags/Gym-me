@@ -20,8 +20,7 @@ module.exports.getTags = function(req, res, connection) {
 				resp.tags = rows;
 				res.end(JSON.stringify(resp));
 			}
-		}
-	});
+		});
 	}
 }
 
@@ -29,12 +28,21 @@ module.exports.addTagToUser = function(req, res, connection) {
 	var resp = {}
 	resp.success = false;
 
+	if (req.body.email===undefined) {
+		errormsg += "Email undefined :";
+	}
+	if (req.body.tag===undefined) {
+		errormsg += "Tag undefined :";
+	}
+
 	if (resp.errormsg!==undefined) {
 		res.end(JSON.stringify(resp));
 	}
 	else {
 		var email = connection.escape(req.body.email);
 		var tag = connection.escape(req.body.tag);
+
+
 		var insertQuery = "INSERT INTO user_tags_join (user_email, tag_description) VALUES (" + email + "," + tag + ")";
 		connection.query(insertQuery, function(err, rows, fields) {
 			resp.success = true;

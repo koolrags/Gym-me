@@ -45,4 +45,22 @@ CREATE TABLE `' + details.database + '`.`' + details.tags_join_table + '` ( \
 
 console.log("User-Tag-Join Table Created");
 
+var insertTag = "INSERT INTO gymme.Tags (description) values ('Power-lifter')";
+connection.query(insertTag);
+var insertTag = "INSERT INTO gymme.Tags (description) values ('Pro')";
+connection.query(insertTag);
+var insertTag = "INSERT INTO gymme.Tags (description) values ('Beginner')";
+connection.query(insertTag);
+
+console.log("Sample Tags inserted");
+
+connection.query('\
+CREATE TABLE `' + details.database + '`.`' + details.user_join + '` ( \
+    `sender_email` VARCHAR(50) NOT NULL, \
+    `receiver_email` VARCHAR(50) NOT NULL, \
+    `status` INT NOT NULL, \
+)');
+
+console.log("User-Join Table Created");
+
 connection.end();

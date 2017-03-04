@@ -3,7 +3,6 @@ var bcrypt = require('bcrypt-nodejs');
 
 /*
 	Function to get user details.
-
 	# post params:
 		required:
 			user
@@ -79,7 +78,6 @@ module.exports.getProfile = function(req, res, connection) {
 
 /*
 	Function to get user details.
-
 	# post params:
 		required:
 			user
@@ -187,4 +185,3 @@ module.exports.updateProfilePicture = function(req, res, connection) {
 		res.end(JSON.stringify(resp));
 	});
 }
-

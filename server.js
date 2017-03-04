@@ -9,6 +9,7 @@ var bodyParser = require('body-parser');
 var registration     = require('./controllers/registration');
 var login            = require('./controllers/login');
 var profile          = require('./controllers/profile');
+var tags             = require('./controllers/tags');
 
 console.log("Imports done");
 
@@ -84,9 +85,15 @@ var MasterApp = function() {
             });
         });
 
-        self.mainRouter.get('/getTags', function(req, res) {
+        self.mainRouter.get('/gettags', function(req, res) {
             pool.getConnection(function(err, connection) {
                 tags.getTags(req, res, connection);       
+            });
+        });
+
+        self.mainRouter.post('/addtagtouser', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                tags.addTagToUser(req, res, connection);       
             });
         });
 
