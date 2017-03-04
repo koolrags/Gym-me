@@ -7,7 +7,6 @@ module.exports = {
 	'database': 'gymme',
     'users_table': 'users',
     'tags_table': 'tags',
-    'tags_join_table': 'user_tags_join'
+    'tags_join_table': 'user_tags_join',
     'user_join': 'user_join'
-
 };

@@ -24,6 +24,7 @@ module.exports.getallwaiting = function(req, res, connection) {
 	        	resp.success = true;
 	    		resp.profile = rows;
 		    }
+		    res.end(JSON.stringify(resp));
 		});
 	}
 }
@@ -109,8 +110,8 @@ module.exports.sendmatch = function(req, res, connection) {
 		var receiver = connection.escape(req.body.receiver);
 
 		var insertQuery = "INSERT INTO user_join (sender_email,receiver_email,status) VALUES ( " + sender + " ," + receiver + "," + " 0)";
-		console.log(updateQuery);
-		connection.query(updateQuery, function(err, rows, fields) {
+		console.log(insertQuery);
+		connection.query(insertQuery, function(err, rows, fields) {
 		resp.success = true;
 		if (err) {
 			resp.success = false;
@@ -136,8 +137,9 @@ module.exports.unmatch = function(req, res, connection) {
 		res.end(JSON.stringify(resp));
 	}
 	else {
-		var email = connection.escape(req.body.email);
-		var deleteQuery = "DELETE FROM user_join u WHERE ( u.sender_email=" + sender + " AND u.receiver_email="+receiver) + " OR ( u.sender_email=" + receiver + " AND u.receiver_email= "+sender + " ) AND u.status = 1";
+		var sender = connection.escape(req.body.sender);
+		var receiver = connection.escape(req.body.receiver);
+		var deleteQuery = "DELETE FROM user_join WHERE ( sender_email=" + sender + " AND receiver_email=" + receiver + ") OR ( sender_email=" + receiver + " AND receiver_email= " + sender + " ) AND status = 1";
 		console.log(deleteQuery);
 		connection.query(deleteQuery, function(err, rows, fields) {
 		    if (err) {
@@ -148,6 +150,7 @@ module.exports.unmatch = function(req, res, connection) {
 		    else {
 	        	resp.success = true;
 		    }
+		    res.end(JSON.stringify(resp));
 		});
 	}
 }

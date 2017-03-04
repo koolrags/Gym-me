@@ -58,7 +58,7 @@ connection.query('\
 CREATE TABLE `' + details.database + '`.`' + details.user_join + '` ( \
     `sender_email` VARCHAR(50) NOT NULL, \
     `receiver_email` VARCHAR(50) NOT NULL, \
-    `status` INT NOT NULL, \
+    `status` INT NOT NULL \
 )');
 
 console.log("User-Join Table Created");

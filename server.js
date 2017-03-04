@@ -10,6 +10,7 @@ var registration     = require('./controllers/registration');
 var login            = require('./controllers/login');
 var profile          = require('./controllers/profile');
 var tags             = require('./controllers/tags');
+var match             = require('./controllers/match');
 
 console.log("Imports done");
 
@@ -94,6 +95,36 @@ var MasterApp = function() {
         self.mainRouter.post('/addtagtouser', function(req, res) {
             pool.getConnection(function(err, connection) {
                 tags.addTagToUser(req, res, connection);       
+            });
+        });
+
+        self.mainRouter.post('/getallwaiting', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                match.getallwaiting(req, res, connection);       
+            });
+        });
+
+        self.mainRouter.post('/acceptmatch', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                match.acceptmatch(req, res, connection);       
+            });
+        });
+
+        self.mainRouter.post('/declinematch', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                match.declinematch(req, res, connection);       
+            });
+        });
+
+        self.mainRouter.post('/sendmatch', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                match.sendmatch(req, res, connection);       
+            });
+        });
+
+        self.mainRouter.post('/unmatch', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                match.unmatch(req, res, connection);       
             });
         });
 
