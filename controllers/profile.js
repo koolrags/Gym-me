@@ -41,9 +41,6 @@ module.exports.getProfile = function(req, res, connection) {
 	if (req.body.email===undefined) {
 		errormsg += "email undefined :";
 	}
-	if (req.body.password===undefined) {
-		errormsg += "password undefined :";
-	}
 	if (errormsg != "") {
 		resp.errormsg = errormsg;
 	}
@@ -51,7 +48,7 @@ module.exports.getProfile = function(req, res, connection) {
 	var email = connection.escape(req.body.email);
 	var password = connection.escape(req.body.password);
 
-	var query = "SELECT u.username, u.name, u.email, u.phone, u.address, u.tags, u.description, CONVERT(u.image USING utf8) as 'image' FROM Users u WHERE u.email=" + email + " AND u.password="+password;
+	var query = "SELECT u.username, u.name, u.email, u.phone, u.address, u.tags, u.description, CONVERT(u.image USING utf8) as 'image' FROM Users u WHERE u.email=" + email;
 	console.log(query);
 	connection.query(query, function(err, rows, fields) {
 	    if (err) {
@@ -63,7 +60,7 @@ module.exports.getProfile = function(req, res, connection) {
 	    	if (rows.length == 0)
 	    	{
 	    		resp.success = false;
-	    		resp.errormsg = "Incorrect email or password";
+	    		resp.errormsg = "No user found.";
 	    	}
 	    	else
 	    	{
@@ -183,5 +180,45 @@ module.exports.updateProfilePicture = function(req, res, connection) {
 			resp.errormsg = "db entry failed";
 		}
 		res.end(JSON.stringify(resp));
+	});
+}
+
+
+module.exports.getAllProfiles = function(req, res, connection) {
+	var resp = {};
+
+	resp.success = false;
+	errormsg = "";
+	if (req.body.email===undefined) {
+		errormsg += "email undefined :";
+	}
+	if (errormsg != "") {
+		resp.errormsg = errormsg;
+	}
+
+	var email = connection.escape(req.body.email);
+	var password = connection.escape(req.body.password);
+
+	var query = "SELECT u.username FROM Users u WHERE u.email NOT LIKE " + email;
+	console.log(query);
+	connection.query(query, function(err, rows, fields) {
+	    if (err) {
+	        resp.success = false;
+	       	resp.errormsg = "db entry failed";
+	    }
+	    else {
+
+	    	if (rows.length == 0)
+	    	{
+	    		resp.success = false;
+	    		resp.errormsg = "No users found.";
+	    	}
+	    	else
+	    	{
+	        	resp.success = true;
+	    		resp.profiles = rows;
+	    	}
+	    }
+    	res.end(JSON.stringify(resp));
 	});
 }

@@ -128,6 +128,12 @@ var MasterApp = function() {
             });
         });
 
+        self.mainRouter.post('/getAllProfiles', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                profile.getAllProfiles(req, res, connection);       
+            });
+        });
+
         self.app.use(function(req, res) {
             res.status(400);
             res.render('error', {error: '404: File Not Found'});
