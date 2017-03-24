@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         password = getIntent().getStringExtra("password");
         //Toast.makeText(this, email, Toast.LENGTH_LONG).show();
 
-        Log.d("manasi_main_activity", email+","+password);
         fragmentClass = ViewPeopleFragment.class;
         // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -72,6 +71,10 @@ public class MainActivity extends AppCompatActivity {
             //Intent intent = new Intent(MainActivity.this,ActivityClass);
             //startActivity(intent);
             fragment = (Fragment) fragmentClass.newInstance();
+            Bundle bundle=new Bundle();
+            bundle.putString("email", email);
+            bundle.putString("password", password);
+            fragment.setArguments(bundle);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -124,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             //Intent intent = new Intent(MainActivity.this,ActivityClass);
             //startActivity(intent);
-             fragment = (Fragment) fragmentClass.newInstance();
+            fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }

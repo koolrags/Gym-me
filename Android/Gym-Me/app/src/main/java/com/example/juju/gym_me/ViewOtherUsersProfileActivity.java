@@ -1,17 +1,22 @@
 package com.example.juju.gym_me;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Juju on 3/1/17.
@@ -46,13 +51,42 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
         unmatch = (Button) findViewById(R.id.unmatch);
         unmatch.setVisibility(View.INVISIBLE);
 
-    if(getIntent().getStringExtra("swiped")!=null) {
-        if (getIntent().getStringExtra("swiped").equals("YES")) {
-            yes.setVisibility(View.GONE);
-            no.setVisibility(View.GONE);
-            unmatch.setVisibility(View.VISIBLE);
+        Log.d("Manasi", "Inside view other users profile activity");
+        if(getIntent().getStringExtra("swiped")!=null) {
+            if (getIntent().getStringExtra("swiped").equals("YES")) {
+                yes.setVisibility(View.GONE);
+                no.setVisibility(View.GONE);
+                unmatch.setVisibility(View.VISIBLE);
+            }
         }
-    }
+        email = getIntent().getStringExtra("username");
+        Log.d("Manasi getting user", email);
+        try {
+            user = new ProfileInfo(email);
+            Log.d("Manasi user's name", user.name);
+            name.setText(user.name);
+            if(!user.phone.equals("")) {
+                phone.setText(user.phone);
+            }
+            if(!user.address.equals("")) {
+                address.setText(user.address);
+            }
+            if(!user.description.equals("")) {
+                description.setText(user.description);
+            }
+            if(!user.tags.equals("")) {
+                tags.setText(user.tags);
+            }
+            if(!user.image.equals("")) {
+                byte[] decodedString = Base64.decode(user.image, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                image.setImageBitmap(decodedByte);
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
     public void yesClicked(View V){
         Intent intent = new Intent(this, MainActivity.class);

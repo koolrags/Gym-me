@@ -54,7 +54,7 @@ public class ViewProfileFragment extends Fragment {
         password = getArguments().getString("password");
         View v = inflater.inflate(R.layout.fragment_view_profile, container, false);
         try {
-            user = new ProfileInfo(email, password);
+            user = new ProfileInfo(email);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

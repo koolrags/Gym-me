@@ -51,7 +51,7 @@ public class EditProfileActivity extends Activity {
         tags = (EditText) findViewById(R.id.edit_profile_tags);
         PImage = (ImageView) findViewById(R.id.edit_profile_imageee);
         try {
-            user = new ProfileInfo(email, password);
+            user = new ProfileInfo(email);
             name.setText(user.name);
             if(!user.phone.equals("")) {
                 phone.setText(user.phone);

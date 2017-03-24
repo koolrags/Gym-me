@@ -24,11 +24,10 @@ public class ProfileInfo {
 
     Server s = new Server();
 
-    ProfileInfo(String email, String password) throws ExecutionException, InterruptedException {
+    ProfileInfo(String email) throws ExecutionException, InterruptedException {
         this.email = email;
-        this.password = password;
         try {
-            String info = s.execute("profile", email, password).get(); // is getting a null??
+            String info = s.execute("profile", email).get(); // is getting a null??
             if(info.equals("unsuccessful")){
                 //TODO: error
             }

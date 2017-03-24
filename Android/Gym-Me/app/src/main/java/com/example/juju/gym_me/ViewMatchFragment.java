@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import static com.example.juju.gym_me.R.id.toolbar;
 
@@ -25,6 +27,8 @@ import static com.example.juju.gym_me.R.id.toolbar;
 
 public class ViewMatchFragment extends Fragment {
     SearchView sv;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
