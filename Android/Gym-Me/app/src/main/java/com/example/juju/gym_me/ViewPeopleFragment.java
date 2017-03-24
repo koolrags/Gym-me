@@ -42,6 +42,8 @@ public class ViewPeopleFragment extends Fragment {
         final ArrayList<String> list = new ArrayList<String>();
         // Get people and add to list, remove hardcoded names
 
+        //TODO: get list of waiting and matches and be sure not to include them
+
         email = getArguments().getString("email");
         password = getArguments().getString("password");
         Server s = new Server();
@@ -84,7 +86,9 @@ public class ViewPeopleFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
                 Intent intent = new Intent(getActivity(), ViewOtherUsersProfileActivity.class);
-                intent.putExtra("username", usernames[position]);
+                intent.putExtra("email", email);
+                intent.putExtra("password", password);
+                intent.putExtra("other_user", usernames[position]);
                 startActivity(intent);
             }
 

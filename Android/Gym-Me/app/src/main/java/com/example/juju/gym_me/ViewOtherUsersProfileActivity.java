@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
 
@@ -23,6 +24,7 @@ import java.util.concurrent.ExecutionException;
  */
 
 public class ViewOtherUsersProfileActivity extends AppCompatActivity {
+    String other_user;
     String email;
     String password;
     ProfileInfo user;
@@ -51,7 +53,6 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
         unmatch = (Button) findViewById(R.id.unmatch);
         unmatch.setVisibility(View.INVISIBLE);
 
-        Log.d("Manasi", "Inside view other users profile activity");
         if(getIntent().getStringExtra("swiped")!=null) {
             if (getIntent().getStringExtra("swiped").equals("YES")) {
                 yes.setVisibility(View.GONE);
@@ -59,11 +60,12 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
                 unmatch.setVisibility(View.VISIBLE);
             }
         }
-        email = getIntent().getStringExtra("username");
-        Log.d("Manasi getting user", email);
+        other_user = getIntent().getStringExtra("other_user");
+        email = getIntent().getStringExtra("email");
+        password = getIntent().getStringExtra("password");
+
         try {
-            user = new ProfileInfo(email);
-            Log.d("Manasi user's name", user.name);
+            user = new ProfileInfo(other_user);
             name.setText(user.name);
             if(!user.phone.equals("")) {
                 phone.setText(user.phone);
@@ -88,14 +90,21 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    public void yesClicked(View V){
-        Intent intent = new Intent(this, MainActivity.class);
-        //intent.putExtra("name", sendname);
-        startActivity(intent);
+    public void yesClicked(View V) throws ExecutionException, InterruptedException {
+        Server s = new Server();
+        String resp = s.execute("sendmatch", email, other_user).get();
+        Toast.makeText(this, resp, Toast.LENGTH_LONG).show();
+        if(resp.equals("success")) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("email", email);
+            intent.putExtra("password", password);
+            startActivity(intent);
+        }
     }
     public void noClicked(View V){
         Intent intent = new Intent(this, MainActivity.class);
-        //intent.putExtra("name", sendname);
+        intent.putExtra("email", email);
+        intent.putExtra("password", password);
         startActivity(intent);
     }
     public void unmatchUser(View V){
