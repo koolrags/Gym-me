@@ -92,7 +92,14 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
     }
     public void yesClicked(View V) throws ExecutionException, InterruptedException {
         Server s = new Server();
-        String resp = s.execute("sendmatch", email, other_user).get();
+        String resp = "";
+        Log.d("Manasi", getIntent().getStringExtra("type"));
+        if(getIntent().getStringExtra("type").equals("initial")) {
+            resp = s.execute("sendmatch", email, other_user).get();
+        }
+        if(getIntent().getStringExtra("type").equals("final")){
+            resp = s.execute("acceptmatch", other_user, email).get();
+        }
         Toast.makeText(this, resp, Toast.LENGTH_LONG).show();
         if(resp.equals("success")) {
             Intent intent = new Intent(this, MainActivity.class);
@@ -101,11 +108,23 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
-    public void noClicked(View V){
+    public void noClicked(View V) throws ExecutionException, InterruptedException {
+        Server s = new Server();
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("email", email);
-        intent.putExtra("password", password);
-        startActivity(intent);
+        if(getIntent().getStringExtra("type").equals("final")){
+            String resp = s.execute("declinematch", other_user, email).get();
+            Toast.makeText(this, resp, Toast.LENGTH_LONG).show();
+            if(resp.equals("success")){
+                intent.putExtra("email", email);
+                intent.putExtra("password", password);
+                startActivity(intent);
+            }
+        }
+        else {
+            intent.putExtra("email", email);
+            intent.putExtra("password", password);
+            startActivity(intent);
+        }
     }
     public void unmatchUser(View V){
         Intent intent = new Intent(this, MainActivity.class);

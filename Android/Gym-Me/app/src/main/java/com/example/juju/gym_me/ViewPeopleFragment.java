@@ -46,7 +46,8 @@ public class ViewPeopleFragment extends Fragment {
 
         email = getArguments().getString("email");
         password = getArguments().getString("password");
-        /*Server s = new Server();
+
+        Server s = new Server();
         try {
             usernames_list = s.execute("getallprofiles", email, password).get();
         } catch (InterruptedException e) {
@@ -55,45 +56,53 @@ public class ViewPeopleFragment extends Fragment {
             e.printStackTrace();
         }
 
-        usernames = usernames_list.split(",");
-        for(int i = 0; i< usernames.length; i++){
-            String profile = null;
-            try {
-                Server t = new Server();
-                profile = t.execute("profile", usernames[i]).get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-            String[] info_arr = profile.split(",",-1);
-            list.add(info_arr[1]);
+        if(usernames_list.equals("empty")){
+            list.add("There are currently no other users.");
+            final ArrayAdapter adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list);
+            listview.setAdapter(adapter);
         }
-*/
-
-
-        final ArrayAdapter adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list);
-        sv = (SearchView) v.findViewById(R.id.searchview2);
-        String SearchedTag = sv.getQuery().toString();
-
-        //send tag, get new list.
-
-        listview.setAdapter(adapter);
-
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-                Intent intent = new Intent(getActivity(), ViewOtherUsersProfileActivity.class);
-                intent.putExtra("email", email);
-                intent.putExtra("password", password);
-                intent.putExtra("other_user", usernames[position]);
-                startActivity(intent);
+        else {
+            usernames = usernames_list.split(",");
+            for (int i = 0; i < usernames.length; i++) {
+                String profile = null;
+                try {
+                    Server t = new Server();
+                    Log.d("Manasi getting profile", usernames[i]);
+                    profile = t.execute("profile", usernames[i]).get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                Log.d("Manasi profile info", profile);
+                String[] info_arr = profile.split(",", -1);
+                list.add(info_arr[1]);
             }
 
-        });
 
+            final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list);
+            sv = (SearchView) v.findViewById(R.id.searchview2);
+            String SearchedTag = sv.getQuery().toString();
+
+            //send tag, get new list.
+
+            listview.setAdapter(adapter);
+
+            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, final View view,
+                                        int position, long id) {
+                    Intent intent = new Intent(getActivity(), ViewOtherUsersProfileActivity.class);
+                    intent.putExtra("email", email);
+                    intent.putExtra("password", password);
+                    intent.putExtra("other_user", usernames[position]);
+                    intent.putExtra("type", "inital");
+                    startActivity(intent);
+                }
+
+            });
+        }
         return v;
     }
 }
