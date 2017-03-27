@@ -1,7 +1,6 @@
 package com.example.juju.gym_me;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -26,54 +25,31 @@ import static com.example.juju.gym_me.R.id.toolbar;
  * Created by Juju on 2/13/17.
  */
 
-public class ViewPeopleFragment extends Fragment {
+public class ViewInvitesFragment extends Fragment {
     SearchView sv;
-    String email;
-    String password;
-    String usernames_list;
-    String[] usernames;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-         //Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_view_other_users, container, false);
+        View v = inflater.inflate(R.layout.fragment_view_invites, container, false);
         final ListView listview = (ListView) v.findViewById(R.id.listview);
+
         final ArrayList<String> list = new ArrayList<String>();
-        // Get people and add to list, remove hardcoded names
+        // Get matches and add to list, remove hardcoded names
 
-        //TODO: get list of waiting and matches and be sure not to include them
-
-        email = getArguments().getString("email");
-        password = getArguments().getString("password");
-        /*Server s = new Server();
-        try {
-            usernames_list = s.execute("getallprofiles", email, password).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        usernames = usernames_list.split(",");
-        for(int i = 0; i< usernames.length; i++){
-            String profile = null;
-            try {
-                Server t = new Server();
-                profile = t.execute("profile", usernames[i]).get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-            String[] info_arr = profile.split(",",-1);
-            list.add(info_arr[1]);
-        }
-*/
+        list.add("Raaghav");
+        list.add("Dinesh");
+        list.add("Manasi");
+        list.add("Juju");
+        list.add("Scott");
+        list.add("Mahathej");
+        list.add("Corey");
 
 
         final ArrayAdapter adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list);
-        sv = (SearchView) v.findViewById(R.id.searchview2);
+        sv = (SearchView) v.findViewById(R.id.searchview3);
+
         String SearchedTag = sv.getQuery().toString();
 
         //send tag, get new list.
@@ -86,9 +62,7 @@ public class ViewPeopleFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
                 Intent intent = new Intent(getActivity(), ViewOtherUsersProfileActivity.class);
-                intent.putExtra("email", email);
-                intent.putExtra("password", password);
-                intent.putExtra("other_user", usernames[position]);
+                intent.putExtra("swiped", "YES");
                 startActivity(intent);
             }
 
@@ -96,4 +70,5 @@ public class ViewPeopleFragment extends Fragment {
 
         return v;
     }
+
 }
