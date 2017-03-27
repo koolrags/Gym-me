@@ -18,6 +18,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import static com.example.juju.gym_me.R.id.toolbar;
@@ -31,7 +33,9 @@ public class ViewPeopleFragment extends Fragment {
     String email;
     String password;
     String usernames_list;
-    String[] usernames;
+    String waiting_list;
+    List<String> usernames;
+    List<String> waiting_usernames;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,8 +52,10 @@ public class ViewPeopleFragment extends Fragment {
         password = getArguments().getString("password");
 
         Server s = new Server();
+        Server r = new Server();
         try {
             usernames_list = s.execute("getallprofiles", email, password).get();
+            waiting_list = r.execute("getallwaiting", email, password).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -62,19 +68,23 @@ public class ViewPeopleFragment extends Fragment {
             listview.setAdapter(adapter);
         }
         else {
-            usernames = usernames_list.split(",");
-            for (int i = 0; i < usernames.length; i++) {
-                String profile = null;
-                try {
-                    Server t = new Server();
-                    profile = t.execute("profile", usernames[i]).get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
+            usernames = Arrays.asList(usernames_list.split(","));
+            waiting_usernames = Arrays.asList(waiting_list.split(","));
+
+            for (int i = 0; i < usernames.size(); i++) {
+                if(!waiting_usernames.contains(usernames.get(i))) {
+                    String profile = null;
+                    try {
+                        Server t = new Server();
+                        profile = t.execute("profile", usernames.get(i)).get();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                    String[] info_arr = profile.split(",", -1);
+                    list.add(info_arr[1]);
                 }
-                String[] info_arr = profile.split(",", -1);
-                list.add(info_arr[1]);
             }
 
 
@@ -94,7 +104,7 @@ public class ViewPeopleFragment extends Fragment {
                     Intent intent = new Intent(getActivity(), ViewOtherUsersProfileActivity.class);
                     intent.putExtra("email", email);
                     intent.putExtra("password", password);
-                    intent.putExtra("other_user", usernames[position]);
+                    intent.putExtra("other_user", usernames.get(position));
                     intent.putExtra("type", "inital");
                     startActivity(intent);
                 }
