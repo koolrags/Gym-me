@@ -113,6 +113,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_sixth_fragment:
                 fragmentClass = ViewInvitesFragment.class;
                 break;
+            case R.id.nav_eight_fragment:
+                fragmentClass = ViewScheduleFragment1.class;
+                break;
             case R.id.nav_fifth_fragment:
                 //logout
                 fragmentClass = ViewPeopleFragment.class;
