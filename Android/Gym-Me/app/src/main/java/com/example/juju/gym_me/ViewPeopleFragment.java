@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -90,8 +91,24 @@ public class ViewPeopleFragment extends Fragment {
 
             final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list);
             sv = (SearchView) v.findViewById(R.id.searchview2);
-            String SearchedTag = sv.getQuery().toString();
+            sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+
+                    Toast.makeText(getActivity(), sv.getQuery().toString(),
+                            Toast.LENGTH_LONG).show();
+                    // Do your task here
+
+                    return false;
+                }
+
+            });
             //send tag, get new list.
 
             listview.setAdapter(adapter);

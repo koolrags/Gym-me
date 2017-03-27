@@ -15,8 +15,11 @@ import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,9 +37,11 @@ public class EditProfileActivity extends Activity {
     EditText phone;
     EditText address;
     EditText description;
-    EditText tags;
+    MultiAutoCompleteTextView tags;
     ImageView PImage;
     String encodedphoto;
+    String[] taglist={"Powerlifter ","Bodybuilder"};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +53,12 @@ public class EditProfileActivity extends Activity {
         phone = (EditText) findViewById(R.id.edit_profile_phone);
         address = (EditText) findViewById(R.id.edit_profile_address);
         description = (EditText) findViewById(R.id.edit_profile_bio);
-        tags = (EditText) findViewById(R.id.edit_profile_tags);
+        tags = (MultiAutoCompleteTextView) findViewById(R.id.edit_profile_tags);
+        ArrayAdapter adapter = new
+                ArrayAdapter(this,android.R.layout.simple_list_item_1,taglist);
+        tags.setAdapter(adapter);
+        //tags.setThreshold(1);
+        tags.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
         PImage = (ImageView) findViewById(R.id.edit_profile_imageee);
         try {
             user = new ProfileInfo(email);
