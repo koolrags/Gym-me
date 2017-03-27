@@ -67,14 +67,12 @@ public class ViewPeopleFragment extends Fragment {
                 String profile = null;
                 try {
                     Server t = new Server();
-                    Log.d("Manasi getting profile", usernames[i]);
                     profile = t.execute("profile", usernames[i]).get();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
-                Log.d("Manasi profile info", profile);
                 String[] info_arr = profile.split(",", -1);
                 list.add(info_arr[1]);
             }

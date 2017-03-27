@@ -93,7 +93,6 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
     public void yesClicked(View V) throws ExecutionException, InterruptedException {
         Server s = new Server();
         String resp = "";
-        Log.d("Manasi", getIntent().getStringExtra("type"));
         if(getIntent().getStringExtra("type").equals("initial")) {
             resp = s.execute("sendmatch", email, other_user).get();
         }
@@ -126,9 +125,15 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
-    public void unmatchUser(View V){
+    public void unmatchUser(View V) throws ExecutionException, InterruptedException {
         Intent intent = new Intent(this, MainActivity.class);
-        //intent.putExtra("name", sendname);
-        startActivity(intent);
+        Server s = new Server();
+        String resp  = s.execute("unmatch", email, other_user).get();
+        Toast.makeText(this, resp, Toast.LENGTH_LONG).show();
+        if(resp.equals("success")) {
+            intent.putExtra("email", email);
+            intent.putExtra("password", password);
+            startActivity(intent);
+        }
     }
 }
