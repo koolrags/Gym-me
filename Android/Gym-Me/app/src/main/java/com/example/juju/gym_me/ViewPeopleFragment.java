@@ -103,7 +103,7 @@ public class ViewPeopleFragment extends Fragment {
 
                     Toast.makeText(getActivity(), sv.getQuery().toString(),
                             Toast.LENGTH_LONG).show();
-                    // Do your task here
+                    // TODO: search backend
 
                     return false;
                 }

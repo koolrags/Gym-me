@@ -40,7 +40,7 @@ public class EditProfileActivity extends Activity {
     MultiAutoCompleteTextView tags;
     ImageView PImage;
     String encodedphoto;
-    String[] taglist={"Powerlifter ","Bodybuilder"};
+    String[] taglist;
 
 
     @Override
@@ -54,6 +54,19 @@ public class EditProfileActivity extends Activity {
         address = (EditText) findViewById(R.id.edit_profile_address);
         description = (EditText) findViewById(R.id.edit_profile_bio);
         tags = (MultiAutoCompleteTextView) findViewById(R.id.edit_profile_tags);
+
+        Server s = new Server();
+        try {
+            String resp = s.execute("gettags").get();
+            taglist = resp.split(",");
+            for(int i=0; i<taglist.length; i++){
+                Log.d("Manasi", taglist[i]);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
         ArrayAdapter adapter = new
                 ArrayAdapter(this,android.R.layout.simple_list_item_1,taglist);
         tags.setAdapter(adapter);
@@ -104,8 +117,6 @@ public class EditProfileActivity extends Activity {
                 address.getText().toString(), description.getText().toString(), tags.getText().toString());
 
         //This line below doesnt work
-        Log.d("manasi photo email", email);
-        Log.d("manasi photo password", password);
         if(encodedphoto != null) {
             Server s2 = new Server();
             s2.execute("updateprofilepicture", email, password, encodedphoto);
@@ -149,7 +160,6 @@ public class EditProfileActivity extends Activity {
             ImageView imageView = (ImageView) findViewById(R.id.edit_profile_imageee);
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
-            // TODO: Image to send
             try {
                 Bitmap bmp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
