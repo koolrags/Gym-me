@@ -59,9 +59,6 @@ public class EditProfileActivity extends Activity {
         try {
             String resp = s.execute("gettags").get();
             taglist = resp.split(",");
-            for(int i=0; i<taglist.length; i++){
-                Log.d("Manasi", taglist[i]);
-            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -116,10 +113,19 @@ public class EditProfileActivity extends Activity {
         s1.execute("updateprofile",name.getText().toString(), email, password, phone.getText().toString(),
                 address.getText().toString(), description.getText().toString(), tags.getText().toString());
 
-        //This line below doesnt work
+        //updateprofilepicture
         if(encodedphoto != null) {
             Server s2 = new Server();
             s2.execute("updateprofilepicture", email, password, encodedphoto);
+        }
+
+        //addtagtouser
+        if(tags.getText() != null){
+            String[] tag_list = tags.getText().toString().split(",");
+            for(int i = 0; i<tag_list.length; i++){
+                Server s3 = new Server();
+                s3.execute("addtagtouser", email, password, tag_list[i]);
+            }
         }
 
         Intent intent = new Intent(this,MainActivity.class);

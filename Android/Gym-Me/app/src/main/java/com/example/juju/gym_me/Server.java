@@ -46,6 +46,7 @@ public class Server extends AsyncTask<String,String,String> {
                 unmatch: second is sender email, third is receiver email
                 search: second is email, third is password, fourth is tag to search for
                 gettags: no parameters (GET request)
+                addtagtouser: second is email, third is password, fourth is tag to add
 
             return values:
                 register: "success", "unsuccessful" if response was not OK, or an error message from backend
@@ -951,6 +952,67 @@ public class Server extends AsyncTask<String,String,String> {
                             tags_list = tags_list + tag + ",";
                         }
                         return tags_list;
+                    }
+                } else {
+
+                    return ("unsuccessful");
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        if (params[0] == "addtagtouser") {
+
+            try {
+
+                URL url = new URL("http://10.0.2.2:8080/addtagtouser");
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+                //getallprofiles: 2-email, 3-password, 4-tag
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("sender", params[1]);
+                jsonParam.put("receiver", params[2]);
+                jsonParam.put("tag", params[3]);
+
+                urlConnection.setDoOutput(true);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestMethod("POST");
+                urlConnection.connect();
+
+                DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
+                wr.writeBytes(jsonParam.toString());
+                wr.flush();
+                wr.close();
+
+                int response_code = urlConnection.getResponseCode();
+
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = urlConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    // Parse JSON object and return it
+                    JSONObject obj = new JSONObject(result.toString());
+                    if(obj.getString("success").equals("false")){
+                        return (obj.getString("errormsg").toString());
+                    }
+                    else {
+                        return ("success");
                     }
                 } else {
 
