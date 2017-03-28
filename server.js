@@ -134,6 +134,23 @@ var MasterApp = function() {
             });
         });
 
+        self.mainRouter.post('/allmatches', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                match.allmatches(req, res, connection);       
+            });
+        });
+
+        self.mainRouter.post('/sortbytag', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                tags.sortbytag(req, res, connection);       
+            });
+        });
+        self.mainRouter.post('/addschedule', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                profile.addschedule(req, res, connection);       
+            });
+        });
+
         self.app.use(function(req, res) {
             res.status(400);
             res.render('error', {error: '404: File Not Found'});

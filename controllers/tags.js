@@ -54,3 +54,34 @@ module.exports.addTagToUser = function(req, res, connection) {
 		});
 	}
 }
+module.exports.sortbytag = function(req, res, connection) {
+	var resp = {}
+	resp.success = false;
+
+	if (req.body.tag===undefined) {
+		errormsg += "Tag undefined :";
+	}
+
+	if (resp.errormsg!==undefined) {
+		res.end(JSON.stringify(resp));
+	}
+	else {
+		var tag = connection.escape(req.body.tag);
+
+
+		var query = "Select user_email from user_tags_join where tag_description = " + tag;
+		console.log(query);
+		connection.query(query, function(err, rows, fields) {
+			if (err) {
+				resp.success = false;
+				resp.errormsg = "db failure";
+				res.end(JSON.stringify(resp));
+			}
+			else {
+				resp.success = true;
+				resp.users = rows;
+				res.end(JSON.stringify(resp));
+			}
+		});
+	}
+}

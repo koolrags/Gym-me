@@ -154,3 +154,32 @@ module.exports.unmatch = function(req, res, connection) {
 		});
 	}
 }
+
+module.exports.allmatches = function(req, res, connection) {
+	var resp = {}
+	resp.success = false;
+	if (req.body.email===undefined) {
+		resp.errormsg = "email undefined";
+	}
+
+	if (resp.errormsg!==undefined) {
+		res.end(JSON.stringify(resp));
+	}
+	else {
+		var email = connection.escape(req.body.email);
+		var q1 = "SELECT receiver_email AS Email from USER_JOIN WHERE sender_email =" + email + " AND status = 1 union SELECT sender_email AS Email from USER_JOIN WHERE receiver_email =" + email + " AND status = 1";
+		console.log(q1);
+		connection.query(q1, function(err, rows, fields) {
+		    if (err) {
+		        resp.success = false;
+		       	resp.errormsg = "db failure";
+		    	res.end(JSON.stringify(resp));
+		    }
+		    else {
+	        	resp.success = true;
+	        	resp.matches = rows;
+		    }
+		    res.end(JSON.stringify(resp));
+		});
+	}
+}

@@ -48,7 +48,7 @@ module.exports.getProfile = function(req, res, connection) {
 	var email = connection.escape(req.body.email);
 	var password = connection.escape(req.body.password);
 
-	var query = "SELECT u.username, u.name, u.email, u.phone, u.address, u.tags, u.description, CONVERT(u.image USING utf8) as 'image' FROM Users u WHERE u.email=" + email;
+	var query = "SELECT u.username, u.name, u.email, u.phone, u.address, u.tags, u.description, CONVERT(u.image USING utf8) as 'image', schedule FROM Users u WHERE u.email=" + email;
 	console.log(query);
 	connection.query(query, function(err, rows, fields) {
 	    if (err) {
@@ -220,5 +220,35 @@ module.exports.getAllProfiles = function(req, res, connection) {
 	    	}
 	    }
     	res.end(JSON.stringify(resp));
+	});
+}
+module.exports.addschedule = function(req, res, connection) {
+	var resp = {};
+
+	resp.success = false;
+	errormsg = "";
+	if (req.body.email===undefined) {
+		errormsg += "email undefined :";
+	}
+
+	if (req.body.schedule===undefined) {
+		errormsg += "Schedule undefined :";
+	}
+	if (errormsg != "") {
+		resp.errormsg = errormsg;
+	}
+
+	var email = connection.escape(req.body.email);
+	var schedule = connection.escape(req.body.schedule);
+
+	var query = "UPDATE Users u SET u.schedule =" + schedule + " WHERE u.email= " + email;
+	console.log(query);
+	connection.query(query, function(err, rows, fields) {
+		resp.success = true;
+		if (err) {
+			resp.success = false;
+			resp.errormsg = "db entry failed";
+		}
+		res.end(JSON.stringify(resp));
 	});
 }
