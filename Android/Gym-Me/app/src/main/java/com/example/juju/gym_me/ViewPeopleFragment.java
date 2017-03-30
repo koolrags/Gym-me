@@ -133,7 +133,7 @@ public class ViewPeopleFragment extends Fragment {
                     intent.putExtra("email", email);
                     intent.putExtra("password", password);
                     intent.putExtra("other_user", usernames.get(position));
-                    intent.putExtra("type", "inital");
+                    intent.putExtra("type", "initial");
                     startActivity(intent);
                 }
 
