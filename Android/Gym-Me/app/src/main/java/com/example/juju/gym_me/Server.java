@@ -892,7 +892,7 @@ public class Server extends AsyncTask<String,String,String> {
                         return (obj.getString("errormsg").toString());
                     }
                     else {
-                        JSONArray arr = obj.getJSONArray("profile");
+                        JSONArray arr = obj.getJSONArray("users");
                         int length = arr.length();
                         if(length == 0){
                             return "empty";

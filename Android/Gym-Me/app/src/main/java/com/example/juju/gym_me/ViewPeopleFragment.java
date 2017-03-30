@@ -66,7 +66,7 @@ public class ViewPeopleFragment extends Fragment {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        
+
         if(usernames_list.equals("No users found.")){
             list.add("There are currently no other users.");
             final ArrayAdapter adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list);
@@ -101,6 +101,8 @@ public class ViewPeopleFragment extends Fragment {
 
 
             final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list);
+            listview.setAdapter(adapter);
+
             sv = (SearchView) v.findViewById(R.id.searchview2);
             sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
@@ -111,7 +113,9 @@ public class ViewPeopleFragment extends Fragment {
 
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-/*ine
+
+                    final ArrayList<String> list2 = new ArrayList<String>();
+
                     Server s = new Server();
                     Server r = new Server();
                     Server a = new Server();
@@ -126,8 +130,8 @@ public class ViewPeopleFragment extends Fragment {
                     }
 
                     if (usernames_list.equals("empty")) {
-                        list.add("There are currently no other users.");
-                        final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list);
+                        list2.add("There are currently no other users.");
+                        final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list2);
                         listview.setAdapter(adapter);
                     } else {
                         usernames = Arrays.asList(usernames_list.split(","));
@@ -146,31 +150,31 @@ public class ViewPeopleFragment extends Fragment {
                                     e.printStackTrace();
                                 }
                                 String[] info_arr = profile.split(",", -1);
-                                list.add(info_arr[1]);
+                                list2.add(info_arr[1]);
                             }
                         }
 
-                        if (list.size() == 0) {
-                            list.add("There are currently no new users.");
-                            final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list);
+                        if (list2.size() == 0) {
+                            list2.add("There are currently no new users.");
+                            final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list2);
                             listview.setAdapter(adapter);
                         }
 
-                        final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list);
+                        final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list2);
+                        listview.setAdapter(adapter);
 
                         Toast.makeText(getActivity(), sv.getQuery().toString(),
                                 Toast.LENGTH_LONG).show();
                         // TODO: search backend
 
                         return false;
-                    } */
+                    }
                     return false;
                 }
 
             });
             //send tag, get new list.
 
-            listview.setAdapter(adapter);
 
             listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
