@@ -848,11 +848,11 @@ public class Server extends AsyncTask<String,String,String> {
         }
 
         //TODO
-        if (params[0] == "search") {
+        if (params[0] == "sortbytag") {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/search");
+                URL url = new URL("http://10.0.2.2:8080/sortbytag");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //getallprofiles: 2-email, 3-password
@@ -899,7 +899,7 @@ public class Server extends AsyncTask<String,String,String> {
                         }
                         String usernames_list = "";
                         for(int i = 0; i<length; i++){
-                            String username = arr.getJSONObject(i).getString("email");
+                            String username = arr.getJSONObject(i).getString("user_email");
                             usernames_list = usernames_list + username + ",";
                         }
                         return usernames_list;
@@ -988,8 +988,8 @@ public class Server extends AsyncTask<String,String,String> {
 
                 //getallprofiles: 2-email, 3-password, 4-tag
                 JSONObject jsonParam = new JSONObject();
-                jsonParam.put("sender", params[1]);
-                jsonParam.put("receiver", params[2]);
+                jsonParam.put("email", params[1]);
+                jsonParam.put("password", hashPassword(params[2]));
                 jsonParam.put("tag", params[3]);
 
                 urlConnection.setDoOutput(true);

@@ -111,11 +111,59 @@ public class ViewPeopleFragment extends Fragment {
 
                 @Override
                 public boolean onQueryTextSubmit(String query) {
+/*
+                    Server s = new Server();
+                    Server r = new Server();
+                    Server a = new Server();
+                    try {
+                        usernames_list = s.execute("sortbytag", email, password, sv.getQuery().toString()).get();
+                        waiting_list = r.execute("getallwaiting", email, password).get();
+                        already_matched = a.execute("allmatches", email, password).get();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
 
-                    Toast.makeText(getActivity(), sv.getQuery().toString(),
-                            Toast.LENGTH_LONG).show();
-                    // TODO: search backend
+                    if (usernames_list.equals("empty")) {
+                        list.add("There are currently no other users.");
+                        final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list);
+                        listview.setAdapter(adapter);
+                    } else {
+                        usernames = Arrays.asList(usernames_list.split(","));
+                        waiting_usernames = Arrays.asList(waiting_list.split(","));
+                        matched_usernames = Arrays.asList(already_matched.split(","));
 
+                        for (int i = 0; i < usernames.size(); i++) {
+                            if (!waiting_usernames.contains(usernames.get(i)) && !matched_usernames.contains(usernames.get(i))) {
+                                String profile = null;
+                                try {
+                                    Server t = new Server();
+                                    profile = t.execute("profile", usernames.get(i)).get();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                }
+                                String[] info_arr = profile.split(",", -1);
+                                list.add(info_arr[1]);
+                            }
+                        }
+
+                        if (list.size() == 0) {
+                            list.add("There are currently no new users.");
+                            final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list);
+                            listview.setAdapter(adapter);
+                        }
+
+                        final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list);
+
+                        Toast.makeText(getActivity(), sv.getQuery().toString(),
+                                Toast.LENGTH_LONG).show();
+                        // TODO: search backend
+
+                        return false;
+                    } */
                     return false;
                 }
 

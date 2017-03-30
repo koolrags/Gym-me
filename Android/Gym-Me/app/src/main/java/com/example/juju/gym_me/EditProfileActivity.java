@@ -122,9 +122,10 @@ public class EditProfileActivity extends Activity {
         //addtagtouser
         if(tags.getText() != null){
             String[] tag_list = tags.getText().toString().split(",");
-            for(int i = 0; i<tag_list.length; i++){
+            for(int i = 0; i<tag_list.length - 1; i++){
                 Server s3 = new Server();
-                s3.execute("addtagtouser", email, password, tag_list[i]);
+                Log.d("Manasi", "\"" + tag_list[i] + "\"");
+                s3.execute("addtagtouser", email, password, tag_list[i].replace(" ", ""));
             }
         }
 
