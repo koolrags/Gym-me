@@ -48,17 +48,9 @@ public class ViewMatchFragment extends Fragment {
         email = getArguments().getString("email");
         password = getArguments().getString("password");
 
-        list.add("Raaghav");
-        list.add("Dinesh");
-        list.add("Manasi");
-        list.add("Juju");
-        list.add("Scott");
-        list.add("Mahathej");
-        list.add("Corey");
-
-        /*Server s = new Server();
+        Server s = new Server();
         try {
-            usernames_list = s.execute("getallmatches", email, password).get();
+            usernames_list = s.execute("allmatches", email, password).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -85,7 +77,7 @@ public class ViewMatchFragment extends Fragment {
                 String[] info_arr = profile.split(",", -1);
                 list.add(info_arr[1]);
             }
-        }*/
+        }
 
         final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list);
         sv = (SearchView) v.findViewById(R.id.searchview1);

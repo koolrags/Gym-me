@@ -35,8 +35,10 @@ public class ViewPeopleFragment extends Fragment {
     String password;
     String usernames_list;
     String waiting_list;
+    String already_matched;
     List<String> usernames;
     List<String> waiting_usernames;
+    List<String> matched_usernames;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,9 +56,11 @@ public class ViewPeopleFragment extends Fragment {
 
         Server s = new Server();
         Server r = new Server();
+        Server a = new Server();
         try {
             usernames_list = s.execute("getallprofiles", email, password).get();
             waiting_list = r.execute("getallwaiting", email, password).get();
+            already_matched = a.execute("allmatches", email, password).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -71,9 +75,10 @@ public class ViewPeopleFragment extends Fragment {
         else {
             usernames = Arrays.asList(usernames_list.split(","));
             waiting_usernames = Arrays.asList(waiting_list.split(","));
+            matched_usernames = Arrays.asList(already_matched.split(","));
 
             for (int i = 0; i < usernames.size(); i++) {
-                if(!waiting_usernames.contains(usernames.get(i))) {
+                if(!waiting_usernames.contains(usernames.get(i)) && !matched_usernames.contains(usernames.get(i))) {
                     String profile = null;
                     try {
                         Server t = new Server();
@@ -86,6 +91,12 @@ public class ViewPeopleFragment extends Fragment {
                     String[] info_arr = profile.split(",", -1);
                     list.add(info_arr[1]);
                 }
+            }
+
+            if(list.size() == 0){
+                list.add("There are currently no new users.");
+                final ArrayAdapter adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list);
+                listview.setAdapter(adapter);
             }
 
 

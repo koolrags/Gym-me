@@ -44,6 +44,7 @@ public class Server extends AsyncTask<String,String,String> {
                 acceptmatch: second is sender email, third is receiver email (current user)
                 declinematch: second is sender email, third is receiver email (current user)
                 unmatch: second is sender email, third is receiver email
+                allmatches: second is email, third is password
                 search: second is email, third is password, fourth is tag to search for
                 gettags: no parameters (GET request)
                 addtagtouser: second is email, third is password, fourth is tag to add
@@ -53,6 +54,7 @@ public class Server extends AsyncTask<String,String,String> {
                 login: "success", "unsuccessful" if response was not OK, or an error message from backend
                 getallprofiles: "empty" if none or comma separated list of usernames
                 getallwaiting: "empty" if none or comma separated list of usernames
+                allmatches: "empty" if none or comma separated list of usernames
                 gettags: "empty" if none or comma separated list of tags
         */
 
@@ -765,12 +767,11 @@ public class Server extends AsyncTask<String,String,String> {
 
         }
 
-        //TODO
-        if (params[0] == "getallmatches") {
+        if (params[0] == "allmatches") {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/getallmatches");
+                URL url = new URL("http://10.0.2.2:8080/allmatches");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //getallprofiles: 2-email, 3-password
@@ -809,14 +810,14 @@ public class Server extends AsyncTask<String,String,String> {
                         return (obj.getString("errormsg").toString());
                     }
                     else {
-                        JSONArray arr = obj.getJSONArray("profile");
+                        JSONArray arr = obj.getJSONArray("matches");
                         int length = arr.length();
                         if(length == 0){
                             return "empty";
                         }
                         String usernames_list = "";
                         for(int i = 0; i<length; i++){
-                            String username = arr.getJSONObject(i).getString("email");
+                            String username = arr.getJSONObject(i).getString("Email");
                             usernames_list = usernames_list + username + ",";
                         }
                         return usernames_list;
