@@ -21,6 +21,7 @@ public class ProfileInfo {
     String description;
     String tags;
     String image;
+    String schedule;
 
     Server s = new Server();
 
@@ -34,7 +35,7 @@ public class ProfileInfo {
             if(info.equals("Incorrect email or password")){
                 //TODO: error
             }
-            //info contains: username, name, email, phone, address, tags, description
+            //info contains: username, name, email, phone, address, tags, description, image, schedule
             String[] info_arr = info.split(",",-1);
             this.username = info_arr[0];
             this.name = info_arr[1];
@@ -43,6 +44,7 @@ public class ProfileInfo {
             this.description =info_arr[5];
             this.tags = info_arr[6];
             this.image = info_arr[7];
+            this.schedule = info_arr[8];
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
