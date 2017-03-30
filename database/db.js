@@ -52,6 +52,8 @@ var insertTag = "INSERT INTO gymme.Tags (description) values ('Pro')";
 connection.query(insertTag);
 var insertTag = "INSERT INTO gymme.Tags (description) values ('Beginner')";
 connection.query(insertTag);
+var insertTag = "INSERT INTO gymme.Tags (description) values ('Trainer')";
+connection.query(insertTag);
 
 console.log("Sample Tags inserted");
 
