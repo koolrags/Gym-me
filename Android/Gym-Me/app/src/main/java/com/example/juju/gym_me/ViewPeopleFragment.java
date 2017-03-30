@@ -66,8 +66,8 @@ public class ViewPeopleFragment extends Fragment {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-
-        if(usernames_list.equals("empty")){
+        
+        if(usernames_list.equals("No users found.")){
             list.add("There are currently no other users.");
             final ArrayAdapter adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list);
             listview.setAdapter(adapter);
@@ -111,7 +111,7 @@ public class ViewPeopleFragment extends Fragment {
 
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-/*
+/*ine
                     Server s = new Server();
                     Server r = new Server();
                     Server a = new Server();
