@@ -25,6 +25,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import static java.lang.System.in;
 
 public class Server extends AsyncTask<String,String,String> {
@@ -73,7 +76,7 @@ public class Server extends AsyncTask<String,String,String> {
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("name", params[1]);
                 jsonParam.put("email", params[2]);
-                jsonParam.put("password", params[3]); //TODO: hash
+                jsonParam.put("password", hashPassword(params[3]));
                 jsonParam.put("phone", "");
                 jsonParam.put("address", "");
                 jsonParam.put("description", "");
@@ -138,7 +141,7 @@ public class Server extends AsyncTask<String,String,String> {
 
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("email", params[1]);
-                jsonParam.put("password", params[2]);
+                jsonParam.put("password", hashPassword(params[2]));
 
                 urlConnection.setDoOutput(true);
                 urlConnection.setRequestProperty("Content-Type", "application/json");
@@ -279,7 +282,7 @@ public class Server extends AsyncTask<String,String,String> {
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("name", params[1]);
                 jsonParam.put("email", params[2]);
-                jsonParam.put("password", params[3]);
+                jsonParam.put("password", hashPassword(params[3]));
                 jsonParam.put("phone", params[4]);
                 jsonParam.put("address", params[5]);
                 jsonParam.put("description", params[6]);
@@ -343,7 +346,7 @@ public class Server extends AsyncTask<String,String,String> {
 
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("email", params[1]);
-                jsonParam.put("password", params[2]);
+                jsonParam.put("password", hashPassword(params[2]));
                 jsonParam.put("image", params[3]);
 
                 urlConnection.setDoOutput(true);
@@ -404,7 +407,7 @@ public class Server extends AsyncTask<String,String,String> {
                 //getallprofiles: 2-email, 3-password
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("email", params[1]);
-                jsonParam.put("password", params[2]);
+                jsonParam.put("password", hashPassword(params[2]));
 
                 urlConnection.setDoOutput(true);
                 urlConnection.setRequestProperty("Content-Type", "application/json");
@@ -534,7 +537,7 @@ public class Server extends AsyncTask<String,String,String> {
                 //getallprofiles: 2-email, 3-password
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("email", params[1]);
-                jsonParam.put("password", params[2]);
+                jsonParam.put("password", hashPassword(params[2]));
 
                 urlConnection.setDoOutput(true);
                 urlConnection.setRequestProperty("Content-Type", "application/json");
@@ -784,7 +787,7 @@ public class Server extends AsyncTask<String,String,String> {
                 //getallprofiles: 2-email, 3-password
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("email", params[1]);
-                jsonParam.put("password", params[2]);
+                jsonParam.put("password", hashPassword(params[2]));
 
                 urlConnection.setDoOutput(true);
                 urlConnection.setRequestProperty("Content-Type", "application/json");
@@ -855,7 +858,7 @@ public class Server extends AsyncTask<String,String,String> {
                 //getallprofiles: 2-email, 3-password
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("email", params[1]);
-                jsonParam.put("password", params[2]);
+                jsonParam.put("password", hashPassword(params[2]));
                 jsonParam.put("tag", params[3]);
 
                 urlConnection.setDoOutput(true);
@@ -1046,7 +1049,7 @@ public class Server extends AsyncTask<String,String,String> {
 
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("email", params[1]);
-                jsonParam.put("password", params[2]);
+                jsonParam.put("password", hashPassword(params[2]));
                 jsonParam.put("schedule", params[3]);
 
                 urlConnection.setDoOutput(true);
@@ -1099,6 +1102,28 @@ public class Server extends AsyncTask<String,String,String> {
 
         return null;
     }
+
+
+    public String hashPassword(String passwd){
+        String hashedPass = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(passwd.getBytes());
+            byte[] bytes = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i< bytes.length ;i++)
+            {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            hashedPass = sb.toString();
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+            e.printStackTrace();
+        }
+        return hashedPass;
+    }
+
 
 }
 
