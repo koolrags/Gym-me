@@ -116,7 +116,7 @@ public class ViewMatchFragment extends Fragment {
                     search_usernames = Arrays.asList(usernames_list.split(","));
 
                     for (int i = 0; i < search_usernames.size(); i++) {
-                        if (list.contains(search_usernames.get(i))) {
+                        if (Arrays.asList(usernames).contains(search_usernames.get(i))) {
                             String profile = null;
                             try {
                                 Server t = new Server();
