@@ -85,8 +85,8 @@ public class ViewInvitesFragment extends Fragment {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
 
-                    Toast.makeText(getActivity(), sv.getQuery().toString(),
-                            Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getActivity(), sv.getQuery().toString(),
+                    //        Toast.LENGTH_LONG).show();
                     // Do your task here
 
                     return false;
