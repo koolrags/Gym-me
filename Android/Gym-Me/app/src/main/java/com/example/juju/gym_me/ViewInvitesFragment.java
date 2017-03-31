@@ -18,6 +18,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import static com.example.juju.gym_me.R.id.toolbar;
@@ -32,6 +34,7 @@ public class ViewInvitesFragment extends Fragment {
     String password;
     String usernames_list;
     String[] usernames;
+    List<String> search_usernames;
 
 
     @Override
@@ -85,10 +88,54 @@ public class ViewInvitesFragment extends Fragment {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
 
-                    Toast.makeText(getActivity(), sv.getQuery().toString(),
-                            Toast.LENGTH_LONG).show();
-                    // Do your task here
+                    final ArrayList<String> list2 = new ArrayList<String>();
 
+                    Server s = new Server();
+                    try {
+                        usernames_list = s.execute("sortbytag", email, password, sv.getQuery().toString()).get();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (usernames_list.equals("empty")) {
+                        list2.add("No users match the query.");
+                        final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list2);
+                        listview.setAdapter(adapter);
+                    } else {
+                        search_usernames = Arrays.asList(usernames_list.split(","));
+
+                        for (int i = 0; i < search_usernames.size(); i++) {
+                            if (Arrays.asList(usernames).contains(search_usernames.get(i))) {
+                                String profile = null;
+                                try {
+                                    Server t = new Server();
+                                    profile = t.execute("profile", search_usernames.get(i)).get();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                }
+                                String[] info_arr = profile.split(",", -1);
+                                list2.add(info_arr[1]);
+                            }
+                        }
+
+                        if (list2.size() == 0) {
+                            list2.add("There are currently no new users.");
+                            final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list2);
+                            listview.setAdapter(adapter);
+                        }
+
+                        final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list2);
+                        listview.setAdapter(adapter);
+
+
+                        Toast.makeText(getActivity(), sv.getQuery().toString(),
+                                Toast.LENGTH_LONG).show();
+                        // Do your task here
+                    }
                     return false;
                 }
 
