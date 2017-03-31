@@ -163,8 +163,8 @@ public class ViewPeopleFragment extends Fragment {
                         final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list2);
                         listview.setAdapter(adapter);
 
-                        Toast.makeText(getActivity(), sv.getQuery().toString(),
-                                Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getActivity(), sv.getQuery().toString(),
+                        //        Toast.LENGTH_LONG).show();
                         // TODO: search backend
 
                         return false;
