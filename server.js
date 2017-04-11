@@ -10,7 +10,8 @@ var registration     = require('./controllers/registration');
 var login            = require('./controllers/login');
 var profile          = require('./controllers/profile');
 var tags             = require('./controllers/tags');
-var match             = require('./controllers/match');
+var match            = require('./controllers/match');
+var message          = require('./controllers/message');
 
 console.log("Imports done");
 
@@ -188,6 +189,18 @@ var MasterApp = function() {
                 match.getallblocked(req, res, connection);       
             });
         });
+
+        self.mainRouter.post('/sendmessage', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                message.sendmessage(req, res, connection);       
+            });
+        });
+
+        self.mainRouter.post('/getallmessages', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                message.getallmessages(req, res, connection);       
+            });
+        });        
     };
 
     self.initialize = function() {

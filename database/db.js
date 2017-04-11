@@ -85,4 +85,15 @@ CREATE TABLE `' + details.database + '`.`' + details.abuse_report + '` ( \
 )');
 
 console.log("Abuse-Report Table Created");
+
+connection.query('\
+CREATE TABLE `' + details.database + '`.`' + details.user_message + '` ( \
+    `sender_email` VARCHAR(50) NOT NULL, \
+    `receiver_email` VARCHAR(50) NOT NULL, \
+    `message` LONGTEXT \
+)');
+
+console.log("User_Message Table Created");
+
+
 connection.end();
