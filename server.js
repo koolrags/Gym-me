@@ -201,6 +201,12 @@ var MasterApp = function() {
                 message.getallmessages(req, res, connection);       
             });
         });        
+
+        self.mainRouter.post('/addlocation', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                profile.addlocation(req, res, connection);       
+            });
+        });            
     };
 
     self.initialize = function() {
