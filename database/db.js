@@ -66,4 +66,23 @@ CREATE TABLE `' + details.database + '`.`' + details.user_join + '` ( \
 
 console.log("User-Join Table Created");
 
+connection.query('\
+CREATE TABLE `' + details.database + '`.`' + details.user_block + '` ( \
+    `blocker` VARCHAR(50) NOT NULL, \
+    `blockee` VARCHAR(50) NOT NULL \
+)');
+
+console.log("User-Block Table Created");
+
+connection.query('\
+CREATE TABLE `' + details.database + '`.`' + details.abuse_report + '` ( \
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT, \
+    `reporter` VARCHAR(50) NOT NULL, \
+    `abuser` VARCHAR(50) NOT NULL, \
+    `status` INT NOT NULL, \
+        PRIMARY KEY (`id`), \
+    UNIQUE INDEX `id_UNIQUE` (`id` ASC) \
+)');
+
+console.log("Abuse-Report Table Created");
 connection.end();

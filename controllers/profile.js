@@ -1,38 +1,6 @@
 var bcrypt = require('bcrypt-nodejs');
 
 
-/*
-	Function to get user details.
-	# post params:
-		required:
-			user
-			password
-		optional:
-			[none]
-	
-	# response structures:
-		{
-			success: true
-			profile: [
-    			{
-			      "id": 8,
-			      "username": "dsds",
-			      "name": null,
-			      "email": "dssadsa",
-			      "phone": "IN",
-			      "address": 12345,
-			      "tags": 8722221111
-			    }
-			]
-		}
-		----------------------
-		{
-			success: false,
-			errormsg: "error messages defined below"
-		}
-			error messages:
-				* db entry failed
-*/
 module.exports.getProfile = function(req, res, connection) {
 	var resp = {};
 
@@ -72,32 +40,6 @@ module.exports.getProfile = function(req, res, connection) {
 	});
 }
 
-
-/*
-	Function to get user details.
-	# post params:
-		required:
-			user
-			password
-			name
-			phone
-			address
-			tags
-		optional:
-			[none]
-	
-	# response structures:
-		{
-			success: true
-		}
-		----------------------
-		{
-			success: false,
-			errormsg: "error messages defined below"
-		}
-			error messages:
-				* db entry failed
-*/
 
 module.exports.updateProfile = function(req, res, connection) {
 	var resp = {};
@@ -199,7 +141,7 @@ module.exports.getAllProfiles = function(req, res, connection) {
 	var email = connection.escape(req.body.email);
 	var password = connection.escape(req.body.password);
 
-	var query = "SELECT u.username FROM Users u WHERE u.email NOT LIKE " + email;
+	var query = "SELECT u.username FROM Users u WHERE u.email NOT LIKE " + email + " AND u.username NOT IN (SELECT b.blockee FROM user_block b WHERE b.blocker = " + email + " )";
 	console.log(query);
 	connection.query(query, function(err, rows, fields) {
 	    if (err) {
@@ -251,4 +193,67 @@ module.exports.addschedule = function(req, res, connection) {
 		}
 		res.end(JSON.stringify(resp));
 	});
+}
+
+module.exports.sortbyname = function(req, res, connection) {
+	var resp = {}
+	resp.success = false;
+
+	if (req.body.username===undefined) {
+		errormsg += "Username undefined :";
+	}
+
+	if (resp.errormsg!==undefined) {
+		res.end(JSON.stringify(resp));
+	}
+	else {
+		var username = connection.escape(req.body.username);
+
+		var query = "SELECT users.email FROM user_join JOIN users on user_join.sender_email = users.email WHERE users.name = " + username;
+		console.log(query);
+		connection.query(query, function(err, rows, fields) {
+			if (err) {
+				resp.success = false;
+				resp.errormsg = "db failure";
+				res.end(JSON.stringify(resp));
+			}
+			else {
+				resp.success = true;
+				resp.users = rows;
+				res.end(JSON.stringify(resp));
+			}
+		});
+	}
+}
+
+module.exports.reportabuse = function(req, res, connection) {
+	var resp = {}
+	resp.success = false;
+
+	if (req.body.reporter===undefined) {
+		errormsg += "Reporter email undefined :";
+	}
+
+	if (req.body.abuser===undefined) {
+		errormsg += "Abuser email undefined :";
+	}
+
+	if (resp.errormsg!==undefined) {
+		res.end(JSON.stringify(resp));
+	}
+	else {
+		var reporter = connection.escape(req.body.reporter);
+		var abuser = connection.escape(req.body.abuser);
+
+		var insertQuery = "INSERT INTO abuse_report (reporter,abuser,status) VALUES ( " + reporter + " ," + abuser + "," + " 0)";
+		console.log(insertQuery);
+		connection.query(insertQuery, function(err, rows, fields) {
+		resp.success = true;
+		if (err) {
+			resp.success = false;
+			resp.errormsg = "db entry failed";
+		}
+		res.end(JSON.stringify(resp));
+	});
+	}
 }

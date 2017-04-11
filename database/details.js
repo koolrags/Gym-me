@@ -8,5 +8,7 @@ module.exports = {
     'users_table': 'users',
     'tags_table': 'tags',
     'tags_join_table': 'user_tags_join',
-    'user_join': 'user_join'
+    'user_join': 'user_join',
+    'user_block': 'user_block',
+    'abuse_report': 'abuse_report'
 };

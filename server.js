@@ -157,9 +157,36 @@ var MasterApp = function() {
             });
         });
 
-        self.app.use(function(req, res) {
-            res.status(400);
-            res.render('error', {error: '404: File Not Found'});
+        self.mainRouter.post('/sortbyname', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                profile.sortbyname(req, res, connection);       
+            });
+        });
+
+        self.mainRouter.post('/reportabuse', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                profile.reportabuse(req, res, connection);       
+            });
+        });
+
+
+        self.mainRouter.post('/block', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                match.block(req, res, connection);       
+            });
+        });
+
+
+        self.mainRouter.post('/unblock', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                match.unblock(req, res, connection);       
+            });
+        });                
+
+        self.mainRouter.post('/getallblocked', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                match.getallblocked(req, res, connection);       
+            });
         });
     };
 
