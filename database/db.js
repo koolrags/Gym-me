@@ -22,6 +22,7 @@ CREATE TABLE `' + details.database + '`.`' + details.users_table + '` ( \
     `image` MEDIUMBLOB, \
     `schedule` VARCHAR(5000), \
     `location` VARCHAR(5000), \
+    `maxdistance` INT, \
         PRIMARY KEY (`id`), \
     UNIQUE INDEX `id_UNIQUE` (`id` ASC), \
     UNIQUE INDEX `username_UNIQUE` (`username` ASC) \

@@ -208,7 +208,13 @@ var MasterApp = function() {
             pool.getConnection(function(err, connection) {
                 profile.addlocation(req, res, connection);       
             });
-        });    
+        });  
+
+        self.mainRouter.post('/addmaxdistance', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                profile.addmaxdistance(req, res, connection);       
+            });
+        });            
 
         self.mainRouter.post('/getallchats', function(req, res) {
             pool.getConnection(function(err, connection) {

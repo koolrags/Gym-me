@@ -16,7 +16,7 @@ module.exports.getProfile = function(req, res, connection) {
 	var email = connection.escape(req.body.email);
 	var password = connection.escape(req.body.password);
 
-	var query = "SELECT u.username, u.name, u.email, u.phone, u.address, u.tags, u.description, CONVERT(u.image USING utf8) as 'image', schedule, location FROM Users u WHERE u.email=" + email;
+	var query = "SELECT u.username, u.name, u.email, u.phone, u.address, u.tags, u.description, CONVERT(u.image USING utf8) as 'image', schedule, location, maxdistance FROM Users u WHERE u.email=" + email;
 	console.log(query);
 	connection.query(query, function(err, rows, fields) {
 	    if (err) {
@@ -207,6 +207,7 @@ module.exports.addlocation = function(req, res, connection) {
 	if (req.body.userlocation===undefined) {
 		errormsg += "location undefined :";
 	}
+
 	if (errormsg != "") {
 		resp.errormsg = errormsg;
 	}
@@ -215,6 +216,38 @@ module.exports.addlocation = function(req, res, connection) {
 	var userlocation = connection.escape(req.body.userlocation);
 
 	var query = "UPDATE Users u SET u.location =" + userlocation + " WHERE u.email= " + email;
+	console.log(query);
+	connection.query(query, function(err, rows, fields) {
+		resp.success = true;
+		if (err) {
+			resp.success = false;
+			resp.errormsg = "db entry failed";
+		}
+		res.end(JSON.stringify(resp));
+	});
+}
+
+module.exports.addmaxdistance = function(req, res, connection) {
+	var resp = {};
+
+	resp.success = false;
+	errormsg = "";
+	if (req.body.email===undefined) {
+		errormsg += "email undefined :";
+	}
+
+	if (req.body.maxdistance===undefined) {
+		errormsg += "max distance undefined :";
+	}
+	
+	if (errormsg != "") {
+		resp.errormsg = errormsg;
+	}
+
+	var email = connection.escape(req.body.email);
+	var maxdistance = connection.escape(req.body.maxdistance);
+
+	var query = "UPDATE Users u SET u.maxdistance =" + maxdistance + " WHERE u.email= " + email;
 	console.log(query);
 	connection.query(query, function(err, rows, fields) {
 		resp.success = true;
