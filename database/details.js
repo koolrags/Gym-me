@@ -13,4 +13,5 @@ module.exports = {
     'abuse_report': 'abuse_report',
     'user_message': 'user_message',
     'shared_schedule': 'shared_schedule',
+    'user_goals': 'user_goals'
 };

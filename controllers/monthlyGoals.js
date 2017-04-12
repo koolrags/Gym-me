@@ -1,5 +1,5 @@
 
-module.exports.createsharedschedule = function(req, res, connection) {
+module.exports.createmonthlygoal = function(req, res, connection) {
 	var resp = {}
 	resp.success = false;
 
@@ -7,8 +7,12 @@ module.exports.createsharedschedule = function(req, res, connection) {
 		errormsg += "Email undefined :";
 	}
 
-	if (req.body.schedule===undefined) {
-		errormsg += "Schedule undefined :";
+	if (req.body.currentgoal===undefined) {
+		errormsg += "current goal undefined :";
+	}
+
+	if (req.body.completegoal===undefined) {
+		errormsg += "complete goal undefined :";
 	}
 
 	if (resp.errormsg!==undefined) {
@@ -16,9 +20,10 @@ module.exports.createsharedschedule = function(req, res, connection) {
 	}
 	else {
 		var email = connection.escape(req.body.email);
-		var schedule = connection.escape(req.body.schedule);
+		var currentgoal = connection.escape(req.body.currentgoal);
+		var completegoal = connection.escape(req.body.completegoal);
 
-		var insertQuery = "INSERT INTO shared_schedule (user_email,schedule) VALUES ( " + email + " ," + schedule + " )";
+		var insertQuery = "INSERT INTO user_goals (user_email,current,finished) VALUES ( " + email + " ," + currentgoal + " ," + completegoal + " )";
 		console.log(insertQuery);
 		connection.query(insertQuery, function(err, rows, fields) {
 		resp.success = true;
@@ -31,7 +36,7 @@ module.exports.createsharedschedule = function(req, res, connection) {
 	}
 }
 
-module.exports.getsharedschedule = function(req, res, connection) {
+module.exports.getmonthlygoal = function(req, res, connection) {
 	var resp = {}
 	resp.success = false;
 
@@ -39,13 +44,10 @@ module.exports.getsharedschedule = function(req, res, connection) {
 		errormsg += "Email undefined :";
 	}
 
-	if (resp.errormsg!==undefined) {
-		res.end(JSON.stringify(resp));
-	}
 	else {
 		var email = connection.escape(req.body.email);
 
-		var getQuery = "SELECT schedule FROM shared_schedule WHERE user_email = " + email;
+		var getQuery = "SELECT current, finished FROM user_goals WHERE user_email = " + email;
 		console.log(getQuery);
 		connection.query(getQuery, function(err, rows, fields) {
 			if (err) {
@@ -62,7 +64,7 @@ module.exports.getsharedschedule = function(req, res, connection) {
 	}
 }
 
-module.exports.editsharedschedule = function(req, res, connection) {
+module.exports.editmonthlygoal = function(req, res, connection) {
 	var resp = {}
 	resp.success = false;
 
@@ -70,8 +72,12 @@ module.exports.editsharedschedule = function(req, res, connection) {
 		errormsg += "Email undefined :";
 	}
 
-	if (req.body.schedule===undefined) {
-		errormsg += "Schedule undefined :";
+	if (req.body.currentgoal===undefined) {
+		errormsg += "current goal undefined :";
+	}
+
+	if (req.body.completegoal===undefined) {
+		errormsg += "complete goal undefined :";
 	}
 
 	if (resp.errormsg!==undefined) {
@@ -79,9 +85,10 @@ module.exports.editsharedschedule = function(req, res, connection) {
 	}
 	else {
 		var email = connection.escape(req.body.email);
-		var schedule = connection.escape(req.body.schedule);
+		var currentgoal = connection.escape(req.body.currentgoal);
+		var completegoal = connection.escape(req.body.completegoal);
 
-		var updateQuery = "UPDATE shared_schedule SET schedule =" + schedule + " WHERE email=" + email;
+		var updateQuery = "UPDATE user_goals SET current =" + currentgoal + " , finished = " + completegoal + " WHERE user_email=" + email;
 		console.log(updateQuery);
 		connection.query(updateQuery, function(err, rows, fields) {
 		resp.success = true;

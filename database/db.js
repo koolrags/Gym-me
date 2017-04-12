@@ -107,4 +107,16 @@ CREATE TABLE `' + details.database + '`.`' + details.shared_schedule + '` ( \
 
 console.log("shared schedule Table Created");
 
+connection.query('\
+CREATE TABLE `' + details.database + '`.`' + details.user_goals + '` ( \
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT, \
+    `user_email` VARCHAR(50) NOT NULL, \
+    `current` VARCHAR(5000) NOT NULL, \
+    `finished` VARCHAR(5000) NOT NULL, \
+        PRIMARY KEY (`id`), \
+    UNIQUE INDEX `id_UNIQUE` (`id` ASC) \
+)');
+
+console.log("User Goals Table Created");
+
 connection.end();

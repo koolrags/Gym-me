@@ -13,6 +13,7 @@ var tags             = require('./controllers/tags');
 var match            = require('./controllers/match');
 var message          = require('./controllers/message');
 var sschedule          = require('./controllers/sharedSchedule');
+var mgoals          = require('./controllers/monthlyGoals');
 
 console.log("Imports done");
 
@@ -225,7 +226,30 @@ var MasterApp = function() {
             pool.getConnection(function(err, connection) {
                 sschedule.getsharedschedule(req, res, connection);       
             });
+        }); 
+        
+        self.mainRouter.post('/editsharedschedule', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                sschedule.editsharedschedule(req, res, connection);       
+            });
+        });            
+        self.mainRouter.post('/createmonthlygoal', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                mgoals.createmonthlygoal(req, res, connection);       
+            });
         });    
+
+        self.mainRouter.post('/getmonthlygoal', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                mgoals.getmonthlygoal(req, res, connection);       
+            });
+        }); 
+        
+        self.mainRouter.post('/editmonthlygoal', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                mgoals.editmonthlygoal(req, res, connection);       
+            });
+        });         
 
     };
 
