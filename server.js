@@ -12,6 +12,7 @@ var profile          = require('./controllers/profile');
 var tags             = require('./controllers/tags');
 var match            = require('./controllers/match');
 var message          = require('./controllers/message');
+var sschedule          = require('./controllers/sharedSchedule');
 
 console.log("Imports done");
 
@@ -206,7 +207,26 @@ var MasterApp = function() {
             pool.getConnection(function(err, connection) {
                 profile.addlocation(req, res, connection);       
             });
-        });            
+        });    
+
+        self.mainRouter.post('/getallchats', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                message.getallchats(req, res, connection);       
+            });
+        });        
+
+        self.mainRouter.post('/createsharedschedule', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                sschedule.createsharedschedule(req, res, connection);       
+            });
+        });    
+
+        self.mainRouter.post('/getsharedschedule', function(req, res) {
+            pool.getConnection(function(err, connection) {
+                sschedule.getsharedschedule(req, res, connection);       
+            });
+        });    
+
     };
 
     self.initialize = function() {

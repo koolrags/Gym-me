@@ -96,5 +96,15 @@ CREATE TABLE `' + details.database + '`.`' + details.user_message + '` ( \
 
 console.log("User_Message Table Created");
 
+connection.query('\
+CREATE TABLE `' + details.database + '`.`' + details.shared_schedule + '` ( \
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT, \
+    `user_email` VARCHAR(50) NOT NULL, \
+    `schedule` VARCHAR(5000) NOT NULL, \
+        PRIMARY KEY (`id`), \
+    UNIQUE INDEX `id_UNIQUE` (`id` ASC) \
+)');
+
+console.log("shared schedule Table Created");
 
 connection.end();
