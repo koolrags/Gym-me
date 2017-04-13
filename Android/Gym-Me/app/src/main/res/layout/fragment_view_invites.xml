@@ -15,11 +15,24 @@
         android:textColor="@color/colorPrimary">
     </TextView>
 
-    <SearchView
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/searchview3"
-        android:queryHint="Search Tags"/>
+        android:layout_height="42dp">
+
+        <SearchView
+            android:layout_width="194dp"
+            android:layout_height="match_parent"
+            android:id="@+id/searchview3"
+            android:queryHint="Search Tags" >
+
+        </SearchView>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/spinner3" />
+    </LinearLayout>
 
     <ListView
         android:id="@+id/listview"

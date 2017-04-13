@@ -9,6 +9,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.icu.util.GregorianCalendar;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -113,9 +116,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_sixth_fragment:
                 fragmentClass = ViewInvitesFragment.class;
                 break;
+            case R.id.nav_tenth_fragment:
+                fragmentClass = ViewgoalsFragment.class;
+                break;
             case R.id.nav_eight_fragment:
                 fragmentClass = ViewScheduleFragment1.class;
                 break;
+
             case R.id.nav_fifth_fragment:
                 //logout
                 fragmentClass = ViewPeopleFragment.class;
@@ -194,4 +201,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void location(View V){
+
+        double latitude = 0.0;
+        double longitude = 0.0;
+        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        try{
+            Criteria criteria = new Criteria();
+            Location location = lm.getLastKnownLocation(lm.getBestProvider(criteria, false));
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
+        }
+        catch (SecurityException e){
+
+        }
+        Toast.makeText(this, longitude + " " + latitude, Toast.LENGTH_LONG).show();
+
+    }
 }

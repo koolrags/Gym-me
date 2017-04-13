@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -42,6 +43,33 @@ public class ViewInvitesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_view_invites, container, false);
         final ListView listview = (ListView) v.findViewById(R.id.listview);
+        final Spinner spinner = (Spinner) v.findViewById(R.id.spinner3);
+
+        List<String> spinnerArray =  new ArrayList<String>();
+        spinnerArray.add("All tags");
+        //Remove hard code
+        spinnerArray.add("item2");
+        spinnerArray.add("item3");
+        spinnerArray.add("item4");
+
+        ArrayAdapter<String> sAdapter = new ArrayAdapter<String>(
+                getActivity(), android.R.layout.simple_spinner_item, spinnerArray);
+
+        sAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(sAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+                //apply sort on selection, copy code from search view.
+
+                String  mselection = spinner.getSelectedItem().toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
 
         final ArrayList<String> list = new ArrayList<String>();
         // Get matches and add to list, remove hardcoded names

@@ -37,7 +37,9 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
     Button yes;
     Button no;
     Button unmatch;
-
+    Button block;
+    Button report;
+    int MatchedFlag = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,13 +53,21 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
         yes = (Button) findViewById(R.id.yes);
         no = (Button) findViewById(R.id.no);
         unmatch = (Button) findViewById(R.id.unmatch);
+        block = (Button) findViewById(R.id.block);
+        report = (Button) findViewById(R.id.report);
         unmatch.setVisibility(View.INVISIBLE);
+        //sharedSchedule = (Button) findViewById(R.id.share_schedule_button);
+        //sharedSchedule.setVisibility(View.INVISIBLE);
 
         if(getIntent().getStringExtra("swiped")!=null) {
             if (getIntent().getStringExtra("swiped").equals("YES")) {
-                yes.setVisibility(View.GONE);
-                no.setVisibility(View.GONE);
+                //yes.setVisibility(View.GONE);
+                //no.setVisibility(View.GONE);
+                MatchedFlag = 1;
+                yes.setText("Shared Schedule");
+                no.setText("Chat");
                 unmatch.setVisibility(View.VISIBLE);
+                //sharedSchedule.setVisibility(View.VISIBLE);
             }
         }
         other_user = getIntent().getStringExtra("other_user");
@@ -91,37 +101,57 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
         }
     }
     public void yesClicked(View V) throws ExecutionException, InterruptedException {
-        Server s = new Server();
-        String resp = "";
-        if(getIntent().getStringExtra("type").equals("initial")) {
-            resp = s.execute("sendmatch", email, other_user).get();
-        }
-        if(getIntent().getStringExtra("type").equals("final")){
-            resp = s.execute("acceptmatch", other_user, email).get();
-        }
-        Toast.makeText(this, resp, Toast.LENGTH_LONG).show();
-        if(resp.equals("success")) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("email", email);
-            intent.putExtra("password", password);
-            startActivity(intent);
-        }
-    }
-    public void noClicked(View V) throws ExecutionException, InterruptedException {
-        Server s = new Server();
-        Intent intent = new Intent(this, MainActivity.class);
-        if(getIntent().getStringExtra("type").equals("final")){
-            String resp = s.execute("declinematch", other_user, email).get();
+        if(MatchedFlag == 0) {
+            Server s = new Server();
+            String resp = "";
+            if (getIntent().getStringExtra("type").equals("initial")) {
+                resp = s.execute("sendmatch", email, other_user).get();
+            }
+            if (getIntent().getStringExtra("type").equals("final")) {
+                resp = s.execute("acceptmatch", other_user, email).get();
+            }
             Toast.makeText(this, resp, Toast.LENGTH_LONG).show();
-            if(resp.equals("success")){
+            if (resp.equals("success")) {
+                Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("email", email);
                 intent.putExtra("password", password);
                 startActivity(intent);
             }
         }
-        else {
+        else{
+            Intent intent = new Intent(this, SharedScheduleActivity.class);
             intent.putExtra("email", email);
             intent.putExtra("password", password);
+            intent.putExtra("other_user", other_user);
+            intent.putExtra("swiped", getIntent().getStringExtra("swiped"));
+            startActivity(intent);
+            finish();
+        }
+    }
+    public void noClicked(View V) throws ExecutionException, InterruptedException {
+        if(MatchedFlag == 0) {
+            Server s = new Server();
+            Intent intent = new Intent(this, MainActivity.class);
+            if (getIntent().getStringExtra("type").equals("final")) {
+                String resp = s.execute("declinematch", other_user, email).get();
+                Toast.makeText(this, resp, Toast.LENGTH_LONG).show();
+                if (resp.equals("success")) {
+                    intent.putExtra("email", email);
+                    intent.putExtra("password", password);
+                    startActivity(intent);
+                }
+            } else {
+                intent.putExtra("email", email);
+                intent.putExtra("password", password);
+                startActivity(intent);
+            }
+        }
+        else{
+            Intent intent = new Intent(this, ChatActivity.class);
+            intent.putExtra("email", email);
+            intent.putExtra("password", password);
+            intent.putExtra("other_user", other_user);
+            intent.putExtra("swiped", getIntent().getStringExtra("swiped"));
             startActivity(intent);
         }
     }
@@ -136,4 +166,23 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
+    public void blockUser(View V){
+
+    }
+    public void reportUser(View V){
+
+    }
+/*
+    public void sharedSchedule(View V){
+        Intent intent = new Intent(this, SharedScheduleActivity.class);
+        intent.putExtra("email", email);
+        intent.putExtra("password", password);
+        intent.putExtra("other_user", other_user);
+        intent.putExtra("swiped", getIntent().getStringExtra("swiped"));
+        startActivity(intent);
+        finish();
+
+    }
+*/
 }

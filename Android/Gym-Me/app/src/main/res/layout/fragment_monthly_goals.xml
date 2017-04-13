@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:hint="Enter Goals" />
+
+    <Button
+        android:text="Add to goals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button2" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="Existing Goals"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:id="@+id/textView8" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="202dp" />
+
+        <TextView
+            android:text="Completed Goals"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:id="@+id/textView11" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</LinearLayout>

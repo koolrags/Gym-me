@@ -96,22 +96,47 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/view_profile_tags">
+        android:layout_below="@+id/view_profile_tags"
+        android:weightSum="1">
 
         <Button
             android:text="NO"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/no"
-            android:layout_weight="1"
-            android:onClick="noClicked"/>
+            android:onClick="noClicked"
+            android:layout_weight="1.06" />
 
         <Button
             android:text="YES"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:id="@+id/yes"
-            android:onClick="yesClicked"/>
+            android:onClick="yesClicked" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="54dp">
+
+        <Button
+            android:text="report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/report"
+            android:onClick="reportUser"
+            android:layout_weight="0.02" />
+
+        <Button
+            android:text="block"
+            android:layout_width="173dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/block"
+            android:onClick="blockUser"
+            android:layout_weight="0.00" />
+
     </LinearLayout>
 
 </LinearLayout>

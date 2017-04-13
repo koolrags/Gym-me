@@ -21,7 +21,12 @@
             android:id="@+id/nav_fifth_fragment"
             android:title="Logout" />
         <item
+            android:id="@+id/nav_tenth_fragment"
+            android:title="Monthly Goals" />
+        <item
             android:id="@+id/nav_eight_fragment"
             android:title="Schedule" />
+
+
     </group>
 </menu>

@@ -6,6 +6,12 @@
     android:layout_height="fill_parent">
 
 
+    <Button
+        android:text="Set Distance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/setDistance" />
+
     <TextView android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/filterText"
@@ -15,11 +21,26 @@
         android:gravity="center"
         android:textColor="@color/colorPrimary">
     </TextView>
-    <SearchView
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/searchview2"
-        android:queryHint="Search Tags" />
+        android:layout_height="42dp">
+
+        <SearchView
+            android:layout_width="194dp"
+            android:layout_height="match_parent"
+            android:id="@+id/searchview2"
+            android:queryHint="Search Tags" >
+
+        </SearchView>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/spinner2" />
+    </LinearLayout>
+
     <ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
