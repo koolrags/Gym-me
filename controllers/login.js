@@ -27,16 +27,9 @@ module.exports.login = function(req, res, connection) {
 		    	res.end(JSON.stringify(resp));
 		    }
 		    else {
-			    if(rows[0].count != 1) {
-			    	resp.success = false;
-			    	resp.errormsg = "Incorrect email or password";
-			    	res.end(JSON.stringify(resp));
-			    }
-			    else {
-			    		resp.success = true;
-			    		res.end(JSON.stringify(resp));
-			    }
-		    }
+		    		resp.success = true;
+		    		res.end(JSON.stringify(resp));
+			}
 		});
 	}
 }
