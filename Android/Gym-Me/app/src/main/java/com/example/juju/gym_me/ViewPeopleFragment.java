@@ -46,6 +46,7 @@ public class ViewPeopleFragment extends Fragment {
     Button distance;
     AlertDialog.Builder builder;
     String distanceLength;
+    ProfileInfo p1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -113,7 +114,6 @@ public class ViewPeopleFragment extends Fragment {
             waiting_usernames = Arrays.asList(waiting_list.split(","));
             matched_usernames = Arrays.asList(already_matched.split(","));
 
-            ProfileInfo p1 = null;
             try {
                 p1 = new ProfileInfo(email);
             } catch (ExecutionException e) {
@@ -180,6 +180,14 @@ public class ViewPeopleFragment extends Fragment {
                         e.printStackTrace();
                     }
 
+                    try {
+                        p1 = new ProfileInfo(email);
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
                     if (usernames_list.equals("empty")) {
                         list2.add("There are currently no other users.");
                         final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list2);
@@ -200,7 +208,19 @@ public class ViewPeopleFragment extends Fragment {
                                 } catch (ExecutionException e) {
                                     e.printStackTrace();
                                 }
-                                String[] info_arr = profile.split(",", -1);
+                                ProfileInfo p2 = null;
+                                try {
+                                    p2 = new ProfileInfo(usernames.get(i));
+                                    double dist = distanceBetweenLocations(p1.latitude,p1.longitude,p2.latitude,p2.longitude);
+                                    if(dist <= p1.maxdistance) {
+                                        String[] info_arr = profile.split(",", -1);
+                                        list2.add(info_arr[1]);
+                                    }
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
 
