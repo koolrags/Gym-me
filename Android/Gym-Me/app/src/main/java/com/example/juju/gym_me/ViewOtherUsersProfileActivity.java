@@ -120,12 +120,20 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
         }
         else{
             Intent intent = new Intent(this, SharedScheduleActivity.class);
-            intent.putExtra("email", email);
-            intent.putExtra("password", password);
-            intent.putExtra("other_user", other_user);
-            intent.putExtra("swiped", getIntent().getStringExtra("swiped"));
-            startActivity(intent);
-            finish();
+            //TODO: scheduling
+            /*Server s = new Server();
+            String resp = "";
+            ProfileInfo p = new ProfileInfo(email);
+            resp = s.execute("createsharedschedule", email, p.schedule).get();
+            Toast.makeText(this, resp, Toast.LENGTH_LONG).show();
+            if (resp.equals("success")) {*/
+                intent.putExtra("email", email);
+                intent.putExtra("password", password);
+                intent.putExtra("other_user", other_user);
+                intent.putExtra("swiped", getIntent().getStringExtra("swiped"));
+                startActivity(intent);
+                finish();
+            //}
         }
     }
     public void noClicked(View V) throws ExecutionException, InterruptedException {

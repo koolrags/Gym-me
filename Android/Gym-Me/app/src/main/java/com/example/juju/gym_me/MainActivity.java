@@ -69,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
         nvDrawer = (NavigationView) findViewById(R.id.nvView);
         setupDrawerContent(nvDrawer);
 
+        Server s = new Server();
+        s.execute("addlocation", email, password, "0.0" + ";;;" + "0.0");
+        location();
+
         fragmentClass = ViewPeopleFragment.class;
         try {
             //Intent intent = new Intent(MainActivity.this,ActivityClass);
@@ -201,16 +205,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void location(View V){
+    public void location(){
 
         double latitude = 0.0;
         double longitude = 0.0;
         LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         try{
-            Criteria criteria = new Criteria();
-            Location location = lm.getLastKnownLocation(lm.getBestProvider(criteria, false));
+            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             longitude = location.getLongitude();
             latitude = location.getLatitude();
+            Server s = new Server();
+            s.execute("addlocation", email, password, Double.toString(latitude) + ";;;" + Double.toString(longitude));
         }
         catch (SecurityException e){
 

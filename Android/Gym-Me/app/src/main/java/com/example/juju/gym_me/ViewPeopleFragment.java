@@ -45,7 +45,7 @@ public class ViewPeopleFragment extends Fragment {
     List<String> matched_usernames;
     Button distance;
     AlertDialog.Builder builder;
-    double distanceLength;
+    String distanceLength;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -113,19 +113,34 @@ public class ViewPeopleFragment extends Fragment {
             waiting_usernames = Arrays.asList(waiting_list.split(","));
             matched_usernames = Arrays.asList(already_matched.split(","));
 
+            ProfileInfo p1 = null;
+            try {
+                p1 = new ProfileInfo(email);
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             for (int i = 0; i < usernames.size(); i++) {
                 if(!waiting_usernames.contains(usernames.get(i)) && !matched_usernames.contains(usernames.get(i))) {
                     String profile = null;
                     try {
                         Server t = new Server();
                         profile = t.execute("profile", usernames.get(i)).get();
+                        Log.d("Manasi", profile);
+                        String[] info_arr = profile.split(",", -1);
+                        ProfileInfo p2 = new ProfileInfo(usernames.get(i));
+                        double dist = distanceBetweenLocations(p1.latitude,p1.longitude,p2.latitude,p2.longitude);
+                        if(dist <= p1.maxdistance) {
+                            list.add(info_arr[1]);
+                        }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     }
-                    String[] info_arr = profile.split(",", -1);
-                    list.add(info_arr[1]);
+
                 }
             }
 
@@ -186,7 +201,6 @@ public class ViewPeopleFragment extends Fragment {
                                     e.printStackTrace();
                                 }
                                 String[] info_arr = profile.split(",", -1);
-                                list2.add(info_arr[1]);
                             }
                         }
 
@@ -236,7 +250,9 @@ public class ViewPeopleFragment extends Fragment {
                     builder.setItems(distanceList, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            distanceLength = Double.parseDouble(distanceList[which].toString());
+                            distanceLength =distanceList[which].toString();
+                            Server s = new Server();
+                            s.execute("addmaxdistance", email, password, distanceLength);
                         }
                     });
                     builder.show();
@@ -246,5 +262,17 @@ public class ViewPeopleFragment extends Fragment {
 
         }
         return v;
+    }
+
+    public double distanceBetweenLocations(double user1_lat,double user1_lon,double user2_lat,double user2_lon ){
+        final int R = 6371000;
+
+        double lat = Math.toRadians(user2_lat - user1_lat);
+        double lon = Math.toRadians(user2_lon - user1_lon);
+        double a = Math.sin(lat / 2) * Math.sin(lat / 2) + Math.cos(Math.toRadians(user1_lat)) * Math.cos(Math.toRadians(user2_lat)) * Math.sin(lon / 2) * Math.sin(lon / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = R * c; // meters
+
+        return Math.sqrt(distance);
     }
 }

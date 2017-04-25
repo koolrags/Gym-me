@@ -22,6 +22,10 @@ public class ProfileInfo {
     String tags;
     String image;
     String schedule;
+    String location;
+    int maxdistance;
+    double latitude;
+    double longitude;
 
     Server s = new Server();
 
@@ -45,6 +49,12 @@ public class ProfileInfo {
             this.tags = info_arr[6];
             this.image = info_arr[7];
             this.schedule = info_arr[8];
+            this.location = info_arr[9];
+            this.maxdistance = Integer.valueOf(info_arr[10]);
+            String[] loc = location.split(";;;");
+            this.latitude = Double.parseDouble(loc[0]);
+            this.longitude = Double.parseDouble(loc[1]);
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
