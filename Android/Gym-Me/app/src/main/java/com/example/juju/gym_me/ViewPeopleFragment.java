@@ -84,6 +84,23 @@ public class ViewPeopleFragment extends Fragment {
         });
         final ArrayList<String> list = new ArrayList<String>();
         distance = (Button) v.findViewById(R.id.setDistance);
+        distance.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                builder = new AlertDialog.Builder(v.getContext());
+                builder.setTitle("Pick the distance in miles!");
+                final CharSequence distanceList[] = new CharSequence[]{"5", "10", "15","20","30","40","50"};
+
+                builder.setItems(distanceList, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        distanceLength =distanceList[which].toString();
+                        Server s = new Server();
+                        s.execute("addmaxdistance", email, password, distanceLength);
+                    }
+                });
+                builder.show();
+            }
+        });
         // Get people and add to list, remove hardcoded names
 
         //TODO: get list of waiting and matches and be sure not to include them
@@ -261,23 +278,7 @@ public class ViewPeopleFragment extends Fragment {
 
             });
 
-            distance.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    builder = new AlertDialog.Builder(v.getContext());
-                    builder.setTitle("Pick the distance in miles!");
-                    final CharSequence distanceList[] = new CharSequence[]{"5", "10", "15","20","30","40","50"};
 
-                    builder.setItems(distanceList, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            distanceLength =distanceList[which].toString();
-                            Server s = new Server();
-                            s.execute("addmaxdistance", email, password, distanceLength);
-                        }
-                    });
-                    builder.show();
-                }
-            });
 
 
         }
