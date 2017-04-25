@@ -2,11 +2,16 @@ package com.example.juju.gym_me;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -54,7 +59,6 @@ public class EditProfileActivity extends Activity {
         address = (EditText) findViewById(R.id.edit_profile_address);
         description = (EditText) findViewById(R.id.edit_profile_bio);
         tags = (MultiAutoCompleteTextView) findViewById(R.id.edit_profile_tags);
-
         Server s = new Server();
         try {
             String resp = s.execute("gettags").get();
@@ -180,4 +184,5 @@ public class EditProfileActivity extends Activity {
 
         }
     }
+
 }

@@ -1,5 +1,6 @@
 package com.example.juju.gym_me;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -7,6 +8,7 @@ import android.app.FragmentManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.icu.util.Calendar;
 import android.icu.util.GregorianCalendar;
 import android.location.Criteria;
@@ -14,6 +16,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -47,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     Fragment fragment;
     String email;
     String password;
+    double latitude = 0.0;
+    double longitude = 0.0;
 
     // Make sure to be using android.support.v7.app.ActionBarDrawerToggle version.
     // The android.support.v4.app.ActionBarDrawerToggle has been deprecated.
@@ -59,6 +64,17 @@ public class MainActivity extends AppCompatActivity {
         email = getIntent().getStringExtra("email");
         password = getIntent().getStringExtra("password");
         //Toast.makeText(this, email, Toast.LENGTH_LONG).show();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    1);
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    1);
+        }
+        location();
 
         fragmentClass = ViewPeopleFragment.class;
         // Set a Toolbar to replace the ActionBar.
@@ -70,8 +86,7 @@ public class MainActivity extends AppCompatActivity {
         setupDrawerContent(nvDrawer);
 
         Server s = new Server();
-        s.execute("addlocation", email, password, "0.0" + ";;;" + "0.0");
-        location();
+        s.execute("addlocation", email, password, longitude + ";;;" + latitude);
 
         fragmentClass = ViewPeopleFragment.class;
         try {
@@ -207,20 +222,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void location(){
 
-        double latitude = 0.0;
-        double longitude = 0.0;
-        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        try{
-            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            longitude = location.getLongitude();
-            latitude = location.getLatitude();
-            Server s = new Server();
-            s.execute("addlocation", email, password, Double.toString(latitude) + ";;;" + Double.toString(longitude));
-        }
-        catch (SecurityException e){
 
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    1);
         }
-        Toast.makeText(this, longitude + " " + latitude, Toast.LENGTH_LONG).show();
+        else {
+            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if(location!=null) {
+                longitude = location.getLongitude();
+                latitude = location.getLatitude();
+            }
+            Toast.makeText(this, longitude + " " + latitude, Toast.LENGTH_LONG).show();
+        }
 
     }
 }
