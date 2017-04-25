@@ -40,6 +40,9 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
     Button block;
     Button report;
     int MatchedFlag = 0;
+    int blockedOtherFlag = 0;
+    int blockedByOtherFlag = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +102,33 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        Server s = new Server();
+        String blockees = null;
+        try {
+            blockees = s.execute("getallblocked", email).get();
+            String[] blockeelist = blockees.split(",");
+            for(int i = 0; i<blockeelist.length; i++){
+                if(blockeelist[i].equals(user.email)){
+                    blockedOtherFlag = 1;
+                    block.setText("Unblock");
+                }
+            }
+            Server t = new Server();
+            blockees = s.execute("getallblocked", user.email).get();
+            String[] blockeelist2 = blockees.split(",");
+            for(int i = 0; i<blockeelist2.length; i++){
+                if(blockeelist2[i].equals(email)){
+                    blockedByOtherFlag = 1;
+                    //TODO: HIDE THIS PROFILE
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
     }
     public void yesClicked(View V) throws ExecutionException, InterruptedException {
         if(MatchedFlag == 0) {
@@ -176,6 +206,14 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
     }
 
     public void blockUser(View V){
+        if(blockedOtherFlag == 0) {
+            Server s = new Server();
+            s.execute("block", email, other_user);
+        }
+        else{
+            Server s = new Server();
+            s.execute("unblock", email, other_user);
+        }
 
     }
     public void reportUser(View V){

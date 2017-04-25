@@ -50,7 +50,12 @@ public class ProfileInfo {
             this.image = info_arr[7];
             this.schedule = info_arr[8];
             this.location = info_arr[9];
-            this.maxdistance = Integer.valueOf(info_arr[10]);
+            if(info_arr[10]!= null) {
+                this.maxdistance = Integer.valueOf(info_arr[10]);
+            }
+            else{
+                this.maxdistance = 100;
+            }
             String[] loc = location.split(";;;");
             this.latitude = Double.parseDouble(loc[0]);
             this.longitude = Double.parseDouble(loc[1]);

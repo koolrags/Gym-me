@@ -237,6 +237,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // perform the user login attempt.
             String resp = server.execute("login", email, password).get();
             Toast.makeText(this, resp, Toast.LENGTH_LONG).show();
+            Log.d("Manasi", resp);
             if(resp.toString().equals("success")) {
                 showProgress(true);
                 mAuthTask = new UserLoginTask(email, password);
