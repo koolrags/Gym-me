@@ -274,7 +274,7 @@ module.exports.sortbyname = function(req, res, connection) {
 		var username = connection.escape(req.body.username);
 		username = username.replace("'","");
 		username = username.replace("'","");
-		var query = "SELECT DISTINCT name FROM users WHERE LOWER(name) LIKE UPPER('%" + username + "%')";
+		var query = "SELECT DISTINCT email FROM users WHERE LOWER(name) LIKE UPPER('%" + username + "%')";
 		console.log(query);
 		connection.query(query, function(err, rows, fields) {
 			if (err) {
