@@ -45,7 +45,7 @@ public class ViewProfileFragment extends Fragment {
 //        context = getActivity();
 //    }
 
-    //TODO: Display image stored in user.image
+    //ineDO: Display image stored in user.image
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

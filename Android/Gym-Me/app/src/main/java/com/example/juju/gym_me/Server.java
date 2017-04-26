@@ -1794,7 +1794,7 @@ public class Server extends AsyncTask<String,String,String> {
                             return "empty";
                         }
                         String goals = arr.getJSONObject(0).getString("current");
-                        goals += ";;;";
+                        goals += "@@@";
                         goals += arr.getJSONObject(0).getString("finished");
                         return goals;
                     }

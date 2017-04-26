@@ -41,6 +41,9 @@ public class ProfileInfo {
             }
             //info contains: username, name, email, phone, address, tags, description, image, schedule
             String[] info_arr = info.split(",",-1);
+            Log.d("Manasi", info_arr[10]);
+            Log.d("Manasi", Boolean.toString(null == info_arr[10]));
+            Log.d("Manasi", Boolean.toString(info_arr[10].equals("null")));
             this.username = info_arr[0];
             this.name = info_arr[1];
             this.phone = info_arr[3];
@@ -50,15 +53,29 @@ public class ProfileInfo {
             this.image = info_arr[7];
             this.schedule = info_arr[8];
             this.location = info_arr[9];
-            if(info_arr[10]!= null) {
+            if(!info_arr[10].equals("null")) {
                 this.maxdistance = Integer.valueOf(info_arr[10]);
             }
             else{
                 this.maxdistance = 100;
             }
-            String[] loc = location.split(";;;");
-            this.latitude = Double.parseDouble(loc[0]);
-            this.longitude = Double.parseDouble(loc[1]);
+            if(!location.equals("null")) {
+                String[] loc = location.split(";;;");
+                if (!loc[0].equals("null")) {
+                    this.latitude = Double.parseDouble(loc[0]);
+                } else {
+                    this.latitude = 0;
+                }
+                if (!loc[1].equals("null")) {
+                    this.longitude = Double.parseDouble(loc[1]);
+                } else {
+                    this.longitude = 0;
+                }
+            }
+            else{
+                this.latitude = 0;
+                this.longitude = 0;
+            }
 
         } catch (InterruptedException e) {
             e.printStackTrace();
