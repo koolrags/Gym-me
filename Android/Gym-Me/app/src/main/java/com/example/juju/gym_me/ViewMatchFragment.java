@@ -129,7 +129,7 @@ public class ViewMatchFragment extends Fragment {
 
                 Server s = new Server();
                 try {
-                    usernames_list = s.execute("sortbytag", email, password, sv.getQuery().toString()).get();
+                    usernames_list = s.execute("sortbyname", sv.getQuery().toString()).get();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {

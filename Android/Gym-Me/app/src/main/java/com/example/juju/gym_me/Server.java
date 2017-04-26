@@ -62,6 +62,7 @@ public class Server extends AsyncTask<String,String,String> {
                 createmonthlygoal: 2 - email, 3 - currentgoal, 4 - completegoal
                 editmonthlygoal: 2 - email, 3 - currentgoal, 4 - completegoal
                 getmonthlygoal: 2-email
+                sortbyname: 2 - name
 
 
             return values:
@@ -1560,11 +1561,9 @@ public class Server extends AsyncTask<String,String,String> {
                 URL url = new URL("http://10.0.2.2:8080/sortbyname");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
-                //getallprofiles: 2-email, 3-password
+                //sortbyname: 2-name
                 JSONObject jsonParam = new JSONObject();
-                jsonParam.put("email", params[1]);
-                jsonParam.put("password", hashPassword(params[2]));
-                jsonParam.put("tag", params[3]);
+                jsonParam.put("username", params[1]);
 
                 urlConnection.setDoOutput(true);
                 urlConnection.setRequestProperty("Content-Type", "application/json");
@@ -1604,7 +1603,7 @@ public class Server extends AsyncTask<String,String,String> {
                         }
                         String usernames_list = "";
                         for(int i = 0; i<length; i++){
-                            String username = arr.getJSONObject(i).getString("user_email");
+                            String username = arr.getJSONObject(i).getString("name");
                             usernames_list = usernames_list + username + ",";
                         }
                         return usernames_list;
