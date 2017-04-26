@@ -50,9 +50,11 @@ public class ChatActivity extends AppCompatActivity {
         Server s = new Server();
         try {
             String messages = s.execute("getallmessages", email, other_user).get();
-            String[] message_list = messages.split(";;;");
-            for(int i = 0; i<message_list.length; i++){
-                msgItems.add(message_list[i]);
+            if(!messages.equals("empty")) {
+                String[] message_list = messages.split(";;;");
+                for (int i = 0; i < message_list.length; i++) {
+                    msgItems.add(message_list[i]);
+                }
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
