@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/share_schedule_button"
             android:layout_weight="1"
-            android:onClick="ImportSchedule (SharedScheduleActivity)" />
+            android:onClick="ImportSchedule" />
     </LinearLayout>
 
     <LinearLayout

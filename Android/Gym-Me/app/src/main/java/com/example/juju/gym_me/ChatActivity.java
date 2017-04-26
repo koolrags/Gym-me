@@ -2,6 +2,7 @@ package com.example.juju.gym_me;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -50,6 +51,7 @@ public class ChatActivity extends AppCompatActivity {
         Server s = new Server();
         try {
             String messages = s.execute("getallmessages", email, other_user).get();
+            Log.d("Messge",messages);
             if(!messages.equals("empty")) {
                 String[] message_list = messages.split(";;;");
                 for (int i = 0; i < message_list.length; i++) {
@@ -61,6 +63,10 @@ public class ChatActivity extends AppCompatActivity {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1,
+                msgItems);
+        msgList.setAdapter(adapter);
     }
     public void sendClicked(View V){
         if(message.getText()!=null) {
