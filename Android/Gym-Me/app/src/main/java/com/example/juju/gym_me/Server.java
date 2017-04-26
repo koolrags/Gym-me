@@ -1862,12 +1862,12 @@ public class Server extends AsyncTask<String,String,String> {
                         return (obj.getString("errormsg").toString());
                     }
                     else {
-                        if(obj.has("schedule")) {
                             JSONArray arr = obj.getJSONArray("schedule");
                             int length = arr.length();
                             if (length == 0) {
                                 return "empty";
                             }
+                        if(obj.has("schedule")) {
                             String schedule = arr.getJSONObject(0).getString("schedule");
                             return schedule;
                         }
