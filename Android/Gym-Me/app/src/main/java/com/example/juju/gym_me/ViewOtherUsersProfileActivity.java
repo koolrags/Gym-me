@@ -205,10 +205,19 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
         }
     }
 
-    public void blockUser(View V){
+    public void blockUser(View V) throws ExecutionException, InterruptedException {
         if(blockedOtherFlag == 0) {
             Server s = new Server();
             s.execute("block", email, other_user);
+            Intent intent = new Intent(this, MainActivity.class);
+            Server t = new Server();
+            String resp  = t.execute("unmatch", email, other_user).get();
+            Toast.makeText(this, resp, Toast.LENGTH_LONG).show();
+            if(resp.equals("success")) {
+                intent.putExtra("email", email);
+                intent.putExtra("password", password);
+                startActivity(intent);
+            }
         }
         else{
             Server s = new Server();

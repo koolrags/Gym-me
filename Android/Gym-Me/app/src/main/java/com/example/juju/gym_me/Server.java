@@ -56,6 +56,9 @@ public class Server extends AsyncTask<String,String,String> {
                 addlocation: second is email, third is password, fourth is location
                 addmaxdistance: second is email, third is password, fourth is max distance
                 block: second is blocker, third is blockee
+                unblock: second is blocker, third is blockee
+                getallblocked: 2-blocker
+                reportabuse: 2 - reporter, 3 - abuser
 
             return values:
                 register: "success", "unsuccessful" if response was not OK, or an error message from backend
@@ -1471,6 +1474,66 @@ public class Server extends AsyncTask<String,String,String> {
                             usernames_list = usernames_list + username + ",";
                         }
                         return usernames_list;
+                    }
+                } else {
+
+                    return ("unsuccessful");
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        if (params[0] == "reportabuse") {
+
+            try {
+
+                URL url = new URL("http://10.0.2.2:8080/reportabuse");
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+                //reportabuse: 2 - reporter, 3 - abuser
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("reporter", params[1]);
+                jsonParam.put("abuser", hashPassword(params[2]));
+
+                urlConnection.setDoOutput(true);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestMethod("POST");
+                urlConnection.connect();
+
+                DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
+                wr.writeBytes(jsonParam.toString());
+                wr.flush();
+                wr.close();
+
+                int response_code = urlConnection.getResponseCode();
+
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = urlConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    // Parse JSON object and return it
+                    JSONObject obj = new JSONObject(result.toString());
+                    if(obj.getString("success").equals("false")){
+                        return (obj.getString("errormsg").toString());
+                    }
+                    else {
+                        return ("success");
                     }
                 } else {
 
