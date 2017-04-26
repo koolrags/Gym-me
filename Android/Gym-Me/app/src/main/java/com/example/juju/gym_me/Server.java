@@ -1507,7 +1507,7 @@ public class Server extends AsyncTask<String,String,String> {
                 //reportabuse: 2 - reporter, 3 - abuser
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("reporter", params[1]);
-                jsonParam.put("abuser", hashPassword(params[2]));
+                jsonParam.put("abuser", params[2]);
 
                 urlConnection.setDoOutput(true);
                 urlConnection.setRequestProperty("Content-Type", "application/json");
@@ -1935,6 +1935,141 @@ public class Server extends AsyncTask<String,String,String> {
                     }
                     else {
                         return ("success");
+                    }
+                } else {
+
+                    return ("unsuccessful");
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        if (params[0] == "sendmessage") {
+
+            try {
+
+                URL url = new URL("http://10.0.2.2:8080/sendmessage");
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+                //reportabuse: 2 - reporter, 3 - abuser
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("sender", params[1]);
+                jsonParam.put("receiver", params[2]);
+                jsonParam.put("message", params[3]);
+
+
+                urlConnection.setDoOutput(true);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestMethod("POST");
+                urlConnection.connect();
+
+                DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
+                wr.writeBytes(jsonParam.toString());
+                wr.flush();
+                wr.close();
+
+                int response_code = urlConnection.getResponseCode();
+
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = urlConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    // Parse JSON object and return it
+                    JSONObject obj = new JSONObject(result.toString());
+                    if(obj.getString("success").equals("false")){
+                        return (obj.getString("errormsg").toString());
+                    }
+                    else {
+                        return ("success");
+                    }
+                } else {
+
+                    return ("unsuccessful");
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        if (params[0] == "getallmessages") {
+
+            try {
+
+                URL url = new URL("http://10.0.2.2:8080/getallmessages");
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+                //getmonthlygoal: 2-email
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("user1", params[1]);
+                jsonParam.put("user2", params[2]);
+
+                urlConnection.setDoOutput(true);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestMethod("POST");
+                urlConnection.connect();
+
+                DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
+                wr.writeBytes(jsonParam.toString());
+                wr.flush();
+                wr.close();
+
+                int response_code = urlConnection.getResponseCode();
+
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = urlConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    // Parse JSON object and return it
+                    JSONObject obj = new JSONObject(result.toString());
+                    if(obj.getString("success").equals("false")){
+                        return (obj.getString("errormsg").toString());
+                    }
+                    else {
+                        JSONArray arr = obj.getJSONArray("messages");
+                        int length = arr.length();
+                        if (length == 0) {
+                            return "empty";
+                        }
+                        else {
+                            String message_list = "";
+                            for (int i = 0; i < length; i++) {
+                                String username = arr.getJSONObject(i).getString("message");
+                                message_list = message_list + username + ";;;";
+                            }
+                            return message_list;
+                        }
+
                     }
                 } else {
 

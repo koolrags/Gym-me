@@ -114,6 +114,7 @@ public class EditProfileActivity extends Activity {
     public void done(View view) {
 
         Server s1 = new Server();
+        String t = tags.getText().toString();
         s1.execute("updateprofile",name.getText().toString(), email, password, phone.getText().toString(),
                         address.getText().toString(), description.getText().toString(), tags.getText().toString());
 
