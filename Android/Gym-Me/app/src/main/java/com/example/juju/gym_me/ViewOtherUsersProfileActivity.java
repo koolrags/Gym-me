@@ -225,8 +225,10 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
         }
 
     }
-    public void reportUser(View V){
-
+    public void reportUser(View V) throws ExecutionException, InterruptedException {
+        Server s = new Server();
+        String resp = s.execute("reportabuse", email, other_user).get();
+        Toast.makeText(this, resp, Toast.LENGTH_LONG).show();
     }
 /*
     public void sharedSchedule(View V){
