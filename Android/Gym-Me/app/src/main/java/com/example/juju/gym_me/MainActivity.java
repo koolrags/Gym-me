@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
                 longitude = location.getLongitude();
                 latitude = location.getLatitude();
             }
-            Toast.makeText(this, longitude + " " + latitude, Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, longitude + " " + latitude, Toast.LENGTH_LONG).show();
         }
 
     }

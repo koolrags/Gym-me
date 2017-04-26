@@ -13,6 +13,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -113,14 +114,18 @@ public class EditProfileActivity extends Activity {
     public void done(View view) {
 
         Server s1 = new Server();
-        //updateprofile: 2-name, 3-email, 4-password, 5-phone, 6-address, 7-description, 8-tags
         s1.execute("updateprofile",name.getText().toString(), email, password, phone.getText().toString(),
-                address.getText().toString(), description.getText().toString(), tags.getText().toString());
+                        address.getText().toString(), description.getText().toString(), tags.getText().toString());
+
+
+        //updateprofile: 2-name, 3-email, 4-password, 5-phone, 6-address, 7-description, 8-tags
 
         //updateprofilepicture
         if(encodedphoto != null) {
             Server s2 = new Server();
             s2.execute("updateprofilepicture", email, password, encodedphoto);
+
+
         }
 
         //addtagtouser

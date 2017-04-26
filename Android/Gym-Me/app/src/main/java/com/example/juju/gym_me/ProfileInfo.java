@@ -10,7 +10,7 @@ import java.util.concurrent.ExecutionException;
  * Created by manasigoel on 2/22/17.
  */
 
-public class ProfileInfo {
+public class ProfileInfo{
 
     String email;
     String password;

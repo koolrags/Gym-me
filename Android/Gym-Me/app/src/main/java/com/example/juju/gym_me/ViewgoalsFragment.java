@@ -81,13 +81,14 @@ public class ViewgoalsFragment extends Fragment {
                     complete = goals[1];
                     current_list = goals[0].split(";;;");
                     complete_list = goals[1].split(";;;");
+                    for(int i = 0; i<complete_list.length; i++){
+                        completeGoals.add(complete_list[i]);
+                    }
                 }
                 for(int i = 0; i<current_list.length; i++){
                     currentGoals.add(current_list[i]);
                 }
-                for(int i = 0; i<complete_list.length; i++){
-                    completeGoals.add(current_list[i]);
-                }
+
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

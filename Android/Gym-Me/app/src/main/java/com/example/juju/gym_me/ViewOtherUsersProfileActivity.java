@@ -121,6 +121,19 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
                 if(blockeelist2[i].equals(email)){
                     blockedByOtherFlag = 1;
                     //TODO: HIDE THIS PROFILE
+
+                    name.setText("Blocked");
+                    phone.setVisibility(View.GONE);
+                    address.setVisibility(View.GONE);
+                    description.setVisibility(View.GONE);
+                    tags.setVisibility(View.GONE);
+                    image.setVisibility(View.GONE);
+                    yes.setVisibility(View.GONE);
+                    no.setVisibility(View.GONE);
+                    unmatch.setVisibility(View.GONE);
+                    block.setVisibility(View.GONE);
+                    report.setVisibility(View.GONE);
+
                 }
             }
         } catch (InterruptedException e) {
