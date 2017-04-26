@@ -40,6 +40,8 @@ public class ViewgoalsFragment extends Fragment {
     String password;
     String current;
     String complete;
+    String[] current_list;
+    String[] complete_list;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,10 +71,17 @@ public class ViewgoalsFragment extends Fragment {
             }
             else{
                 String[] goals = resp.split("@@@");
-                current = goals[0];
-                complete = goals[1];
-                String[] current_list = goals[0].split(";;;");
-                String[] complete_list = goals[1].split(";;;");
+                if(resp.endsWith("@@@")){
+                    current = goals[0];
+                    complete = "";
+                    current_list = goals[0].split(";;;");
+                }
+                else{
+                    current = goals[0];
+                    complete = goals[1];
+                    current_list = goals[0].split(";;;");
+                    complete_list = goals[1].split(";;;");
+                }
                 for(int i = 0; i<current_list.length; i++){
                     currentGoals.add(current_list[i]);
                 }
@@ -102,7 +111,7 @@ public class ViewgoalsFragment extends Fragment {
                 Server s = new Server();
                 if(nogoals == true){
                     if(current.equals("") && complete.equals("")){
-                        s.execute("createmonthygoal", email, newGoal, "");
+                        s.execute("createmonthlygoal", email, newGoal, "");
                     }
                     nogoals = false;
                 }
