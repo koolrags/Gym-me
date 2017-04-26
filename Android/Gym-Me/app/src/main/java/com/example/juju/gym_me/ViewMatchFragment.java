@@ -53,6 +53,7 @@ public class ViewMatchFragment extends Fragment {
         try {
             String resp = s.execute("gettags").get();
             String[] tags = resp.split(",");
+            spinnerArray.add("Select tag");
             for(int i = 0; i<tags.length; i++){
                 spinnerArray.add(tags[i]);
             }
@@ -117,7 +118,9 @@ public class ViewMatchFragment extends Fragment {
 
                 Server s = new Server();
                 try {
-                    usernames_list = s.execute("sortbytag", email, password, mselection).get();
+                    if(!mselection.equals("Select tag")) {
+                        usernames_list = s.execute("sortbytag", email, password, mselection).get();
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {

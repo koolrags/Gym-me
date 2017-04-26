@@ -38,9 +38,9 @@ public class Server extends AsyncTask<String,String,String> {
         /* To use: 
             Create an instance of server and then call the function execute 
             parameters: 
-                first is either "login", "register", "profile"  or "updateprofile"
-                login: second is username (email), third is password 
-                register: second is name, third is email, fourth is password 
+               first is either "login", "register", "profile"  or "updateprofile"
+               login: second is username (email), third is password 
+               register: second is name, third is email, fourth is password 
                 profile: second is username (email)
                 updateprofile: 2-name, 3-email, 4-password, 5-phone, 6-address, 7-description, 8-tags
                 updateprofilepicture: second is email, third is password, fourth is picture
