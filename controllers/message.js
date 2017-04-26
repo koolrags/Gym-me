@@ -4,15 +4,15 @@ module.exports.sendmessage = function(req, res, connection) {
 	resp.success = false;
 
 	if (req.body.sender===undefined) {
-		errormsg += "Reporter email undefined :";
+		errormsg += "Sender email undefined :";
 	}
 
 	if (req.body.receiver===undefined) {
-		errormsg += "Abuser email undefined :";
+		errormsg += "Receiver email undefined :";
 	}
 
 	if (req.body.message===undefined) {
-		errormsg += "Abuser email undefined :";
+		errormsg += "Message undefined :";
 	}
 
 	if (resp.errormsg!==undefined) {
@@ -42,11 +42,11 @@ module.exports.getallmessages = function(req, res, connection) {
 	resp.success = false;
 
 	if (req.body.sender===undefined) {
-		errormsg += "Reporter email undefined :";
+		errormsg += "Sender email undefined :";
 	}
 
 	if (req.body.receiver===undefined) {
-		errormsg += "Abuser email undefined :";
+		errormsg += "Receiver email undefined :";
 	}
 
 	if (resp.errormsg!==undefined) {
