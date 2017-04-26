@@ -1318,7 +1318,7 @@ public class Server extends AsyncTask<String,String,String> {
                 //block: 2 - blocker, 3 - blockee
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("blocker", params[1]);
-                jsonParam.put("blockee", hashPassword(params[2]));
+                jsonParam.put("blockee", params[2]);
 
                 urlConnection.setDoOutput(true);
                 urlConnection.setRequestProperty("Content-Type", "application/json");
@@ -1378,7 +1378,7 @@ public class Server extends AsyncTask<String,String,String> {
                 //unblock: 2 - blocker, 3 - blockee
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("blocker", params[1]);
-                jsonParam.put("blockee", hashPassword(params[2]));
+                jsonParam.put("blockee", params[2]);
 
                 urlConnection.setDoOutput(true);
                 urlConnection.setRequestProperty("Content-Type", "application/json");
