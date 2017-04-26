@@ -102,11 +102,12 @@ public class ViewgoalsFragment extends Fragment {
                 Server s = new Server();
                 if(nogoals == true){
                     if(current.equals("") && complete.equals("")){
-                        s.execute("createmonthygoal", newGoal, "");
+                        s.execute("createmonthygoal", email, newGoal, "");
                     }
+                    nogoals = false;
                 }
                 else{
-                    s.execute("editmonthlygoal", current+";;;"+newGoal, complete);
+                    s.execute("editmonthlygoal", email, current+";;;"+newGoal, complete);
                 }
             }
         });

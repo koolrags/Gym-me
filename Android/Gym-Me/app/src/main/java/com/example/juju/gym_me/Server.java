@@ -1793,7 +1793,6 @@ public class Server extends AsyncTask<String,String,String> {
                         if(obj.has("schedule")) {
                             JSONArray arr = obj.getJSONArray("schedule");
                             int length = arr.length();
-                            Log.d("Manasi length", Integer.toString(length));
                             if (length == 0) {
                                 return "empty";
                             }
