@@ -88,7 +88,7 @@ public class ViewgoalsFragment extends Fragment {
                     current = "";
                     complete_list = goals[1].split(";;;");
                     for(int i = 0; i<complete_list.length; i++){
-                        currentGoals.add(complete_list[i]);
+                        completeGoals.add(complete_list[i]);
                     }
                 }
                 else{
@@ -133,7 +133,12 @@ public class ViewgoalsFragment extends Fragment {
                     nogoals = false;
                 }
                 else{
-                    s.execute("editmonthlygoal", email, current+";;;"+newGoal, complete);
+                    if(current.equals("")){
+                        s.execute("editmonthlygoal", email, newGoal, complete);
+                    }
+                    else {
+                        s.execute("editmonthlygoal", email, current + ";;;" + newGoal, complete);
+                    }
                 }
             }
         });
