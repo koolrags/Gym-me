@@ -88,4 +88,26 @@ public class SharedScheduleActivity extends AppCompatActivity {
 
 
     }
+
+    public void ImportSchedule(View v){
+        try {
+            ProfileInfo user = new ProfileInfo(email);
+            String schedule = user.schedule;
+            if(schedule.contains(";:;")) {
+                String[] days = schedule.split(";:;");
+                sunday.setText(days[0]);
+                monday.setText(days[1]);
+                tuesday.setText(days[2]);
+                wednesday.setText(days[3]);
+                thursday.setText(days[4]);
+                friday.setText(days[5]);
+                saturday.setText(days[6]);
+            }
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
