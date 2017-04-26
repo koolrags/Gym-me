@@ -32,6 +32,9 @@ import static java.lang.System.in;
 
 public class Server extends AsyncTask<String,String,String> {
 
+
+    String baseURL = "http://10.0.2.2:8080";
+
         /* To use: 
             Create an instance of server and then call the function execute 
             parameters: 
@@ -83,7 +86,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
                 // Set the URL
-                URL url = new URL("http://10.0.2.2:8080/register");
+                URL url = new URL(baseURL+ "/register");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 // Create a JSON object with the appropriate parameters
@@ -150,7 +153,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/login");
+                URL url = new URL(baseURL+ "/login");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 JSONObject jsonParam = new JSONObject();
@@ -208,7 +211,7 @@ public class Server extends AsyncTask<String,String,String> {
         if (params[0] == "profile") {
 
             try {
-                URL url = new URL("http://10.0.2.2:8080/profile");
+                URL url = new URL(baseURL+ "/profile");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 JSONObject jsonParam = new JSONObject();
@@ -301,7 +304,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/updateprofile");
+                URL url = new URL(baseURL+ "/updateprofile");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //updateprofile: 2-name, 3-email, 4-password, 5-phone, 6-address, 7-description, 8-tags
@@ -367,7 +370,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/updateprofilepicture");
+                URL url = new URL(baseURL+ "/updateprofilepicture");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 JSONObject jsonParam = new JSONObject();
@@ -427,7 +430,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/getallprofiles");
+                URL url = new URL(baseURL+ "/getallprofiles");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //getallprofiles: 2-email, 3-password
@@ -497,7 +500,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/sendmatch");
+                URL url = new URL(baseURL+ "/sendmatch");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //getallprofiles: 2-email, 3-password
@@ -557,7 +560,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/getallwaiting");
+                URL url = new URL(baseURL+ "/getallwaiting");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //getallprofiles: 2-email, 3-password
@@ -627,7 +630,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/acceptmatch");
+                URL url = new URL(baseURL+ "/acceptmatch");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //getallprofiles: 2-email, 3-password
@@ -687,7 +690,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/declinematch");
+                URL url = new URL(baseURL+ "/declinematch");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //getallprofiles: 2-email, 3-password
@@ -747,7 +750,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/unmatch");
+                URL url = new URL(baseURL+ "/unmatch");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //getallprofiles: 2-email, 3-password
@@ -807,7 +810,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/allmatches");
+                URL url = new URL(baseURL+ "/allmatches");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //getallprofiles: 2-email, 3-password
@@ -877,7 +880,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/sortbytag");
+                URL url = new URL(baseURL+ "/sortbytag");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //getallprofiles: 2-email, 3-password
@@ -948,7 +951,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/gettags");
+                URL url = new URL(baseURL+ "/gettags");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 urlConnection.setRequestProperty("Content-Type", "application/json");
@@ -1008,7 +1011,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/addtagtouser");
+                URL url = new URL(baseURL+ "/addtagtouser");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //getallprofiles: 2-email, 3-password, 4-tag
@@ -1069,7 +1072,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/addschedule");
+                URL url = new URL(baseURL+ "/addschedule");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 JSONObject jsonParam = new JSONObject();
@@ -1129,7 +1132,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/createsharedschedule");
+                URL url = new URL(baseURL+ "/createsharedschedule");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 JSONObject jsonParam = new JSONObject();
@@ -1189,7 +1192,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/addlocation");
+                URL url = new URL(baseURL+ "/addlocation");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //getallprofiles: 2-email, 3-password, 4-location
@@ -1250,7 +1253,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/addmaxdistance");
+                URL url = new URL(baseURL+ "/addmaxdistance");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //getallprofiles: 2-email, 3-password, 4-max distance
@@ -1312,7 +1315,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/block");
+                URL url = new URL(baseURL+ "/block");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //block: 2 - blocker, 3 - blockee
@@ -1372,7 +1375,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/unblock");
+                URL url = new URL(baseURL+ "/unblock");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //unblock: 2 - blocker, 3 - blockee
@@ -1432,7 +1435,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/getallblocked");
+                URL url = new URL(baseURL+ "/getallblocked");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //getallblocked: 2-blocker
@@ -1501,7 +1504,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/reportabuse");
+                URL url = new URL(baseURL+ "/reportabuse");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //reportabuse: 2 - reporter, 3 - abuser
@@ -1561,7 +1564,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/sortbyname");
+                URL url = new URL(baseURL+ "/sortbyname");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //sortbyname: 2-name
@@ -1630,7 +1633,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/createmonthlygoal");
+                URL url = new URL(baseURL+ "/createmonthlygoal");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //createmonthlygoal: 2 - email, 3 - currentgoal, 4 - completegoal
@@ -1691,7 +1694,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/editmonthlygoal");
+                URL url = new URL(baseURL+ "/editmonthlygoal");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //editmonthlygoal: 2 - email, 3 - currentgoal, 4 - completegoal
@@ -1752,7 +1755,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/getmonthlygoal");
+                URL url = new URL(baseURL+ "/getmonthlygoal");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //getmonthlygoal: 2-email
@@ -1824,7 +1827,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/getsharedschedule");
+                URL url = new URL(baseURL+ "/getsharedschedule");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //getmonthlygoal: 2-email
@@ -1895,7 +1898,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/editsharedschedule");
+                URL url = new URL(baseURL+ "/editsharedschedule");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 JSONObject jsonParam = new JSONObject();
@@ -1955,7 +1958,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/sendmessage");
+                URL url = new URL(baseURL+ "/sendmessage");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //reportabuse: 2 - reporter, 3 - abuser
@@ -2017,7 +2020,7 @@ public class Server extends AsyncTask<String,String,String> {
 
             try {
 
-                URL url = new URL("http://10.0.2.2:8080/getallmessages");
+                URL url = new URL(baseURL+ "/getallmessages");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
                 //getmonthlygoal: 2-email
