@@ -67,6 +67,44 @@ public class ViewMatchFragment extends Fragment {
 
         sAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(sAdapter);
+
+        final ArrayList<String> list = new ArrayList<String>();
+        // Get matches and add to list, remove hardcoded names
+
+        email = getArguments().getString("email");
+        password = getArguments().getString("password");
+
+        Server t = new Server();
+        try {
+            usernames_list = t.execute("allmatches", email, password).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        if(usernames_list.equals("empty")){
+            list.add("You have no matches.");
+            final ArrayAdapter adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list);
+            listview.setAdapter(adapter);
+        }
+        else {
+            usernames = usernames_list.split(",");
+            for (int i = 0; i < usernames.length; i++) {
+                String profile = null;
+                try {
+                    Server u = new Server();
+                    profile = u.execute("profile", usernames[i]).get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                String[] info_arr = profile.split(",", -1);
+                list.add(info_arr[1]);
+            }
+        }
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1,
@@ -125,43 +163,6 @@ public class ViewMatchFragment extends Fragment {
             }
         });
 
-        final ArrayList<String> list = new ArrayList<String>();
-        // Get matches and add to list, remove hardcoded names
-
-        email = getArguments().getString("email");
-        password = getArguments().getString("password");
-
-        Server t = new Server();
-        try {
-            usernames_list = t.execute("allmatches", email, password).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        if(usernames_list.equals("empty")){
-            list.add("You have no matches.");
-            final ArrayAdapter adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list);
-            listview.setAdapter(adapter);
-        }
-        else {
-            usernames = usernames_list.split(",");
-            for (int i = 0; i < usernames.length; i++) {
-                String profile = null;
-                try {
-                    Server u = new Server();
-                    profile = u.execute("profile", usernames[i]).get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-                String[] info_arr = profile.split(",", -1);
-                list.add(info_arr[1]);
-            }
-        }
-
         final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list);
         sv = (SearchView) v.findViewById(R.id.searchview1);
 
@@ -179,7 +180,6 @@ public class ViewMatchFragment extends Fragment {
 
                 Server s = new Server();
                 try {
-                    //usernames_list = s.execute("sortbytag", email, password, sv.getQuery().toString()).get();
                     usernames_list = s.execute("sortbyname", sv.getQuery().toString()).get();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
