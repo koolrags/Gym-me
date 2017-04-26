@@ -49,11 +49,18 @@ public class ViewMatchFragment extends Fragment {
         final Spinner spinner = (Spinner) v.findViewById(R.id.spinner1);
 
         List<String> spinnerArray =  new ArrayList<String>();
-        spinnerArray.add("All tags");
-        //Remove hard code
-        spinnerArray.add("item2");
-        spinnerArray.add("item3");
-        spinnerArray.add("item4");
+        Server s = new Server();
+        try {
+            String resp = s.execute("gettags").get();
+            String[] tags = resp.split(",");
+            for(int i = 0; i<tags.length; i++){
+                spinnerArray.add(tags[i]);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
         ArrayAdapter<String> sAdapter = new ArrayAdapter<String>(
                 getActivity(), android.R.layout.simple_spinner_item, spinnerArray);
@@ -66,7 +73,51 @@ public class ViewMatchFragment extends Fragment {
                                        int arg2, long arg3) {
                 //apply sort on selection, copy code from search view.
 
-                String  mselection = spinner.getSelectedItem().toString();
+                String mselection = spinner.getSelectedItem().toString();
+
+                final ArrayList<String> list2 = new ArrayList<String>();
+
+                Server s = new Server();
+                try {
+                    usernames_list = s.execute("sortbytag", email, password, mselection).get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+
+                if (usernames_list.equals("empty")) {
+                    list2.add("No users match the query.");
+                    final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list2);
+                    listview.setAdapter(adapter);
+                } else {
+                    search_usernames = Arrays.asList(usernames_list.split(","));
+
+                    for (int i = 0; i < search_usernames.size(); i++) {
+                        if (Arrays.asList(usernames).contains(search_usernames.get(i))) {
+                            String profile = null;
+                            try {
+                                Server t = new Server();
+                                profile = t.execute("profile", search_usernames.get(i)).get();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            }
+                            String[] info_arr = profile.split(",", -1);
+                            list2.add(info_arr[1]);
+                        }
+                    }
+
+                    if (list2.size() == 0) {
+                        list2.add("There are currently no new users.");
+                        final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list2);
+                        listview.setAdapter(adapter);
+                    }
+
+                    final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list2);
+                    listview.setAdapter(adapter);
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
@@ -80,9 +131,9 @@ public class ViewMatchFragment extends Fragment {
         email = getArguments().getString("email");
         password = getArguments().getString("password");
 
-        Server s = new Server();
+        Server t = new Server();
         try {
-            usernames_list = s.execute("allmatches", email, password).get();
+            usernames_list = t.execute("allmatches", email, password).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -99,8 +150,8 @@ public class ViewMatchFragment extends Fragment {
             for (int i = 0; i < usernames.length; i++) {
                 String profile = null;
                 try {
-                    Server t = new Server();
-                    profile = t.execute("profile", usernames[i]).get();
+                    Server u = new Server();
+                    profile = u.execute("profile", usernames[i]).get();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
@@ -124,11 +175,11 @@ public class ViewMatchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //TODO: REPLACE WITH NAME LIST
                 final ArrayList<String> list2 = new ArrayList<String>();
 
                 Server s = new Server();
                 try {
+                    //usernames_list = s.execute("sortbytag", email, password, sv.getQuery().toString()).get();
                     usernames_list = s.execute("sortbyname", sv.getQuery().toString()).get();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
