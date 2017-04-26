@@ -2022,8 +2022,8 @@ public class Server extends AsyncTask<String,String,String> {
 
                 //getmonthlygoal: 2-email
                 JSONObject jsonParam = new JSONObject();
-                jsonParam.put("user1", params[1]);
-                jsonParam.put("user2", params[2]);
+                jsonParam.put("sender", params[1]);
+                jsonParam.put("receiver", params[2]);
 
                 urlConnection.setDoOutput(true);
                 urlConnection.setRequestProperty("Content-Type", "application/json");
