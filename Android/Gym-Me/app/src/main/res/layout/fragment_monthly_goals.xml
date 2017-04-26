@@ -30,7 +30,8 @@
 
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="202dp" />
+            android:layout_height="202dp"
+            android:id="@+id/list1"/>
 
         <TextView
             android:text="Completed Goals"
@@ -40,6 +41,7 @@
 
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:id="@+id/list2"/>
     </LinearLayout>
 </LinearLayout>
