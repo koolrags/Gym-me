@@ -1788,15 +1788,20 @@ public class Server extends AsyncTask<String,String,String> {
                         return (obj.getString("errormsg").toString());
                     }
                     else {
-                        JSONArray arr = obj.getJSONArray("schedule");
-                        int length = arr.length();
-                        if(length == 0){
+                        if(obj.has("schedule")) {
+                            JSONArray arr = obj.getJSONArray("schedule");
+                            int length = arr.length();
+                            if (length == 0) {
+                                return "empty";
+                            }
+                            String goals = arr.getJSONObject(0).getString("current");
+                            goals += "@@@";
+                            goals += arr.getJSONObject(0).getString("finished");
+                            return goals;
+                        }
+                        else{
                             return "empty";
                         }
-                        String goals = arr.getJSONObject(0).getString("current");
-                        goals += "@@@";
-                        goals += arr.getJSONObject(0).getString("finished");
-                        return goals;
                     }
                 } else {
 

@@ -115,7 +115,7 @@ public class ViewOtherUsersProfileActivity extends AppCompatActivity {
                 }
             }
             Server t = new Server();
-            blockees = t.execute("getallblocked", user.email).get();
+            blockees = t.execute("getallbloked", user.email).get();
             String[] blockeelist2 = blockees.split(",");
             for(int i = 0; i<blockeelist2.length; i++){
                 if(blockeelist2[i].equals(email)){

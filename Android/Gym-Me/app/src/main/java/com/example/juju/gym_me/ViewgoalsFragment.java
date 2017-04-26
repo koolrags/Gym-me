@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import static com.example.juju.gym_me.R.id.toolbar;
 
@@ -34,6 +35,11 @@ public class ViewgoalsFragment extends Fragment {
     ListView l2;
     Button done;
     AlertDialog.Builder builder;
+    Boolean nogoals = false;
+    String email;
+    String password;
+    String current;
+    String complete;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,8 +55,39 @@ public class ViewgoalsFragment extends Fragment {
         final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, currentGoals);
         final ArrayAdapter adapter1 = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, completeGoals);
 
-        //l1.setAdapter(adapter);
-        //l2.setAdapter(adapter1);
+        email = getArguments().getString("email");
+        password = getArguments().getString("password");
+
+        Server s = new Server();
+        String resp = null;
+        try {
+            resp = s.execute("getmonthlygoal", email).get();
+            if(resp.equals("empty")){
+                nogoals = true;
+                current = "";
+                complete = "";
+            }
+            else{
+                String[] goals = resp.split("@@@");
+                current = goals[0];
+                complete = goals[1];
+                String[] current_list = goals[0].split(";;;");
+                String[] complete_list = goals[1].split(";;;");
+                for(int i = 0; i<current_list.length; i++){
+                    currentGoals.add(current_list[i]);
+                }
+                for(int i = 0; i<complete_list.length; i++){
+                    completeGoals.add(current_list[i]);
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        l1.setAdapter(adapter);
+        l2.setAdapter(adapter1);
 
         builder = new AlertDialog.Builder(getActivity());
 
@@ -62,7 +99,15 @@ public class ViewgoalsFragment extends Fragment {
                 String newGoal = editText.getText() + ""; // get text and append to current goals, send to backend.
                 currentGoals.add(newGoal);
                 l1.setAdapter(adapter); // refresh current list
-
+                Server s = new Server();
+                if(nogoals == true){
+                    if(current.equals("") && complete.equals("")){
+                        s.execute("createmonthygoal", newGoal, "");
+                    }
+                }
+                else{
+                    s.execute("editmonthlygoal", current+";;;"+newGoal, complete);
+                }
             }
         });
 
@@ -83,13 +128,33 @@ public class ViewgoalsFragment extends Fragment {
                             // remove that from arraylist and backend.
                             // Either remove here and send backend new list or remove from backend and refresh list
                             currentGoals.remove(clickedGoal);
+                            Server s = new Server();
+                            current = "";
+                            complete = "";
+                            for(int i = 0; i<currentGoals.size(); i++){
+                                current += currentGoals.get(i) + ";;;";
+                            }
+                            for(int i = 0; i<completeGoals.size(); i++){
+                                complete += completeGoals.get(i) + ";;;";
+                            }
+                            s.execute("editmonthlygoal", email, current, complete);
                             l1.setAdapter(adapter);
                         }
                         else{
                             //  remove that from arraylist l1 and move to l2 and backend.
                             // Either remove here and send backend new list or remove from backend and refresh list
+                            Server s = new Server();
                             currentGoals.remove(clickedGoal);
                             completeGoals.add(clickedGoal);
+                            current = "";
+                            complete = "";
+                            for(int i = 0; i<currentGoals.size(); i++){
+                                current += currentGoals.get(i) + ";;;";
+                            }
+                            for(int i = 0; i<completeGoals.size(); i++){
+                                complete += completeGoals.get(i) + ";;;";
+                            }
+                            s.execute("editmonthlygoal", email, current, complete);
                             l1.setAdapter(adapter);
                             l2.setAdapter(adapter1);
                         }
