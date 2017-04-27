@@ -90,10 +90,10 @@ public class ViewPeopleFragment extends Fragment {
 
             }
         });
-        final ArrayList<String> list = new ArrayList<String>();
         distance = (Button) v.findViewById(R.id.setDistance);
         distance.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                final ArrayList<String> list = new ArrayList<String>();
                 builder = new AlertDialog.Builder(v.getContext());
                 builder.setTitle("Pick the distance in meters!");
                 final CharSequence distanceList[] = new CharSequence[]{"5", "10", "15","20","30","40","50","500000"};
