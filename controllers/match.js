@@ -26,6 +26,7 @@ module.exports.getallwaiting = function(req, res, connection) {
 			}
 			res.end(JSON.stringify(resp));
 		});
+		connection.release();
 	}
 }
 
@@ -57,6 +58,7 @@ module.exports.acceptmatch = function(req, res, connection) {
 			}
 			res.end(JSON.stringify(resp));
 		});
+		connection.release();
 	}
 }
 
@@ -88,6 +90,7 @@ module.exports.declinematch = function(req, res, connection) {
 			}
 			res.end(JSON.stringify(resp));
 		});
+		connection.release();
 	}
 }
 
@@ -119,6 +122,7 @@ module.exports.sendmatch = function(req, res, connection) {
 			}
 			res.end(JSON.stringify(resp));
 		});
+		connection.release();
 	}
 }
 
@@ -152,6 +156,7 @@ module.exports.unmatch = function(req, res, connection) {
 			}
 			res.end(JSON.stringify(resp));
 		});
+		connection.release();
 	}
 }
 
@@ -181,6 +186,7 @@ module.exports.allmatches = function(req, res, connection) {
 			}
 			res.end(JSON.stringify(resp));
 		});
+		connection.release();
 	}
 }
 
@@ -211,6 +217,7 @@ module.exports.block = function(req, res, connection) {
 			}
 			res.end(JSON.stringify(resp));
 		});
+		connection.release();
 	}
 }
 
@@ -241,6 +248,7 @@ module.exports.unblock = function(req, res, connection) {
 			}
 		res.end(JSON.stringify(resp));
 		});
+		connection.release();
 	}
 }
 
@@ -270,5 +278,6 @@ module.exports.getallblocked = function(req, res, connection) {
 		}
 		res.end(JSON.stringify(resp));
 		});
+		connection.release();
 	}
 }

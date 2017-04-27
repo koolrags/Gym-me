@@ -33,6 +33,7 @@ module.exports.createmonthlygoal = function(req, res, connection) {
 		}
 		res.end(JSON.stringify(resp));
 	});
+		connection.release();
 	}
 }
 
@@ -61,6 +62,7 @@ module.exports.getmonthlygoal = function(req, res, connection) {
 			}
 			res.end(JSON.stringify(resp));
 		});
+		connection.release();
 	}
 }
 
@@ -98,5 +100,6 @@ module.exports.editmonthlygoal = function(req, res, connection) {
 		}
 		res.end(JSON.stringify(resp));
 	});
+		connection.release();
 	}
 }

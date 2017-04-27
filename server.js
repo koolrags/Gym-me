@@ -48,7 +48,7 @@ var MasterApp = function() {
     var self = this;
 
     self.setupVariables = function() {
-        self.ipaddress = '127.0.0.1';
+        self.ipaddress = '127.0.0.1:8080';
         self.port      = 8080;
     };
 

@@ -33,6 +33,7 @@ module.exports.createsharedschedule = function(req, res, connection) {
 		}
 		res.end(JSON.stringify(resp));
 	});
+		connection.release();
 	}
 }
 
@@ -68,6 +69,7 @@ module.exports.getsharedschedule = function(req, res, connection) {
 			}
 			res.end(JSON.stringify(resp));
 		});
+		connection.release();
 	}
 }
 
@@ -101,5 +103,6 @@ module.exports.editsharedschedule = function(req, res, connection) {
 		}
 		res.end(JSON.stringify(resp));
 	});
+		connection.release();
 	}
 }

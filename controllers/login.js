@@ -31,5 +31,6 @@ module.exports.login = function(req, res, connection) {
 		    		res.end(JSON.stringify(resp));
 			}
 		});
+		connection.release();
 	}
 }

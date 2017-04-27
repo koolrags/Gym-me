@@ -38,6 +38,7 @@ module.exports.getProfile = function(req, res, connection) {
 	    }
     	res.end(JSON.stringify(resp));
 	});
+	connection.release();
 }
 
 
@@ -89,6 +90,7 @@ module.exports.updateProfile = function(req, res, connection) {
 		}
 		res.end(JSON.stringify(resp));
 	});
+	connection.release();
 }
 
 module.exports.updateProfilePicture = function(req, res, connection) {
@@ -123,6 +125,7 @@ module.exports.updateProfilePicture = function(req, res, connection) {
 		}
 		res.end(JSON.stringify(resp));
 	});
+	connection.release();
 }
 
 
@@ -163,6 +166,7 @@ module.exports.getAllProfiles = function(req, res, connection) {
 	    }
     	res.end(JSON.stringify(resp));
 	});
+	connection.release();
 }
 module.exports.addschedule = function(req, res, connection) {
 	var resp = {};
@@ -193,6 +197,7 @@ module.exports.addschedule = function(req, res, connection) {
 		}
 		res.end(JSON.stringify(resp));
 	});
+	connection.release();
 }
 
 module.exports.addlocation = function(req, res, connection) {
@@ -225,6 +230,7 @@ module.exports.addlocation = function(req, res, connection) {
 		}
 		res.end(JSON.stringify(resp));
 	});
+	connection.release();
 }
 
 module.exports.addmaxdistance = function(req, res, connection) {
@@ -257,6 +263,7 @@ module.exports.addmaxdistance = function(req, res, connection) {
 		}
 		res.end(JSON.stringify(resp));
 	});
+	connection.release();
 }
 
 module.exports.sortbyname = function(req, res, connection) {
@@ -288,6 +295,7 @@ module.exports.sortbyname = function(req, res, connection) {
 				res.end(JSON.stringify(resp));
 			}
 		});
+		connection.release();
 	}
 }
 
@@ -320,5 +328,6 @@ module.exports.reportabuse = function(req, res, connection) {
 		}
 		res.end(JSON.stringify(resp));
 	});
+		connection.release();
 	}
 }
