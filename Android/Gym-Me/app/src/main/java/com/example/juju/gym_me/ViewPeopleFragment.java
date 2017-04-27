@@ -87,8 +87,8 @@ public class ViewPeopleFragment extends Fragment {
         distance.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 builder = new AlertDialog.Builder(v.getContext());
-                builder.setTitle("Pick the distance in miles!");
-                final CharSequence distanceList[] = new CharSequence[]{"5", "10", "15","20","30","40","50"};
+                builder.setTitle("Pick the distance in meters!");
+                final CharSequence distanceList[] = new CharSequence[]{"5", "10", "15","20","30","40","50","500000"};
 
                 builder.setItems(distanceList, new DialogInterface.OnClickListener() {
                     @Override
