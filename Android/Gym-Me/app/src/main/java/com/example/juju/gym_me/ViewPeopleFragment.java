@@ -58,11 +58,19 @@ public class ViewPeopleFragment extends Fragment {
         final Spinner spinner = (Spinner) v.findViewById(R.id.spinner2);
 
         List<String> spinnerArray =  new ArrayList<String>();
-        spinnerArray.add("All tags");
-        //Remove hard code, get tags
-        spinnerArray.add("item2");
-        spinnerArray.add("item3");
-        spinnerArray.add("item4");
+        Server m = new Server();
+        try {
+            String resp = m.execute("gettags").get();
+            String[] tags = resp.split(",");
+            spinnerArray.add("Select tag");
+            for(int i = 0; i<tags.length; i++){
+                spinnerArray.add(tags[i]);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
         ArrayAdapter<String> sAdapter = new ArrayAdapter<String>(
                 getActivity(), android.R.layout.simple_spinner_item, spinnerArray);
@@ -94,8 +102,73 @@ public class ViewPeopleFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         distanceLength =distanceList[which].toString();
-                        Server s = new Server();
-                        s.execute("addmaxdistance", email, password, distanceLength);
+                        Server x = new Server();
+                        x.execute("addmaxdistance", email, password, distanceLength);
+
+                        Server b = new Server();
+                        Server c = new Server();
+                        Server a = new Server();
+                        try {
+                            usernames_list = b.execute("getallprofiles", email, password).get();
+                            waiting_list = c.execute("getallwaiting", email, password).get();
+                            already_matched = a.execute("allmatches", email, password).get();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
+
+                        if(usernames_list.equals("No users found.")){
+                            list.add("There are currently no other users.");
+                            final ArrayAdapter adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list);
+                            listview.setAdapter(adapter);
+                        }
+                        else {
+                            usernames = Arrays.asList(usernames_list.split(","));
+                            waiting_usernames = Arrays.asList(waiting_list.split(","));
+                            matched_usernames = Arrays.asList(already_matched.split(","));
+
+                            try {
+                                p1 = new ProfileInfo(email);
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                            for (int i = 0; i < usernames.size(); i++) {
+                                if (!waiting_usernames.contains(usernames.get(i)) && !matched_usernames.contains(usernames.get(i))) {
+                                    String profile = null;
+                                    try {
+                                        Server t = new Server();
+                                        profile = t.execute("profile", usernames.get(i)).get();
+                                        Log.d("Manasi", profile);
+                                        String[] info_arr = profile.split(",", -1);
+                                        ProfileInfo p2 = new ProfileInfo(usernames.get(i));
+                                        double dist = distanceBetweenLocations(p1.latitude, p1.longitude, p2.latitude, p2.longitude);
+                                        if (dist <= p1.maxdistance) {
+                                            list.add(info_arr[1]);
+                                        }
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    } catch (ExecutionException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            }
+
+                            if (list.size() == 0) {
+                                list.add("There are currently no new users.");
+                                final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list);
+                                listview.setAdapter(adapter);
+                            }
+                        }
+
+
+                            final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list);
+                            listview.setAdapter(adapter);
+
                     }
                 });
                 builder.show();
