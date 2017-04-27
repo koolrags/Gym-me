@@ -184,6 +184,7 @@ public class ViewPeopleFragment extends Fragment {
         Server s = new Server();
         Server r = new Server();
         Server a = new Server();
+        final ArrayList<String> list_dist = new ArrayList<String>();
         try {
             usernames_list = s.execute("getallprofiles", email, password).get();
             waiting_list = r.execute("getallwaiting", email, password).get();
@@ -195,8 +196,8 @@ public class ViewPeopleFragment extends Fragment {
         }
 
         if(usernames_list.equals("No users found.")){
-            list.add("There are currently no other users.");
-            final ArrayAdapter adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list);
+            list_dist.add("There are currently no other users.");
+            final ArrayAdapter adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list_dist);
             listview.setAdapter(adapter);
         }
         else {
@@ -223,7 +224,7 @@ public class ViewPeopleFragment extends Fragment {
                         ProfileInfo p2 = new ProfileInfo(usernames.get(i));
                         double dist = distanceBetweenLocations(p1.latitude,p1.longitude,p2.latitude,p2.longitude);
                         if(dist <= p1.maxdistance) {
-                            list.add(info_arr[1]);
+                            list_dist.add(info_arr[1]);
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -234,14 +235,14 @@ public class ViewPeopleFragment extends Fragment {
                 }
             }
 
-            if(list.size() == 0){
-                list.add("There are currently no new users.");
-                final ArrayAdapter adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list);
+            if(list_dist.size() == 0){
+                list_dist.add("There are currently no new users.");
+                final ArrayAdapter adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list_dist);
                 listview.setAdapter(adapter);
             }
 
 
-            final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list);
+            final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list_dist);
             listview.setAdapter(adapter);
 
             sv = (SearchView) v.findViewById(R.id.searchview2);
