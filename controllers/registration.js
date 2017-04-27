@@ -105,5 +105,6 @@ module.exports.register = function(req, res, connection) {
 			}
 			res.end(JSON.stringify(resp));
 		});
+		connection.release();
 	}
 }

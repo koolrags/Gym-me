@@ -21,6 +21,7 @@ module.exports.getTags = function(req, res, connection) {
 				res.end(JSON.stringify(resp));
 			}
 		});
+		connection.release();
 	}
 }
 
@@ -52,6 +53,7 @@ module.exports.addTagToUser = function(req, res, connection) {
 			}
 			res.end(JSON.stringify(resp));
 		});
+		connection.release();
 	}
 }
 module.exports.sortbytag = function(req, res, connection) {
@@ -83,6 +85,7 @@ module.exports.sortbytag = function(req, res, connection) {
 				res.end(JSON.stringify(resp));
 			}
 		});
+		connection.release();
 	}
 }
 module.exports.addnewtag = function(req, res, connection) {
@@ -113,5 +116,6 @@ module.exports.addnewtag = function(req, res, connection) {
 				res.end(JSON.stringify(resp));
 			}
 		});
+		connection.release();
 	}
 }

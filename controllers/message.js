@@ -33,6 +33,7 @@ module.exports.sendmessage = function(req, res, connection) {
 		}
 		res.end(JSON.stringify(resp));
 	});
+		connection.release();
 	}
 }
 
@@ -70,6 +71,7 @@ module.exports.getallmessages = function(req, res, connection) {
 			}
 			res.end(JSON.stringify(resp));
 		});
+		connection.release();
 	}
 }
 
@@ -100,5 +102,6 @@ module.exports.getallchats = function(req, res, connection) {
 			}
 			res.end(JSON.stringify(resp));
 		});
+		connection.release();
 	}
 }
