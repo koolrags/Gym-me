@@ -33,7 +33,7 @@ import static java.lang.System.in;
 public class Server extends AsyncTask<String,String,String> {
 
 
-    String baseURL = "http://172.20.10.2:8080";
+    String baseURL = "http://172.20.10.10:8080";
 
         /* To use: 
             Create an instance of server and then call the function execute 

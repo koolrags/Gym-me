@@ -190,7 +190,7 @@ public class ViewMatchFragment extends Fragment {
                     e.printStackTrace();
                 }
 
-                if (usernames_list.equals("empty")) {
+                if (usernames_list == null || usernames_list.equals("empty")) {
                     list2.add("No users match the query.");
                     final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list2);
                     listview.setAdapter(adapter);
