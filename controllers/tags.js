@@ -8,8 +8,7 @@ module.exports.getTags = function(req, res, connection) {
 	else {
 		var selectQuery = "SELECT description FROM tags ";
 		connection.query(selectQuery, function(err, rows, fields) {
-			console.log("ROWS:");
-			console.log(rows);
+			console.log(selectQuery);
 			if (err) {
 				resp.success = false;
 				resp.errormsg = "db failure";
@@ -45,6 +44,7 @@ module.exports.addTagToUser = function(req, res, connection) {
 
 
 		var insertQuery = "INSERT INTO user_tags_join (user_email, tag_description) VALUES (" + email + "," + tag + ")";
+		console.log(insertQuery);
 		connection.query(insertQuery, function(err, rows, fields) {
 			resp.success = true;
 			if (err) {
