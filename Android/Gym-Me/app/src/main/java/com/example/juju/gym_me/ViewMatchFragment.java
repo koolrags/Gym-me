@@ -114,12 +114,19 @@ public class ViewMatchFragment extends Fragment {
 
                 String mselection = spinner.getSelectedItem().toString();
 
+                if(mselection == "Select tag"){
+                    final ArrayAdapter adapter1 = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list);
+                    listview.setAdapter(adapter1);
+                    return;
+                }
+
                 final ArrayList<String> list2 = new ArrayList<String>();
 
                 Server s = new Server();
                 try {
                     if(!mselection.equals("Select tag")) {
                         usernames_list = s.execute("sortbytag", email, password, mselection).get();
+                        Log.d("Tag1","(!mselection.equals(\"Select tag\")");
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -131,6 +138,8 @@ public class ViewMatchFragment extends Fragment {
                     list2.add("No users match the query.");
                     final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list2);
                     listview.setAdapter(adapter);
+                    Log.d("Tag1"," if (usernames_list.equals(\"empty\")) {");
+
                 } else {
                     search_usernames = Arrays.asList(usernames_list.split(","));
 
@@ -158,6 +167,7 @@ public class ViewMatchFragment extends Fragment {
 
                     final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list2);
                     listview.setAdapter(adapter);
+
                 }
             }
             @Override
@@ -174,59 +184,29 @@ public class ViewMatchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if(newText.length()==0) {
+                    final ArrayAdapter adapter1 = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list);
+                    listview.setAdapter(adapter1);
+                }
                 return false;
             }
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                final ArrayList<String> list2 = new ArrayList<String>();
+                final ArrayList<String> list3 = new ArrayList<String>();
 
-                Server s = new Server();
-                try {
-                    usernames_list = s.execute("sortbyname", sv.getQuery().toString()).get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
+
+                if(list.contains(query)){
+                    list3.add(query);
+                    final ArrayAdapter adapter1 = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list3);
+                    listview.setAdapter(adapter1);
+                }
+                else{
+                    list3.add("Search returned no entry.");
+                    final ArrayAdapter adapter1 = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list3);
+                    listview.setAdapter(adapter1);
                 }
 
-                if (usernames_list == null || usernames_list.equals("empty")) {
-                    list2.add("No users match the query.");
-                    final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list2);
-                    listview.setAdapter(adapter);
-                } else {
-                    search_usernames = Arrays.asList(usernames_list.split(","));
-
-                    for (int i = 0; i < search_usernames.size(); i++) {
-                        if (Arrays.asList(usernames).contains(search_usernames.get(i))) {
-                            String profile = null;
-                            try {
-                                Server t = new Server();
-                                profile = t.execute("profile", search_usernames.get(i)).get();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            } catch (ExecutionException e) {
-                                e.printStackTrace();
-                            }
-                            String[] info_arr = profile.split(",", -1);
-                            list2.add(info_arr[1]);
-                        }
-                    }
-
-                    if (list2.size() == 0) {
-                        list2.add("There are currently no new users.");
-                        final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list2);
-                        listview.setAdapter(adapter);
-                    }
-
-                    final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list2);
-                    listview.setAdapter(adapter);
-
-                    //Toast.makeText(getActivity(), sv.getQuery().toString(),
-                    //        Toast.LENGTH_LONG).show();
-                    // Do your task here
-
-                }
                 return false;
             }
 
